@@ -153,6 +153,9 @@ export function CanvasMorph() {
 
     useEffect(() => {
         const initSimulation = async () => {
+            // Ensure DIN Condensed font is loaded before measuring text
+            await document.fonts.ready;
+
             // 1. Load the Image
             const img = new Image();
             img.src = "/KerenCutout.png";
@@ -191,34 +194,71 @@ export function CanvasMorph() {
             textCanvas.height = vh;
 
             if (textCtx) {
-                // Slightly larger as requested
                 const fontSizePx = Math.floor(isMobile ? Math.min(Math.max(28, vw * 0.06), 64) : Math.min(Math.max(32, vw * 0.045), 72));
+
+                let startX, startY;
+                if (isMobile) {
+                    startX = 16;
+                    const kerenHeight = Math.min(Math.max(112, vw * 0.35), 352) * 0.8;
+                    startY = vh * 0.05 + kerenHeight + 8;
+                } else {
+                    // startX = left edge of grid col 3 => same X as "K" in KEREN
+                    startX = vw * (2 / 24);
+
+                    // --- Pixel-perfect BOSHI bottom alignment using measureText ---
+                    // BOSHI CSS: row-start-[6] (top at row 5), font-size 23vw, leading-[0.8]
+                    const boshiFontSizePx = Math.floor(vw * 0.23);
+                    const boshiGridTop = 5 * (vw / 24);
+                    const boshiLineHeight = boshiFontSizePx * 0.8;
+                    // CSS half-leading model: em-square is centered in the line box
+                    // When lineHeight < fontSize, em-square extends beyond the line box
+                    const halfLeading = (boshiLineHeight - boshiFontSizePx) / 2;
+                    const boshiEmTop = boshiGridTop + halfLeading;
+
+                    // Measure BOSHI glyphs at the actual rendered font size
+                    textCtx.font = `bold ${boshiFontSizePx}px 'DIN Condensed', Impact, sans-serif`;
+                    textCtx.textBaseline = "top";
+                    const boshiMetrics = textCtx.measureText("BOSHI");
+                    // actualBoundingBoxDescent = distance from top of em downward to bottom of glyphs
+                    const boshiVisualBottom = boshiEmTop + boshiMetrics.actualBoundingBoxDescent;
+
+                    // Measure subtitle glyphs
+                    textCtx.font = `bold ${fontSizePx}px 'DIN Condensed', Impact, sans-serif`;
+                    const subtitleMetrics = textCtx.measureText("SENIOR CREATIVE STRATEGIST");
+                    const subtitleVisualHeight = subtitleMetrics.actualBoundingBoxDescent;
+
+                    // Position subtitle so its visual bottom = BOSHI's visual bottom
+                    startY = boshiVisualBottom - subtitleVisualHeight;
+
+                    console.log('[Alignment Debug]', {
+                        vw, vh, boshiFontSizePx, fontSizePx,
+                        boshiGridTop: Math.round(boshiGridTop),
+                        halfLeading: Math.round(halfLeading),
+                        boshiEmTop: Math.round(boshiEmTop),
+                        boshiActualDescent: Math.round(boshiMetrics.actualBoundingBoxDescent),
+                        boshiVisualBottom: Math.round(boshiVisualBottom),
+                        subtitleVisualHeight: Math.round(subtitleVisualHeight),
+                        startY: Math.round(startY),
+                        subtitleBottom: Math.round(startY + subtitleVisualHeight),
+                        match: Math.abs((startY + subtitleVisualHeight) - boshiVisualBottom) < 1,
+                    });
+                }
+
+                // Set font for drawing the subtitle
                 textCtx.font = `bold ${fontSizePx}px 'DIN Condensed', Impact, sans-serif`;
                 textCtx.textAlign = "left";
                 textCtx.textBaseline = "top";
 
-                // Functionally approximate the CSS Grid and layout spacing
-                let startX, startY;
-                if (isMobile) {
-                    startX = 16; // p-4
-                    const kerenHeight = Math.min(Math.max(112, vw * 0.35), 352) * 0.8;
-                    startY = vh * 0.05 + kerenHeight + 8; // mt-[5vh] + height + mt-2
-                } else {
-                    startX = vw * (2 / 24); // md:col-start-[3]
-                    const kerenHeight = (vw * 0.23) * 0.8;
-                    startY = (vw * 3 / 24) + kerenHeight + (vh * 0.03); // row-start-[4] + height + mt-[3vh]
-                }
-
-                const lineHeight = fontSizePx * 1.1;
-
-                // Red Asterisk
-                textCtx.fillStyle = "#ef4444"; // text-red-500
-                textCtx.fillText("*", startX, startY);
-
-                // White Text
-                textCtx.fillStyle = "white";
+                // Measure asterisk width so we can draw it to the LEFT of startX
                 const asteriskWidth = textCtx.measureText("* ").width;
-                textCtx.fillText("SENIOR CREATIVE STRATEGIST", startX + asteriskWidth, startY);
+
+                // Red Asterisk — placed in the margin before startX
+                textCtx.fillStyle = "#ef4444";
+                textCtx.fillText("*", startX - asteriskWidth, startY);
+
+                // White Text — "S" starts exactly at startX (aligned with "K")
+                textCtx.fillStyle = "white";
+                textCtx.fillText("SENIOR CREATIVE STRATEGIST", startX, startY);
             }
 
             const textData = textCtx?.getImageData(0, 0, textCanvas.width, textCanvas.height).data;
