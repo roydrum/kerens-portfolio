@@ -111,22 +111,16 @@ export function Hero() {
         ))}
       </div>
 
-      <div className="fixed inset-0 z-10 flex items-center justify-between px-4 md:px-16 pointer-events-none -mt-32 sm:-mt-16" aria-hidden="true">
+      <div className="fixed inset-0 z-10 flex flex-col md:flex-row items-start md:items-center justify-between px-4 md:px-16 pt-12 md:pt-0 pointer-events-none md:-mt-32 sm:-mt-16" aria-hidden="true">
         <span
-          className="text-white text-[22vw] sm:text-[20vw] font-bold uppercase leading-none tracking-tight select-none -translate-y-8 md:-translate-y-10"
-          style={{
-            fontFamily: 'var(--font-din-condensed)',
-            WebkitTextStroke: '6px white'
-          }}
+          className="hero-text-stroke text-white text-[clamp(7rem,35vw,22vw)] md:text-[20vw] font-bold uppercase leading-none tracking-tight select-none translate-y-2 md:-translate-y-10"
+          style={{ fontFamily: 'var(--font-din-condensed)' }}
         >
           Keren
         </span>
         <span
-          className="text-white text-[22vw] sm:text-[20vw] font-bold uppercase leading-none tracking-tight select-none translate-y-10 md:translate-y-16 -translate-x-[4vw] md:-translate-x-[5vw]"
-          style={{
-            fontFamily: 'var(--font-din-condensed)',
-            WebkitTextStroke: '6px white'
-          }}
+          className="hero-text-stroke text-white text-[clamp(7rem,35vw,22vw)] md:text-[20vw] font-bold uppercase leading-none tracking-tight select-none self-end -translate-y-[52vh] md:translate-y-16 -translate-x-2 md:-translate-x-[2vw]"
+          style={{ fontFamily: 'var(--font-din-condensed)' }}
         >
           Boshi
         </span>
@@ -134,13 +128,13 @@ export function Hero() {
 
       <div
         ref={portraitWrapRef}
-        className="fixed bottom-0 left-1/2 z-20 -translate-x-1/2"
+        className="fixed bottom-0 left-1/2 z-20 -translate-x-1/2 w-[140%] md:w-auto flex justify-center"
         style={{ filter: "url(#smoke-dissolve)" }}
       >
         <img
           src="/KerenCutout.png"
           alt="Keren"
-          className="max-h-[90vh] w-auto object-contain object-bottom"
+          className="max-h-[80vh] md:max-h-[90vh] w-auto object-contain object-bottom translate-y-[5vh] md:translate-y-0"
         />
       </div>
     </section>
