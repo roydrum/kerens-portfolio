@@ -137,12 +137,6 @@ export function Hero() {
           >
             Keren
           </span>
-          <div
-            className="bg-[#eb3d34] text-white font-bold tracking-normal px-3 md:px-[calc(100vw/24*0.5)] py-1 md:py-[calc(100vw/24*0.2)] mt-2 md:-mt-[calc(100vw/24*1.5)] md:ml-[calc(100vw/24*0.5)] text-sm md:text-[1.2vw] border border-black z-10 whitespace-nowrap max-w-max"
-            style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
-          >
-            * Senior Creative Strategist
-          </div>
         </div>
 
         {/* Right Side: BOSHI */}
