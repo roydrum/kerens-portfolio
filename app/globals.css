@@ -6,7 +6,7 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  src: url("/fonts/DINCondensed-Bold.woff2") format("woff2"), url("/fonts/DINCondensed-Bold.woff") format("woff");
+  src: url("/fonts/DINCondensed-Bold.ttf") format("truetype");
 }
 
 :root {
@@ -56,4 +56,15 @@ html.lenis body {
 
 .lenis.lenis-stopped {
   overflow: hidden;
+}
+
+/* Responsive Text Stroke for Hero */
+.hero-text-stroke {
+  -webkit-text-stroke: 3px white;
+}
+
+@media (min-width: 768px) {
+  .hero-text-stroke {
+    -webkit-text-stroke: 6px white;
+  }
 }

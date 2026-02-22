@@ -113,13 +113,13 @@ export function Hero() {
 
       <div className="fixed inset-0 z-10 flex flex-col md:flex-row items-start md:items-center justify-between px-4 md:px-16 pt-12 md:pt-0 pointer-events-none md:-mt-32 sm:-mt-16" aria-hidden="true">
         <span
-          className="hero-text-stroke text-white text-[clamp(7rem,35vw,22vw)] md:text-[20vw] font-bold uppercase leading-none tracking-tight select-none translate-y-2 md:-translate-y-10"
+          className="hero-text-stroke text-white text-[clamp(7rem,35vw,22vw)] md:text-[20vw] font-bold uppercase leading-none tracking-tighter select-none translate-y-[5vh] md:translate-y-[5vh]"
           style={{ fontFamily: 'var(--font-din-condensed)' }}
         >
           Keren
         </span>
         <span
-          className="hero-text-stroke text-white text-[clamp(7rem,35vw,22vw)] md:text-[20vw] font-bold uppercase leading-none tracking-tight select-none self-end -translate-y-[52vh] md:translate-y-16 -translate-x-2 md:-translate-x-[2vw]"
+          className="hero-text-stroke text-white text-[clamp(7rem,35vw,22vw)] md:text-[20vw] font-bold uppercase leading-none tracking-tighter select-none self-end -translate-y-[45vh] md:translate-y-[15vh] -translate-x-2 md:translate-x-[5vw]"
           style={{ fontFamily: 'var(--font-din-condensed)' }}
         >
           Boshi
