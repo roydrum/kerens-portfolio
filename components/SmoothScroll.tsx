@@ -13,15 +13,15 @@ function ScrollTriggerSync({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!lenis) return;
     const root = lenis.rootElement ?? document.body;
-    ScrollTrigger.scrollerProxy(root, {
-      scrollTop(value) {
-        if (arguments.length) lenis.scrollTo(value);
-        return lenis.scroll;
-      },
-      getBoundingClientRect() {
-        return root.getBoundingClientRect();
-      },
-    });
+    // ScrollTrigger.scrollerProxy(root, {
+    //   scrollTop(value) {
+    //     if (arguments.length && value !== undefined) lenis.scrollTo(value);
+    //     return lenis.scroll;
+    //   },
+    //   getBoundingClientRect() {
+    //     return root.getBoundingClientRect();
+    //   },
+    // });
     lenis.on("scroll", ScrollTrigger.update);
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
