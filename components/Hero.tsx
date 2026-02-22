@@ -111,15 +111,43 @@ export function Hero() {
         ))}
       </div>
 
-      <div className="fixed inset-0 z-10 flex flex-col md:flex-row items-start md:items-center justify-between px-4 md:px-16 pt-12 md:pt-0 pointer-events-none md:-mt-32 sm:-mt-16" aria-hidden="true">
+      {/* Background Graphic: Giant Asterisk */}
+      <svg
+        viewBox="0 0 100 100"
+        fill="white"
+        xmlns="http://www.w3.org/2000/svg"
+        className="fixed bottom-[10vh] left-[5vw] md:-bottom-[2rem] md:left-[5rem] w-[50vw] h-[50vw] md:w-[26rem] md:h-[26rem] z-[5] pointer-events-none -rotate-[15deg] opacity-100"
+        aria-hidden="true"
+      >
+        <g transform="translate(50 50)">
+          <rect x="-16" y="-50" width="32" height="100" rx="4" />
+          <rect x="-16" y="-50" width="32" height="100" rx="4" transform="rotate(60)" />
+          <rect x="-16" y="-50" width="32" height="100" rx="4" transform="rotate(120)" />
+        </g>
+      </svg>
+
+      {/* Foreground Typography */}
+      <div className="fixed inset-0 z-10 pointer-events-none flex flex-col md:block p-4 md:p-0 justify-between pb-[10vh] md:pb-0">
+
+        {/* Left Side: KEREN + Badge */}
+        <div className="flex flex-col items-start md:absolute md:top-[12rem] md:left-[4rem] mt-[5vh] md:mt-0">
+          <span
+            className="text-white text-[clamp(7rem,35vw,22vw)] md:text-[23vw] font-bold uppercase leading-[0.8] tracking-tighter select-none"
+            style={{ fontFamily: 'var(--font-din-condensed)' }}
+          >
+            Keren
+          </span>
+          <div
+            className="bg-[#eb3d34] text-white font-bold tracking-normal px-3 md:px-[0.8rem] py-1 md:py-[0.3rem] mt-2 md:-mt-[0.5rem] md:ml-[4.5rem] text-sm md:text-[1.2vw] border border-black z-10"
+            style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
+          >
+            * Senior Creative Strategist
+          </div>
+        </div>
+
+        {/* Right Side: BOSHI */}
         <span
-          className="hero-text-stroke text-white text-[clamp(7rem,35vw,22vw)] md:text-[20vw] font-bold uppercase leading-none tracking-tighter select-none translate-y-[5vh] md:translate-y-[5vh]"
-          style={{ fontFamily: 'var(--font-din-condensed)' }}
-        >
-          Keren
-        </span>
-        <span
-          className="hero-text-stroke text-white text-[clamp(7rem,35vw,22vw)] md:text-[20vw] font-bold uppercase leading-none tracking-tighter select-none self-end -translate-y-[45vh] md:translate-y-[15vh] -translate-x-2 md:translate-x-[5vw]"
+          className="text-white text-[clamp(7rem,35vw,22vw)] md:text-[23vw] font-bold uppercase leading-[0.8] tracking-tighter select-none self-end md:absolute md:top-[22rem] md:right-[4rem] -translate-x-2 md:translate-x-0 -translate-y-[10vh] md:translate-y-0"
           style={{ fontFamily: 'var(--font-din-condensed)' }}
         >
           Boshi
