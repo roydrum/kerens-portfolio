@@ -1,8 +1,18 @@
 @import "tailwindcss";
 
+/* DIN Condensed Bold – add your font file to public/fonts/ */
+@font-face {
+  font-family: "DIN Condensed";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url("/fonts/DINCondensed-Bold.woff2") format("woff2"), url("/fonts/DINCondensed-Bold.woff") format("woff");
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-din-condensed: "DIN Condensed", "Barlow Condensed", sans-serif;
 }
 
 @theme inline {
@@ -23,4 +33,27 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Red Graph Paper pattern */
+.bg-graph-paper {
+  background-color: #ffcccc;
+  background-image:
+    linear-gradient(90deg, #ff0000 1px, transparent 1px),
+    linear-gradient(#ff0000 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Lenis smooth scroll integration */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
