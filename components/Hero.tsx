@@ -111,37 +111,43 @@ export function Hero() {
         ))}
       </div>
 
-      {/* Background Graphic: Giant Asterisk */}
-      <svg
-        viewBox="0 0 100 100"
-        fill="white"
-        xmlns="http://www.w3.org/2000/svg"
-        className="fixed bottom-[10vh] left-[5vw] md:-bottom-[1rem] md:left-[15rem] w-[50vw] h-[50vw] md:w-[20rem] md:h-[20rem] z-[5] pointer-events-none opacity-100"
-        aria-hidden="true"
-      >
-        <g transform="translate(50 50)">
-          <rect x="-10" y="-50" width="20" height="100" rx="4" />
-          <rect x="-10" y="-50" width="20" height="100" rx="4" transform="rotate(60)" />
-          <rect x="-10" y="-50" width="20" height="100" rx="4" transform="rotate(120)" />
-        </g>
-      </svg>
+      {/* Structural Grid Layout (Fluid 24-Column on Desktop) */}
+      <div className="fixed inset-0 pointer-events-none flex flex-col md:grid md:grid-cols-[repeat(24,minmax(0,1fr))] md:auto-rows-[calc(100vw/24)] p-4 md:p-0 justify-between pb-[10vh] md:pb-0 z-10 w-full h-full">
 
-      {/* Foreground Typography */}
-      <div className="fixed inset-0 z-10 pointer-events-none flex flex-col md:block p-4 md:p-0 justify-between pb-[10vh] md:pb-0">
+        {/* Background Graphic: Giant Asterisk */}
+        <svg
+          viewBox="0 0 100 100"
+          fill="white"
+          xmlns="http://www.w3.org/2000/svg"
+          className="absolute bottom-[10vh] left-[5vw] md:relative md:bottom-auto md:left-auto md:col-start-[6] md:row-start-[8] w-[50vw] h-[50vw] md:w-[15vw] md:h-[15vw] z-[5] pointer-events-none opacity-100"
+          aria-hidden="true"
+        >
+          <g transform="translate(50 50)">
+            <rect x="-10" y="-50" width="20" height="100" rx="4" />
+            <rect x="-10" y="-50" width="20" height="100" rx="4" transform="rotate(60)" />
+            <rect x="-10" y="-50" width="20" height="100" rx="4" transform="rotate(120)" />
+          </g>
+        </svg>
 
         {/* Left Side: KEREN + Badge */}
-        <div className="flex flex-col items-start md:absolute md:top-[12rem] md:left-[4rem] mt-[5vh] md:mt-0">
+        <div className="flex flex-col items-start md:col-start-[3] md:col-span-12 md:row-start-[4] mt-[5vh] md:mt-0 z-10">
           <span
             className="text-white text-[clamp(7rem,35vw,22vw)] md:text-[23vw] font-bold uppercase leading-[0.8] tracking-tighter select-none"
             style={{ fontFamily: 'var(--font-din-condensed)' }}
           >
             Keren
           </span>
+          <div
+            className="bg-[#eb3d34] text-white font-bold tracking-normal px-3 md:px-[calc(100vw/24*0.5)] py-1 md:py-[calc(100vw/24*0.2)] mt-2 md:-mt-[calc(100vw/24*1.5)] md:ml-[calc(100vw/24*0.5)] text-sm md:text-[1.2vw] border border-black z-10 whitespace-nowrap max-w-max"
+            style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
+          >
+            * Senior Creative Strategist
+          </div>
         </div>
 
         {/* Right Side: BOSHI */}
         <span
-          className="text-white text-[clamp(7rem,35vw,22vw)] md:text-[23vw] font-bold uppercase leading-[0.8] tracking-tighter select-none self-end md:absolute md:top-[22rem] md:right-[4rem] -translate-x-2 md:translate-x-0 -translate-y-[10vh] md:translate-y-0"
+          className="text-white text-[clamp(7rem,35vw,22vw)] md:text-[23vw] font-bold uppercase leading-[0.8] tracking-tighter select-none self-end md:self-start md:col-start-[14] md:row-start-[6] -translate-x-2 md:translate-x-0 -translate-y-[10vh] md:translate-y-0 z-10"
           style={{ fontFamily: 'var(--font-din-condensed)' }}
         >
           Boshi
