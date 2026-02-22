@@ -29,7 +29,12 @@ export function Hero() {
 
     const scrollConfig = { trigger: container, scroller, start: "top top", end: "bottom top", scrub: true };
 
-    gsap.fromTo(portraitWrap, { opacity: 1 }, { opacity: 0, ease: "none", scrollTrigger: scrollConfig });
+    const smokeDissolveTarget = { opacity: 0, ease: "power2.inOut", scrollTrigger: scrollConfig };
+
+    gsap.fromTo(portraitWrap, { opacity: 1 }, smokeDissolveTarget);
+
+    // Also fade out the background smoke wisps completely
+    gsap.to(smokeRef.current, { opacity: 0, ease: "power2.inOut", scrollTrigger: scrollConfig });
 
     gsap.fromTo(
       turbulence,
@@ -104,6 +109,27 @@ export function Hero() {
             }}
           />
         ))}
+      </div>
+
+      <div className="fixed inset-0 z-10 flex items-center justify-between px-4 md:px-16 pointer-events-none -mt-32 sm:-mt-16" aria-hidden="true">
+        <span
+          className="text-white text-[22vw] sm:text-[20vw] font-bold uppercase leading-none tracking-tight select-none -translate-y-8 md:-translate-y-10"
+          style={{
+            fontFamily: 'var(--font-din-condensed)',
+            WebkitTextStroke: '6px white'
+          }}
+        >
+          Keren
+        </span>
+        <span
+          className="text-white text-[22vw] sm:text-[20vw] font-bold uppercase leading-none tracking-tight select-none translate-y-10 md:translate-y-16"
+          style={{
+            fontFamily: 'var(--font-din-condensed)',
+            WebkitTextStroke: '6px white'
+          }}
+        >
+          Boshi
+        </span>
       </div>
 
       <div
