@@ -194,7 +194,23 @@ export function CanvasMorph() {
             textCanvas.height = vh;
 
             if (textCtx) {
-                const fontSizePx = Math.floor(isMobile ? Math.min(Math.max(28, vw * 0.06), 64) : Math.min(Math.max(32, vw * 0.045), 72));
+                const subtitleText = "SENIOR CREATIVE STRATEGIST";
+
+                // Measure KEREN's rendered width at the actual CSS font size
+                // Must include tracking-tighter (-0.05em letter-spacing) to match CSS
+                const kerenFontSizePx = Math.floor(isMobile ? Math.min(Math.max(112, vw * 0.35), 352) : vw * 0.23);
+                textCtx.font = `bold ${kerenFontSizePx}px 'DIN Condensed', Impact, sans-serif`;
+                textCtx.textBaseline = "top";
+                textCtx.letterSpacing = `${-0.05 * kerenFontSizePx}px`; // tracking-tighter
+                const kerenWidth = textCtx.measureText("KEREN").width;
+                textCtx.letterSpacing = "0px"; // reset for subtitle
+
+                // Measure subtitle at a reference size, then scale linearly to match KEREN width
+                const refSize = 100;
+                textCtx.font = `bold ${refSize}px 'DIN Condensed', Impact, sans-serif`;
+                const refWidth = textCtx.measureText(subtitleText).width;
+                // Font width scales linearly: targetWidth / refWidth = fontSizePx / refSize
+                const fontSizePx = refSize * (kerenWidth / refWidth);
 
                 let startX, startY;
                 if (isMobile) {
@@ -203,62 +219,62 @@ export function CanvasMorph() {
                     startY = vh * 0.05 + kerenHeight + 8;
                 } else {
                     // startX = left edge of grid col 3 => same X as "K" in KEREN
-                    startX = vw * (2 / 24);
+                    // Compensate for different left side bearings between K and S glyphs
+                    textCtx.font = `bold ${kerenFontSizePx}px 'DIN Condensed', Impact, sans-serif`;
+                    textCtx.letterSpacing = `${-0.05 * kerenFontSizePx}px`;
+                    const kerenLeftBearing = textCtx.measureText("KEREN").actualBoundingBoxLeft;
+                    textCtx.letterSpacing = "0px";
+                    textCtx.font = `bold ${fontSizePx}px 'DIN Condensed', Impact, sans-serif`;
+                    const subtitleLeftBearing = textCtx.measureText(subtitleText).actualBoundingBoxLeft;
+                    startX = vw * (2 / 24) + (subtitleLeftBearing - kerenLeftBearing);
 
                     // --- Pixel-perfect BOSHI bottom alignment using measureText ---
-                    // BOSHI CSS: row-start-[6] (top at row 5), font-size 23vw, leading-[0.8]
                     const boshiFontSizePx = Math.floor(vw * 0.23);
                     const boshiGridTop = 5 * (vw / 24);
                     const boshiLineHeight = boshiFontSizePx * 0.8;
-                    // CSS half-leading model: em-square is centered in the line box
-                    // When lineHeight < fontSize, em-square extends beyond the line box
                     const halfLeading = (boshiLineHeight - boshiFontSizePx) / 2;
                     const boshiEmTop = boshiGridTop + halfLeading;
 
-                    // Measure BOSHI glyphs at the actual rendered font size
                     textCtx.font = `bold ${boshiFontSizePx}px 'DIN Condensed', Impact, sans-serif`;
                     textCtx.textBaseline = "top";
                     const boshiMetrics = textCtx.measureText("BOSHI");
-                    // actualBoundingBoxDescent = distance from top of em downward to bottom of glyphs
                     const boshiVisualBottom = boshiEmTop + boshiMetrics.actualBoundingBoxDescent;
 
-                    // Measure subtitle glyphs
+                    // Measure subtitle visual height at the computed font size
                     textCtx.font = `bold ${fontSizePx}px 'DIN Condensed', Impact, sans-serif`;
-                    const subtitleMetrics = textCtx.measureText("SENIOR CREATIVE STRATEGIST");
+                    const subtitleMetrics = textCtx.measureText(subtitleText);
                     const subtitleVisualHeight = subtitleMetrics.actualBoundingBoxDescent;
 
                     // Position subtitle so its visual bottom = BOSHI's visual bottom
                     startY = boshiVisualBottom - subtitleVisualHeight;
 
+                    // Verify width match
+                    const actualSubtitleWidth = subtitleMetrics.width;
                     console.log('[Alignment Debug]', {
-                        vw, vh, boshiFontSizePx, fontSizePx,
-                        boshiGridTop: Math.round(boshiGridTop),
-                        halfLeading: Math.round(halfLeading),
-                        boshiEmTop: Math.round(boshiEmTop),
-                        boshiActualDescent: Math.round(boshiMetrics.actualBoundingBoxDescent),
+                        vw, vh,
+                        kerenFontSizePx, kerenWidth: Math.round(kerenWidth),
+                        subtitleFontSizePx: fontSizePx,
+                        subtitleWidth: Math.round(actualSubtitleWidth),
+                        widthDiff: Math.round(actualSubtitleWidth - kerenWidth),
                         boshiVisualBottom: Math.round(boshiVisualBottom),
-                        subtitleVisualHeight: Math.round(subtitleVisualHeight),
-                        startY: Math.round(startY),
                         subtitleBottom: Math.round(startY + subtitleVisualHeight),
-                        match: Math.abs((startY + subtitleVisualHeight) - boshiVisualBottom) < 1,
+                        verticalMatch: Math.abs((startY + subtitleVisualHeight) - boshiVisualBottom) < 1,
                     });
                 }
 
-                // Set font for drawing the subtitle
+                // Draw with computed font size (no scaling needed)
                 textCtx.font = `bold ${fontSizePx}px 'DIN Condensed', Impact, sans-serif`;
                 textCtx.textAlign = "left";
                 textCtx.textBaseline = "top";
 
-                // Measure asterisk width so we can draw it to the LEFT of startX
-                const asteriskWidth = textCtx.measureText("* ").width;
-
                 // Red Asterisk — placed in the margin before startX
+                const asteriskWidth = textCtx.measureText("* ").width;
                 textCtx.fillStyle = "#ef4444";
                 textCtx.fillText("*", startX - asteriskWidth, startY);
 
-                // White Text — "S" starts exactly at startX (aligned with "K")
+                // White Text — "S" starts at startX, "T" ends at startX + kerenWidth
                 textCtx.fillStyle = "white";
-                textCtx.fillText("SENIOR CREATIVE STRATEGIST", startX, startY);
+                textCtx.fillText(subtitleText, startX, startY);
             }
 
             const textData = textCtx?.getImageData(0, 0, textCanvas.width, textCanvas.height).data;
