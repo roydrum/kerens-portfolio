@@ -122,7 +122,7 @@ export function Hero() {
           Keren
         </span>
         <span
-          className="text-white text-[22vw] sm:text-[20vw] font-bold uppercase leading-none tracking-tight select-none translate-y-10 md:translate-y-16"
+          className="text-white text-[22vw] sm:text-[20vw] font-bold uppercase leading-none tracking-tight select-none translate-y-10 md:translate-y-16 -ml-[4vw] md:-ml-[6vw]"
           style={{
             fontFamily: 'var(--font-din-condensed)',
             WebkitTextStroke: '6px white'
