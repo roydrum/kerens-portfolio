@@ -116,7 +116,7 @@ export function Hero() {
         viewBox="0 0 100 100"
         fill="white"
         xmlns="http://www.w3.org/2000/svg"
-        className="fixed bottom-[10vh] left-[5vw] md:-bottom-[1rem] md:left-[6rem] w-[50vw] h-[50vw] md:w-[20rem] md:h-[20rem] z-[5] pointer-events-none opacity-100"
+        className="fixed bottom-[10vh] left-[5vw] md:-bottom-[1rem] md:left-[15rem] w-[50vw] h-[50vw] md:w-[20rem] md:h-[20rem] z-[5] pointer-events-none opacity-100"
         aria-hidden="true"
       >
         <g transform="translate(50 50)">
