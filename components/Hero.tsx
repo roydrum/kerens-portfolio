@@ -116,13 +116,13 @@ export function Hero() {
         viewBox="0 0 100 100"
         fill="white"
         xmlns="http://www.w3.org/2000/svg"
-        className="fixed bottom-[10vh] left-[5vw] md:-bottom-[2rem] md:left-[5rem] w-[50vw] h-[50vw] md:w-[26rem] md:h-[26rem] z-[5] pointer-events-none -rotate-[15deg] opacity-100"
+        className="fixed bottom-[10vh] left-[5vw] md:-bottom-[1rem] md:left-[6rem] w-[50vw] h-[50vw] md:w-[20rem] md:h-[20rem] z-[5] pointer-events-none opacity-100"
         aria-hidden="true"
       >
         <g transform="translate(50 50)">
-          <rect x="-16" y="-50" width="32" height="100" rx="4" />
-          <rect x="-16" y="-50" width="32" height="100" rx="4" transform="rotate(60)" />
-          <rect x="-16" y="-50" width="32" height="100" rx="4" transform="rotate(120)" />
+          <rect x="-10" y="-50" width="20" height="100" rx="4" />
+          <rect x="-10" y="-50" width="20" height="100" rx="4" transform="rotate(60)" />
+          <rect x="-10" y="-50" width="20" height="100" rx="4" transform="rotate(120)" />
         </g>
       </svg>
 
