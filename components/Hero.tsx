@@ -3,9 +3,10 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { TextPlugin } from "gsap/TextPlugin";
 import { useLenis } from "lenis/react";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 const SMOKE_WISPS = 14;
 
@@ -15,6 +16,7 @@ export function Hero() {
   const turbulenceRef = useRef<SVGFETurbulenceElement>(null);
   const displacementRef = useRef<SVGFEDisplacementMapElement>(null);
   const smokeRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
 
   useEffect(() => {
@@ -47,6 +49,19 @@ export function Hero() {
       { attr: { scale: 0 } },
       { attr: { scale: 280 }, ease: "none", scrollTrigger: scrollConfig }
     );
+
+    // Typewriter effect tying into the smoke dissolve timeline
+    gsap.to(titleRef.current, {
+      text: "* SENIOR CREATIVE STRATEGIST",
+      ease: "none",
+      scrollTrigger: {
+        trigger: container,
+        scroller,
+        start: "top top-=10%", // Small delay so the smoke starts forming first
+        end: "bottom top",
+        scrub: true
+      }
+    });
 
     const wisps = smoke.querySelectorAll(".smoke-wisp");
     wisps.forEach((wisp, i) => {
@@ -137,6 +152,11 @@ export function Hero() {
           >
             Keren
           </span>
+          <div
+            ref={titleRef}
+            className="text-[#eb3d34] font-bold tracking-normal px-3 md:px-[calc(100vw/24*0.5)] py-1 md:py-[calc(100vw/24*0.2)] mt-2 md:-mt-[calc(100vw/24*1.5)] md:ml-[calc(100vw/24*0.5)] text-sm md:text-[1.2vw] z-10 whitespace-nowrap max-w-max"
+            style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
+          ></div>
         </div>
 
         {/* Right Side: BOSHI */}
