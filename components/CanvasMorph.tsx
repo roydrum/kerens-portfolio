@@ -79,6 +79,11 @@ function ParticleScene({ textureData }: { textureData: CanvasTextureData }) {
 
     const { positions, targets, colors, offsets, progressObj } = textureData;
 
+    // Stable uniforms object — must not be recreated on re-render
+    const uniforms = useMemo(() => ({
+        uProgress: { value: 0 }
+    }), []);
+
     // Update uniform every frame
     useFrame(() => {
         if (materialRef.current) {
@@ -129,9 +134,7 @@ function ParticleScene({ textureData }: { textureData: CanvasTextureData }) {
                 ref={materialRef}
                 vertexShader={vertexShader}
                 fragmentShader={fragmentShader}
-                uniforms={{
-                    uProgress: { value: 0 }
-                }}
+                uniforms={uniforms}
                 transparent={true}
                 depthWrite={false}
             />
@@ -139,22 +142,23 @@ function ParticleScene({ textureData }: { textureData: CanvasTextureData }) {
     );
 }
 
-export function CanvasMorph({ onTextLayout }: { onTextLayout?: (layout: TextLayout) => void }) {
+export function CanvasMorph({ onTextLayout }: {
+    onTextLayout?: (layout: TextLayout) => void;
+}) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [textureData, setTextureData] = useState<CanvasTextureData | null>(null);
     const lenis = useLenis();
 
     useEffect(() => {
         if (!textureData) return;
-
-        // Let React finish DOM updates
-        let ctx = gsap.context(() => { });
+        const heroSection = document.querySelector('[aria-label="Hero"]');
+        const triggerEl = heroSection || containerRef.current;
 
         const anim = gsap.to(textureData.progressObj, {
             value: 1,
             ease: "none",
             scrollTrigger: {
-                trigger: containerRef.current,
+                trigger: triggerEl,
                 start: "top top",
                 end: () => "+=" + window.innerHeight,
                 scrub: true
@@ -164,7 +168,7 @@ export function CanvasMorph({ onTextLayout }: { onTextLayout?: (layout: TextLayo
         return () => {
             anim.kill();
         };
-    }, [textureData, lenis]);
+    }, [textureData]);
 
     useEffect(() => {
         const initSimulation = async () => {
