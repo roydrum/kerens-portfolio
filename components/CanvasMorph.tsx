@@ -57,6 +57,13 @@ void main() {
 }
 `;
 
+export interface TextLayout {
+    fontSizePx: number;
+    startX: number;
+    startY: number;
+    asteriskWidth: number;
+}
+
 export interface CanvasTextureData {
     positions: Float32Array;
     targets: Float32Array;
@@ -132,7 +139,7 @@ function ParticleScene({ textureData }: { textureData: CanvasTextureData }) {
     );
 }
 
-export function CanvasMorph() {
+export function CanvasMorph({ onTextLayout }: { onTextLayout?: (layout: TextLayout) => void }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [textureData, setTextureData] = useState<CanvasTextureData | null>(null);
     const lenis = useLenis();
@@ -174,8 +181,13 @@ export function CanvasMorph() {
             if (!imgData) return;
 
             // 2. Load Text
-            const { textData, textCanvasWidth, textCanvasHeight } = loadTextData(vw, vh, isMobile);
+            const { textData, textCanvasWidth, textCanvasHeight, textLayout } = loadTextData(vw, vh, isMobile);
             if (!textData) return;
+
+            // 3. Expose computed text layout to parent
+            if (onTextLayout && textLayout) {
+                onTextLayout(textLayout);
+            }
 
             // 3. Build WebGL TypedArray Buffers
             const generatedTextureData = buildWebGLBuffers(
@@ -246,13 +258,19 @@ async function loadImageData(vw: number, vh: number, isMobile: boolean) {
     };
 }
 
-function loadTextData(vw: number, vh: number, isMobile: boolean) {
+function loadTextData(vw: number, vh: number, isMobile: boolean): {
+    textData: Uint8ClampedArray | undefined;
+    textCanvasWidth: number;
+    textCanvasHeight: number;
+    textLayout: TextLayout | null;
+} {
     const textCanvas = document.createElement("canvas");
     const textCtx = textCanvas.getContext("2d", { willReadFrequently: true });
     textCanvas.width = vw;
     textCanvas.height = vh;
 
     let textData;
+    let textLayout: TextLayout | null = null;
 
     if (textCtx) {
         const subtitleText = "SENIOR CREATIVE STRATEGIST";
@@ -306,6 +324,9 @@ function loadTextData(vw: number, vh: number, isMobile: boolean) {
         textCtx.textBaseline = "top";
 
         const asteriskWidth = textCtx.measureText("* ").width;
+
+        textLayout = { fontSizePx, startX, startY, asteriskWidth };
+
         textCtx.fillStyle = "#ef4444";
         textCtx.fillText("*", startX - asteriskWidth, startY);
 
@@ -318,7 +339,8 @@ function loadTextData(vw: number, vh: number, isMobile: boolean) {
     return {
         textData,
         textCanvasWidth: textCanvas.width,
-        textCanvasHeight: textCanvas.height
+        textCanvasHeight: textCanvas.height,
+        textLayout
     };
 }
 
