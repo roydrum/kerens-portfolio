@@ -153,14 +153,16 @@ export function CanvasMorph() {
 
     useEffect(() => {
         const initSimulation = async () => {
-            // Ensure DIN Condensed font is loaded before measuring text
-            await document.fonts.ready;
+            // Explicitly force the browser to pre-load and await this specific font before canvas drawing.
+            // document.fonts.ready only waits for fonts the DOM is currently using, not hidden canvases.
+            await document.fonts.load("bold 12px 'DIN Condensed'");
 
             // 1. Load the Image
             const img = new Image();
             img.src = "/KerenCutout.png";
-            await new Promise((resolve) => {
+            await new Promise((resolve, reject) => {
                 img.onload = resolve;
+                img.onerror = reject;
             });
 
             const imgCanvas = document.createElement("canvas");
