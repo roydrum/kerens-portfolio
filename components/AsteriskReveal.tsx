@@ -9,6 +9,10 @@ export interface AsteriskRevealProps {
   screenX: number;
   screenY: number;
   fontSize: number;
+  /** Exact pixel width of the HTML * span */
+  spanWidth: number;
+  /** Exact pixel height of the HTML * span */
+  spanHeight: number;
 }
 
 const vertexShader = `
@@ -98,7 +102,7 @@ void main() {
 `;
 
 /** Inner scene: SDF asterisk mesh with gooey + drip shader */
-function AsteriskScene({ progressRef, screenX, screenY, fontSize }: AsteriskRevealProps) {
+function AsteriskScene({ progressRef, screenX, screenY, fontSize, spanWidth, spanHeight }: AsteriskRevealProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const { size } = useThree();
 
@@ -126,7 +130,11 @@ function AsteriskScene({ progressRef, screenX, screenY, fontSize }: AsteriskReve
     meshRef.current.visible = progress > 0.001;
 
     const t = progress * progress;
-    const scale = fontSize * 1.2 * (1 + t * 80);
+    // Use uniform scaling to keep the SDF shape proportional.
+    // spanHeight is the span bounding box — the actual glyph ink is smaller.
+    const initSize = spanHeight * 0.8;
+    const maxScale = fontSize * 1.2 * 80;
+    const scale = initSize + t * maxScale;
     meshRef.current.scale.set(scale, scale, 1);
   });
 

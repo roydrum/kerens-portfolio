@@ -23,7 +23,7 @@ export function Hero() {
   const phase4ProgressRef = useRef(0);
   const [phase4Active, setPhase4Active] = useState(false);
   const [asteriskScreen, setAsteriskScreen] = useState<{
-    x: number; y: number; fontSize: number;
+    x: number; y: number; fontSize: number; spanWidth: number; spanHeight: number;
   } | null>(null);
 
   const handleTextLayout = useCallback((layout: TextLayout) => {
@@ -51,15 +51,33 @@ export function Hero() {
       const boshiMoveY = kerenRect.bottom - boshiRect.bottom;
       const textCanvasMoveX = (vw / 2) - kerenRect.left;
 
+      // Measure the true visual center Y of the * glyph using Canvas 2D font metrics.
+      // The * glyph sits near the ascender, so getBoundingClientRect center is too low.
+      function glyphCenterY(spanRect: DOMRect): number {
+        const c = document.createElement("canvas");
+        const ctx2d = c.getContext("2d")!;
+        ctx2d.font = `bold ${textLayout!.fontSizePx}px 'DIN Condensed'`;
+        const m = ctx2d.measureText("*");
+        // Font metrics give us the glyph bounds relative to the baseline.
+        // fontBoundingBoxAscent = distance from baseline to top of the em box.
+        // The baseline within the span is at: spanRect.top + fontBoundingBoxAscent
+        // The glyph's visual center = baseline - glyphAscent + (glyphAscent+glyphDescent)/2
+        //                            = baseline - (glyphAscent - glyphDescent) / 2
+        const baseline = spanRect.top + m.fontBoundingBoxAscent;
+        return baseline - (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
+      }
+
       // Compute approximate asterisk position NOW so Canvas pre-mounts & warms up.
       // Will be updated with live measurement at Phase 4 onEnter.
       const asteriskRect = asteriskCharRef.current.getBoundingClientRect();
       const approxX = asteriskRect.left + asteriskRect.width / 2 + textCanvasMoveX;
-      const approxY = asteriskRect.top + asteriskRect.height / 2;
+      const approxY = glyphCenterY(asteriskRect);
       setAsteriskScreen({
         x: approxX,
         y: approxY,
         fontSize: textLayout.fontSizePx,
+        spanWidth: asteriskRect.width,
+        spanHeight: asteriskRect.height,
       });
 
       let ctx = gsap.context(() => {
@@ -95,8 +113,10 @@ export function Hero() {
               const rect = asteriskCharRef.current!.getBoundingClientRect();
               setAsteriskScreen({
                 x: rect.left + rect.width / 2,
-                y: rect.top + rect.height / 2,
+                y: glyphCenterY(rect),
                 fontSize: textLayout.fontSizePx,
+                spanWidth: rect.width,
+                spanHeight: rect.height,
               });
               setPhase4Active(true);
             },
@@ -194,6 +214,8 @@ export function Hero() {
           screenX={asteriskScreen.x}
           screenY={asteriskScreen.y}
           fontSize={asteriskScreen.fontSize}
+          spanWidth={asteriskScreen.spanWidth}
+          spanHeight={asteriskScreen.spanHeight}
           progressRef={phase4ProgressRef}
           visible={phase4Active}
         />
