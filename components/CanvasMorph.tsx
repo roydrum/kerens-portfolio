@@ -57,7 +57,16 @@ void main() {
 }
 `;
 
-function ParticleScene({ textureData }: { textureData: any }) {
+export interface CanvasTextureData {
+    positions: Float32Array;
+    targets: Float32Array;
+    colors: Float32Array;
+    targetColors: Float32Array;
+    offsets: Float32Array;
+    progressObj: { value: number };
+}
+
+function ParticleScene({ textureData }: { textureData: CanvasTextureData }) {
     const pointsRef = useRef<THREE.Points>(null);
     const materialRef = useRef<THREE.ShaderMaterial>(null);
 
@@ -125,7 +134,7 @@ function ParticleScene({ textureData }: { textureData: any }) {
 
 export function CanvasMorph() {
     const containerRef = useRef<HTMLDivElement>(null);
-    const [textureData, setTextureData] = useState<any>(null);
+    const [textureData, setTextureData] = useState<CanvasTextureData | null>(null);
     const lenis = useLenis();
 
     useEffect(() => {
@@ -141,8 +150,7 @@ export function CanvasMorph() {
                 trigger: containerRef.current,
                 start: "top top",
                 end: () => "+=" + window.innerHeight,
-                scrub: true,
-                onUpdate: (self) => console.log("Progress:", self.progress)
+                scrub: true
             }
         });
 
@@ -250,18 +258,7 @@ export function CanvasMorph() {
                     // Position subtitle so its visual bottom = BOSHI's visual bottom
                     startY = boshiVisualBottom - subtitleVisualHeight;
 
-                    // Verify width match
-                    const actualSubtitleWidth = subtitleMetrics.width;
-                    console.log('[Alignment Debug]', {
-                        vw, vh,
-                        kerenFontSizePx, kerenWidth: Math.round(kerenWidth),
-                        subtitleFontSizePx: fontSizePx,
-                        subtitleWidth: Math.round(actualSubtitleWidth),
-                        widthDiff: Math.round(actualSubtitleWidth - kerenWidth),
-                        boshiVisualBottom: Math.round(boshiVisualBottom),
-                        subtitleBottom: Math.round(startY + subtitleVisualHeight),
-                        verticalMatch: Math.abs((startY + subtitleVisualHeight) - boshiVisualBottom) < 1,
-                    });
+                    // Horizontal and vertical matching calculation completed
                 }
 
                 // Draw with computed font size (no scaling needed)
