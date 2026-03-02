@@ -109,7 +109,7 @@ function AsteriskScene({ progressRef, screenX, screenY, fontSize, spanWidth, spa
   const material = useMemo(() => new THREE.ShaderMaterial({
     uniforms: {
       uProgress: { value: 0 },
-      uColor: { value: new THREE.Color("#ef4444") },
+      uColor: { value: new THREE.Vector3(239 / 255, 68 / 255, 68 / 255) },
     },
     vertexShader,
     fragmentShader,
@@ -161,7 +161,7 @@ export function AsteriskReveal(props: AsteriskRevealProps & { visible: boolean }
       <Canvas
         orthographic
         camera={{ position: [0, 0, 10], zoom: 1, near: 0.1, far: 1000 }}
-        gl={{ alpha: true, antialias: false }}
+        gl={{ alpha: true, antialias: false, toneMapping: THREE.NoToneMapping }}
         style={{ width: "100%", height: "100%", background: "transparent" }}
       >
         <AsteriskScene {...props} />

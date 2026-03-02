@@ -16,6 +16,9 @@ export function Hero() {
   const canvasMorphRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLSpanElement>(null);
   const asteriskCharRef = useRef<HTMLSpanElement>(null);
+  const graphPaperRef = useRef<HTMLDivElement>(null);
+  const textGridRef = useRef<HTMLDivElement>(null);
+
 
   const [textLayout, setTextLayout] = useState<TextLayout | null>(null);
 
@@ -122,10 +125,28 @@ export function Hero() {
             },
             onEnterBack: () => {
               setPhase4Active(true);
+              // Restore hero elements behind the AsteriskReveal (z-50 covers them).
+              // As the timeline scrubs backwards and the asterisk shrinks,
+              // the hero elements will be visible behind it.
+              if (graphPaperRef.current) gsap.set(graphPaperRef.current, { opacity: 1 });
+              if (textGridRef.current) gsap.set(textGridRef.current, { opacity: 1 });
+              if (canvasWrapperRef.current) gsap.set(canvasWrapperRef.current, { opacity: 1 });
+            },
+            onLeave: () => {
+              // Keep AsteriskReveal visible at progress=1 as the red backdrop.
+              // Only hide graph paper, text, and canvas so they don't show over case studies.
+              if (graphPaperRef.current) gsap.set(graphPaperRef.current, { opacity: 0 });
+              if (textGridRef.current) gsap.set(textGridRef.current, { opacity: 0 });
+              if (canvasWrapperRef.current) gsap.set(canvasWrapperRef.current, { opacity: 0 });
             },
             onLeaveBack: () => {
+              // Restore hero elements FIRST (synchronous gsap.set)
+              if (graphPaperRef.current) gsap.set(graphPaperRef.current, { opacity: 1 });
+              if (textGridRef.current) gsap.set(textGridRef.current, { opacity: 1 });
+              if (canvasWrapperRef.current) gsap.set(canvasWrapperRef.current, { opacity: 1 });
+              // THEN hide AsteriskReveal (async React state — renders next frame)
               setPhase4Active(false);
-              phase4ProgressRef.current = 0;
+              // Don't reset phase4ProgressRef — the timeline scrub already drove it to 0.
             },
           }
         });
@@ -157,13 +178,15 @@ export function Hero() {
     <section
       ref={containerRef}
       className="relative w-full overflow-hidden"
-      style={{ height: "500vh" }}
+      style={{ height: "450vh" }}
       aria-label="Hero"
     >
-      <div className="fixed inset-0 z-0 bg-graph-paper" />
+
+
+      <div ref={graphPaperRef} className="fixed inset-0 z-0 bg-graph-paper" />
 
       {/* Structural Grid Layout */}
-      <div className="fixed inset-0 pointer-events-none flex flex-col md:grid md:grid-cols-[repeat(24,minmax(0,1fr))] md:auto-rows-[calc(100vw/24)] p-4 md:p-0 justify-between pb-[10vh] md:pb-0 z-10 w-full h-full">
+      <div ref={textGridRef} className="fixed inset-0 pointer-events-none flex flex-col md:grid md:grid-cols-[repeat(24,minmax(0,1fr))] md:auto-rows-[calc(100vw/24)] p-4 md:p-0 justify-between pb-[10vh] md:pb-0 z-10 w-full h-full">
         <div className="flex flex-col items-start md:col-start-[3] md:col-span-12 md:row-start-[4] mt-[5vh] md:mt-0 z-10">
           <span
             ref={kerenRef}
