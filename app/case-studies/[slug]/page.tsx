@@ -18,20 +18,39 @@ function VideoPlayer({
     views: string;
     caption?: string;
 }) {
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    const handleMouseEnter = () => {
+        const v = videoRef.current;
+        if (!v) return;
+        v.muted = false;
+        v.play().catch(() => { });
+    };
+
+    const handleMouseLeave = () => {
+        const v = videoRef.current;
+        if (!v) return;
+        v.muted = true;
+        v.pause();
+    };
+
     return (
         <div>
             <div
-                className="relative overflow-hidden rounded-xl"
+                className="relative overflow-hidden rounded-xl cursor-pointer"
                 style={{
                     boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
                 }}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
             >
                 <video
+                    ref={videoRef}
                     src={src}
-                    autoPlay
                     muted
                     loop
                     playsInline
+                    preload="metadata"
                     className="w-full block"
                     style={{ aspectRatio: "9/16", objectFit: "cover" }}
                 />
@@ -284,6 +303,7 @@ export default function CaseStudyPage({
                     ))}
                 </div>
             </div>
+
             {/* All videos */}
             {(detail.heroVideo || (detail.iterationVideos && detail.iterationVideos.length > 0)) && (
                 <div
@@ -310,6 +330,50 @@ export default function CaseStudyPage({
                         )}
                         {detail.iterationVideos?.map((vid, i) => (
                             <VideoPlayer key={i} {...vid} />
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Strategy Deck Slides */}
+            {detail.deck && (
+                <div
+                    ref={(el) => { contentRefs.current[5] = el; }}
+                    className="mx-auto max-w-[1200px] px-6 md:px-12 pb-20"
+                    style={{ opacity: 0 }}
+                >
+                    <div
+                        className="h-[1px] w-full mb-12"
+                        style={{ background: "rgba(255,255,255,0.15)" }}
+                    />
+                    <h3
+                        className="text-white font-bold uppercase tracking-tight mb-4"
+                        style={{
+                            fontFamily: "var(--font-din-condensed)",
+                            fontSize: "clamp(1.2rem, 2vw, 1.5rem)",
+                        }}
+                    >
+                        Strategy Deck
+                    </h3>
+                    <p className="text-white/50 text-sm mb-8">{detail.deck.label}</p>
+                    <div className="flex gap-5 overflow-x-auto pb-4" style={{ scrollSnapType: "x mandatory" }}>
+                        {detail.deck.slides.map((slide, i) => (
+                            <div
+                                key={i}
+                                className="shrink-0 rounded-lg overflow-hidden"
+                                style={{
+                                    width: "min(80vw, 600px)",
+                                    scrollSnapAlign: "start",
+                                    boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
+                                }}
+                            >
+                                <img
+                                    src={slide}
+                                    alt={`Strategy deck slide ${i + 1}`}
+                                    className="w-full h-auto block"
+                                    loading="lazy"
+                                />
+                            </div>
                         ))}
                     </div>
                 </div>

@@ -113,7 +113,8 @@ export function Hero() {
             scrub: true,
             onEnter: () => {
               // Live-measure the ACTUAL * position (Phase 2 is complete)
-              const rect = asteriskCharRef.current!.getBoundingClientRect();
+              if (!asteriskCharRef.current) return;
+              const rect = asteriskCharRef.current.getBoundingClientRect();
               setAsteriskScreen({
                 x: rect.left + rect.width / 2,
                 y: glyphCenterY(rect),

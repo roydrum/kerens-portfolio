@@ -11,6 +11,7 @@ export interface CaseStudyDetail {
     results: { stat: string; label: string }[];
     heroVideo?: CaseStudyVideo;
     iterationVideos?: CaseStudyVideo[];
+    deck?: { label: string; slides: string[] };
 }
 
 export interface CaseStudy {
@@ -77,6 +78,76 @@ export const CASE_STUDIES: CaseStudy[] = [
         title: "Multi-Market Creative System (8 Markets)",
         summary:
             "I built a multi-market strategy and testing plan to drive first-time orders and app downloads while staying strongly on-brand. I wrote scripts, briefed creators, guided motion designers, and led feedback and iteration when performance data was available. The system scaled two creative pillars across markets with localization rules, improving CTR and CVR and enabling a consistent production cadence.",
+        detail: {
+            context:
+                "Wolt needed multi-market creative to drive first-time orders and app downloads while staying strongly on-brand (logos, brand colors). Later, the focus expanded to more organic-style creative measured through CTR and view-through rates.",
+            whatIDid: [
+                "Built the multi-market strategy and testing plan",
+                "Developed the creative pillars and wrote scripts",
+                "Briefed creators and guided production execution",
+                "Directed motion designers and provided post-production feedback",
+                "Analyzed performance and led iterations based on learnings",
+            ],
+            strategy:
+                "A two-pillar system designed to scale while staying platform-native: Edutainment - entertaining formats that showcase Wolt's USPs and options. Visually appealing, trend-led - native-feeling concepts built for attention and retention. Backed by a yearly testing plan that created a continuous learning and ideating loop - each round of creative informed the next.",
+            results: [
+                { stat: "8 Markets", label: "Scaled with consistent quality and local relevance" },
+                { stat: "800+", label: "Assets created quarterly across markets" },
+                { stat: "CTR + CVR", label: "Lifted through structured A/B testing across pillars" },
+            ],
+            deck: {
+                label: "Selected slides from the multi-market strategy deck",
+                slides: [
+                    "/decks/wolt/slides/slide-01.png",
+                    "/decks/wolt/slides/slide-05.png",
+                    "/decks/wolt/slides/slide-06.png",
+                    "/decks/wolt/slides/slide-07.png",
+                    "/decks/wolt/slides/slide-10.png",
+                ],
+            },
+            iterationVideos: [
+                {
+                    src: "/videos/wolt/V1_H2_Wolt_HR_February.mp4",
+                    views: "Croatia",
+                    caption: "Croatia - branded hook concept",
+                },
+                {
+                    src: "/videos/wolt/v2_Wolt_Helena_HR_December_My priorities_2_processed.mp4",
+                    views: "Croatia",
+                    caption: "Croatia - organic storytelling format",
+                },
+                {
+                    src: "/videos/wolt/FOAP - Wolt SR %233 CUT6.mp4",
+                    views: "Serbia",
+                    caption: "Serbia - retail concept",
+                },
+                {
+                    src: "/videos/wolt/MK_Jul25_HitsDifferent1_video_15s_1080x1920_bau_Creator 1_ugc-regular_na_FOAP_food.mp4",
+                    views: "North Macedonia",
+                    caption: "North Macedonia - food delivery",
+                },
+                {
+                    src: "/videos/wolt/PL_Sep25_SpaDay_video_19s_1080x1920_b2s_Creator 1_ugc-regular_na_FOAP_wm-retail.mp4",
+                    views: "Poland",
+                    caption: "Poland - retail concept",
+                },
+                {
+                    src: "/videos/wolt/RS_Aug25_WoltYourWay1_video_16s_1080x1920_generic_Creator 1_ugc-regular_na_FOAP_wm-retail.mp4",
+                    views: "Serbia",
+                    caption: "Serbia - Wolt Your Way retail",
+                },
+                {
+                    src: "/videos/wolt/CS_Sep25_Keyhole_video_15s_1080x1920_generic_Creator 1_ugc-regular_Globus_FOAP_wm-retail 2.mp4",
+                    views: "Czechia",
+                    caption: "Czechia - retail with Globus",
+                },
+                {
+                    src: "/videos/wolt/wolt + maria hook 1-.mp4",
+                    views: "Croatia",
+                    caption: "Croatia - Maria hook concept",
+                },
+            ],
+        },
     },
     {
         slug: "flo",
