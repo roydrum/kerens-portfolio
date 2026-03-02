@@ -128,7 +128,7 @@ export default function CaseStudyPage({
                     className="inline-flex items-center gap-2 text-white/50 text-sm uppercase tracking-wider hover:text-white transition-colors duration-300"
                     style={{ fontFamily: "var(--font-din-condensed)" }}
                 >
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <svg viewBox="0 0 16 16" fill="none" style={{ width: "1em", height: "1em", transform: "translateY(-0.05em)" }}>
                         <path
                             d="M10 12L6 8L10 4"
                             stroke="currentColor"
@@ -322,7 +322,7 @@ export default function CaseStudyPage({
                     className="inline-flex items-center gap-2 text-white/50 text-sm uppercase tracking-wider hover:text-white transition-colors duration-300"
                     style={{ fontFamily: "var(--font-din-condensed)" }}
                 >
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <svg viewBox="0 0 16 16" fill="none" style={{ width: "1em", height: "1em", transform: "translateY(-0.05em)" }}>
                         <path
                             d="M10 12L6 8L10 4"
                             stroke="currentColor"

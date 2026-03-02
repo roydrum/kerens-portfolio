@@ -191,11 +191,10 @@ export function CaseStudies() {
                                             </h3>
                                             {hasDetail && (
                                                 <svg
-                                                    width="18"
-                                                    height="18"
                                                     viewBox="0 0 16 16"
                                                     fill="none"
                                                     className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 shrink-0"
+                                                    style={{ width: "0.8em", height: "0.8em", transform: "translateY(-0.1em)" }}
                                                 >
                                                     <path
                                                         d="M6 4L10 8L6 12"
