@@ -97,9 +97,9 @@ export function Hero() {
           tl.fromTo(subtitleRef.current, { opacity: 0 }, { opacity: 1, duration: 0.001 }, 0);
         }
 
-        // Phase 2: Boshi up, subtitle wrapper slides right
+        // Phase 2: Boshi up first, then subtitle wrapper slides right
         tl.to(boshiRef.current, { y: boshiMoveY, ease: "none", duration: 1 }, 0);
-        tl.to(canvasWrapperRef.current, { x: textCanvasMoveX, ease: "none", duration: 1 }, 0);
+        tl.to(canvasWrapperRef.current, { x: textCanvasMoveX, ease: "none", duration: 1 }, 1);
 
         // ── Phase 4: WebGL asterisk reveal (separate canvas) ──
         const phase4tl = gsap.timeline({
