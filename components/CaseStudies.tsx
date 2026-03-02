@@ -1,57 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { CASE_STUDIES } from "@/lib/caseStudies";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const INTRO_COPY = `A selection of projects where I led creative strategy and production systems across multiple markets — from validating product features through performance creative, to building research-driven messaging frameworks, to creating scalable multi-market playbooks and GenAI-powered workflow tools. Each case study highlights my role, the approach, and the outcomes.`;
-
-interface CaseStudy {
-    number: string;
-    client: string;
-    title: string;
-    description: string;
-}
-
-const CASE_STUDIES: CaseStudy[] = [
-    {
-        number: "01",
-        client: "Vimeo Create",
-        title: "Lock Screen Video Feature Validation",
-        description:
-            "I led a TikTok and Meta campaign for an unreleased feature to validate demand before development. I owned the script, storyboard, casting direction, editing guidelines, and iteration strategy. The campaign reached ~70M views, drove record user interest and clicks, and increased in-app searches for the feature — helping support the decision to build it.",
-    },
-    {
-        number: "02",
-        client: "Wolt",
-        title: "Multi-Market Creative System (8 Markets)",
-        description:
-            "I built a multi-market strategy and testing plan to drive first-time orders and app downloads while staying strongly on-brand. I wrote scripts, briefed creators, guided motion designers, and led feedback and iteration when performance data was available. The system scaled two creative pillars across markets with localization rules, improving CTR and CVR and enabling a consistent production cadence.",
-    },
-    {
-        number: "03",
-        client: "Flo",
-        title: "Menopause Research to Multi-Market Creative Strategy (FR/DE vs US)",
-        description:
-            "I led research comparing cultural barriers, language, and symptom awareness gaps across France and Germany versus the US. I translated the insights into a platform-native strategy with localized messaging routes, respectful humor, and clear creative formats designed to normalize the topic without talking down to women. The output was an actionable strategy teams could execute from, with testing guidance.",
-    },
-    {
-        number: "04",
-        client: "Scrippo",
-        title: "GenAI Workflow Tool for UGC Script Development",
-        description:
-            "I designed and built Scrippo in Cursor to help marketers turn scattered social video references into production-ready UGC scripts. The tool captures links, analyzes and catalogs them (hook type, structure, tone, angle, industry), then outputs a script tied to a reference video, with an embedded LLM to refine the script. I owned the product workflow, UX/UI, build, onboarding, and iteration based on user feedback.",
-    },
-    {
-        number: "05",
-        client: "Bitpanda",
-        title: "Multi-Market Creative Strategy System (14 Markets)",
-        description:
-            "I owned a 14-market strategy built around trust-building — both in messaging and in visual guidelines (credible casting, clean visuals, professional tone). I created the testing plan, scripts, localization rules, and execution guidance, and recommended women-focused angles as a growth lever. The result was a scalable system that maintained consistency and credibility across markets while enabling iterative improvement.",
-    },
-];
 
 export function CaseStudies() {
     const sectionRef = useRef<HTMLElement>(null);
@@ -102,7 +59,7 @@ export function CaseStudies() {
             }
 
             // Staggered card animations
-            cardRefs.current.forEach((card, i) => {
+            cardRefs.current.forEach((card) => {
                 if (!card) return;
 
                 const numberEl = card.querySelector(".case-number");
@@ -117,7 +74,6 @@ export function CaseStudies() {
                     },
                 });
 
-                // Line draws in
                 if (lineEl) {
                     tl.fromTo(
                         lineEl,
@@ -127,7 +83,6 @@ export function CaseStudies() {
                     );
                 }
 
-                // Number fades in
                 if (numberEl) {
                     tl.fromTo(
                         numberEl,
@@ -137,7 +92,6 @@ export function CaseStudies() {
                     );
                 }
 
-                // Content slides up
                 if (contentEl) {
                     tl.fromTo(
                         contentEl,
@@ -154,6 +108,7 @@ export function CaseStudies() {
 
     return (
         <section
+            id="case-studies"
             ref={sectionRef}
             className="relative w-full overflow-hidden"
             style={{ background: "#ef4444", position: "relative", zIndex: 60 }}
@@ -182,62 +137,94 @@ export function CaseStudies() {
 
             {/* Case study cards */}
             <div className="mx-auto max-w-[1200px] px-6 md:px-12 pb-[12vh]">
-                {CASE_STUDIES.map((study, i) => (
-                    <div
-                        key={study.number}
-                        ref={(el) => { cardRefs.current[i] = el; }}
-                        className="case-card mb-0"
-                    >
-                        {/* Separator line */}
-                        <div
-                            className="case-line h-[1px] w-full mb-8 md:mb-10"
-                            style={{
-                                background: "rgba(255,255,255,0.25)",
-                                transformOrigin: "left center",
-                            }}
-                        />
+                {CASE_STUDIES.map((study, i) => {
+                    const hasDetail = !!study.detail;
+                    const CardWrapper = hasDetail ? Link : "div";
+                    const cardProps = hasDetail
+                        ? { href: `/case-studies/${study.slug}` }
+                        : {};
 
-                        <div className="flex flex-col md:flex-row gap-4 md:gap-12 pb-10 md:pb-14">
-                            {/* Number */}
-                            <div className="case-number shrink-0">
-                                <span
-                                    className="text-white/30 font-bold leading-none"
+                    return (
+                        <CardWrapper
+                            key={study.number}
+                            {...(cardProps as any)}
+                            className={`block ${hasDetail ? "group cursor-pointer" : ""}`}
+                        >
+                            <div
+                                ref={(el) => { cardRefs.current[i] = el; }}
+                                className="case-card mb-0"
+                            >
+                                {/* Separator line */}
+                                <div
+                                    className="case-line h-[1px] w-full mb-8 md:mb-10"
                                     style={{
-                                        fontFamily: "var(--font-din-condensed)",
-                                        fontSize: "clamp(2.5rem, 5vw, 4rem)",
+                                        background: "rgba(255,255,255,0.25)",
+                                        transformOrigin: "left center",
                                     }}
-                                >
-                                    {study.number}
-                                </span>
-                            </div>
+                                />
 
-                            {/* Content */}
-                            <div className="case-content flex-1">
-                                <h3
-                                    className="text-white font-bold uppercase tracking-tight leading-[1] mb-2"
-                                    style={{
-                                        fontFamily: "var(--font-din-condensed)",
-                                        fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)",
-                                    }}
-                                >
-                                    {study.client}
-                                </h3>
-                                <h4
-                                    className="text-white/60 font-bold uppercase tracking-tight leading-[1.1] mb-4 md:mb-5"
-                                    style={{
-                                        fontFamily: "var(--font-din-condensed)",
-                                        fontSize: "clamp(1rem, 2vw, 1.3rem)",
-                                    }}
-                                >
-                                    {study.title}
-                                </h4>
-                                <p className="text-white/75 text-sm md:text-base leading-relaxed max-w-[640px]">
-                                    {study.description}
-                                </p>
+                                <div className="flex flex-col md:flex-row gap-4 md:gap-12 pb-10 md:pb-14">
+                                    {/* Number */}
+                                    <div className="case-number shrink-0">
+                                        <span
+                                            className="text-white/30 font-bold leading-none"
+                                            style={{
+                                                fontFamily: "var(--font-din-condensed)",
+                                                fontSize: "clamp(2.5rem, 5vw, 4rem)",
+                                            }}
+                                        >
+                                            {study.number}
+                                        </span>
+                                    </div>
+
+                                    {/* Content */}
+                                    <div className="case-content flex-1">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <h3
+                                                className="text-white font-bold uppercase tracking-tight leading-[1] group-hover:text-white/90 transition-colors"
+                                                style={{
+                                                    fontFamily: "var(--font-din-condensed)",
+                                                    fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)",
+                                                }}
+                                            >
+                                                {study.client}
+                                            </h3>
+                                            {hasDetail && (
+                                                <svg
+                                                    width="18"
+                                                    height="18"
+                                                    viewBox="0 0 16 16"
+                                                    fill="none"
+                                                    className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 shrink-0"
+                                                >
+                                                    <path
+                                                        d="M6 4L10 8L6 12"
+                                                        stroke="currentColor"
+                                                        strokeWidth="1.5"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    />
+                                                </svg>
+                                            )}
+                                        </div>
+                                        <h4
+                                            className="text-white/60 font-bold uppercase tracking-tight leading-[1.1] mb-4 md:mb-5"
+                                            style={{
+                                                fontFamily: "var(--font-din-condensed)",
+                                                fontSize: "clamp(1rem, 2vw, 1.3rem)",
+                                            }}
+                                        >
+                                            {study.title}
+                                        </h4>
+                                        <p className="text-white/75 text-sm md:text-base leading-relaxed max-w-[640px]">
+                                            {study.summary}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                ))}
+                        </CardWrapper>
+                    );
+                })}
             </div>
         </section>
     );
