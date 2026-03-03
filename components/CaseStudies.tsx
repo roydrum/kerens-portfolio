@@ -8,7 +8,7 @@ import { CASE_STUDIES } from "@/lib/caseStudies";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const INTRO_COPY = `A selection of projects where I led creative strategy and production systems across multiple markets — from validating product features through performance creative, to building research-driven messaging frameworks, to creating scalable multi-market playbooks and GenAI-powered workflow tools. Each case study highlights my role, the approach, and the outcomes.`;
+const INTRO_COPY = `A selection of projects where I led creative strategy and production systems across multiple markets - from validating product features through performance creative, to building research-driven messaging frameworks, to creating scalable multi-market playbooks and GenAI-powered workflow tools. Each case study highlights my role, the approach, and the outcomes.`;
 
 export function CaseStudies() {
     const sectionRef = useRef<HTMLElement>(null);
@@ -110,14 +110,17 @@ export function CaseStudies() {
         <section
             id="case-studies"
             ref={sectionRef}
-            className="relative w-full overflow-hidden"
+            className="relative w-full"
             style={{ background: "#ef4444", position: "relative", zIndex: 60 }}
         >
-            {/* Intro block */}
-            <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-[12vh] pb-[6vh]">
+            {/* Heading - sticky */}
+            <div
+                className="sticky top-0 z-10 mx-auto max-w-[1200px] px-6 md:px-12 pt-[8vh] pb-[4vh]"
+                style={{ background: "#ef4444" }}
+            >
                 <h2
                     ref={headingRef}
-                    className="text-white font-bold uppercase tracking-tight leading-[0.9] mb-8 md:mb-12"
+                    className="text-white font-bold uppercase tracking-tight leading-[0.9]"
                     style={{
                         fontFamily: "var(--font-din-condensed)",
                         fontSize: "clamp(3rem, 8vw, 7rem)",
@@ -126,9 +129,13 @@ export function CaseStudies() {
                 >
                     Case Studies
                 </h2>
+            </div>
+
+            {/* Intro copy - scrolls normally */}
+            <div className="relative z-[5] mx-auto max-w-[1200px] px-6 md:px-12 pb-[4vh]">
                 <p
                     ref={introRef}
-                    className="text-white/80 text-base md:text-lg leading-relaxed max-w-[720px]"
+                    className="text-white/80 text-base md:text-lg leading-relaxed max-w-[960px]"
                     style={{ opacity: 0 }}
                 >
                     {INTRO_COPY}
@@ -193,8 +200,8 @@ export function CaseStudies() {
                                                 <svg
                                                     viewBox="0 0 16 16"
                                                     fill="none"
-                                                    className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 shrink-0"
-                                                    style={{ width: "0.8em", height: "0.8em", transform: "translateY(-0.1em)" }}
+                                                    className="animate-pulse text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 shrink-0"
+                                                    style={{ width: "1.1em", height: "1.1em", transform: "translateY(-0.25em)" }}
                                                 >
                                                     <path
                                                         d="M6 4L10 8L6 12"

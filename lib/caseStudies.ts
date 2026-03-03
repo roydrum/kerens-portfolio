@@ -156,21 +156,177 @@ export const CASE_STUDIES: CaseStudy[] = [
         title: "Menopause Research to Multi-Market Creative Strategy (FR/DE vs US)",
         summary:
             "I led research comparing cultural barriers, language, and symptom awareness gaps across France and Germany versus the US. I translated the insights into a platform-native strategy with localized messaging routes, respectful humor, and clear creative formats designed to normalize the topic without talking down to women. The output was an actionable strategy teams could execute from, with testing guidance.",
-    },
-    {
-        slug: "scrippo",
-        number: "04",
-        client: "Scrippo",
-        title: "GenAI Workflow Tool for UGC Script Development",
-        summary:
-            "I designed and built Scrippo in Cursor to help marketers turn scattered social video references into production-ready UGC scripts. The tool captures links, analyzes and catalogs them (hook type, structure, tone, angle, industry), then outputs a script tied to a reference video, with an embedded LLM to refine the script. I owned the product workflow, UX/UI, build, onboarding, and iteration based on user feedback.",
+        detail: {
+            context:
+                "Flo wanted a strategy that reflects how women talk (and don't talk) about perimenopause and menopause in different markets - especially the differences between France, Germany, and the US.",
+            whatIDid: [
+                "Researched market context, language, and cultural barriers",
+                "Identified gaps in symptom awareness and common misconceptions",
+                "Built a messaging framework and creative territories by market",
+                "Translated insights into platform-native concepts, hooks, and content formats",
+            ],
+            strategy:
+                "A market-aware creative framework designed for performance and relevance: Education that doesn't feel clinical - simple, relatable \"signs you didn't know\" formats. Humor that builds empathy - light, relatable moments that help normalize symptoms without mocking or belittling women. Myth-busting and reassurance - \"it's not just stress\" style reframes, localized by market.",
+            results: [
+                { stat: "2 Markets", label: "Localized strategy across FR and DE with comparison to the US market" },
+                { stat: "Research-Led", label: "Cultural barriers and awareness gaps mapped per market" },
+                { stat: "Actionable", label: "Messaging routes, content formats, and testing directions" },
+            ],
+            deck: {
+                label: "Selected slides from the research and strategy deck (FR/DE vs US)",
+                slides: [
+                    "/decks/flo/slides/slide-02.png",
+                    "/decks/flo/slides/slide-10.png",
+                    "/decks/flo/slides/slide-15.png",
+                    "/decks/flo/slides/slide-20.png",
+                    "/decks/flo/slides/slide-25.png",
+                    "/decks/flo/slides/slide-30.png",
+                    "/decks/flo/slides/slide-50.png",
+                    "/decks/flo/slides/slide-55.png",
+                ],
+            },
+            iterationVideos: [
+                {
+                    src: "/videos/flo/01-Foap-Flo_FR_From-guessing-to-data.mp4",
+                    views: "France",
+                    caption: "France - From guessing to data (v1)",
+                },
+                {
+                    src: "/videos/flo/02-Foap-Flo_FR_From-guessing-to-data.mp4",
+                    views: "France",
+                    caption: "France - From guessing to data (v2)",
+                },
+                {
+                    src: "/videos/flo/01-Foap-Flo_FR_Youre-not-imagining-it.mp4",
+                    views: "France",
+                    caption: "France - You're not imagining it",
+                },
+                {
+                    src: "/videos/flo/01-Foap-Flo_FR_until-I-tried-Flo.mp4",
+                    views: "France",
+                    caption: "France - Until I tried Flo",
+                },
+                {
+                    src: "/videos/flo/01-Foap-Flo_DE_From-guessing-to-data.mp4",
+                    views: "Germany",
+                    caption: "Germany - From guessing to data (v1)",
+                },
+                {
+                    src: "/videos/flo/02-Foap-Flo_DE_From-guessing-to-data.mp4",
+                    views: "Germany",
+                    caption: "Germany - From guessing to data (v2)",
+                },
+                {
+                    src: "/videos/flo/01-Foap-Flo_DE_Youre-not-imagining-it.mp4",
+                    views: "Germany",
+                    caption: "Germany - You're not imagining it",
+                },
+                {
+                    src: "/videos/flo/01-Foap-Flo_DE_until-I-tried-Flo.mp4",
+                    views: "Germany",
+                    caption: "Germany - Until I tried Flo",
+                },
+            ],
+        },
     },
     {
         slug: "bitpanda",
-        number: "05",
+        number: "04",
         client: "Bitpanda",
         title: "Multi-Market Creative Strategy System (14 Markets)",
         summary:
             "I owned a 14-market strategy built around trust-building - both in messaging and in visual guidelines (credible casting, clean visuals, professional tone). I created the testing plan, scripts, localization rules, and execution guidance, and recommended women-focused angles as a growth lever. The result was a scalable system that maintained consistency and credibility across markets while enabling iterative improvement.",
+        detail: {
+            context:
+                "Bitpanda needed performance creative that could scale across markets while staying consistent, compliant, and trustworthy. The challenge was building a system that drives action without feeling \"too salesy\" - especially in a category where trust is everything.",
+            whatIDid: [
+                "Built the multi-market creative strategy and testing plan",
+                "Defined messaging routes and creative territories",
+                "Wrote scripts and created execution guidance for production",
+                "Localized concepts per market (language, phrasing, product features)",
+                "Reviewed outputs, captured learnings, and refined concepts through iteration",
+            ],
+            strategy:
+                "A trust-building approach designed for multi-market performance: Trust-first messaging. Credibility cues in casting and visuals - guidelines to feature people who feel real and trustworthy (e.g., working professionals), with clean visuals that support legitimacy. Audience expansion opportunity - recommended testing women-focused angles and creators as a growth lever.",
+            results: [
+                { stat: "14 Markets", label: "Scaled with consistent quality across Europe" },
+                { stat: "Clarity + Growth", label: "Turned a complex product into clear value props and tested women-led angles to expand audiences." },
+                { stat: "Trust-by-Design", label: "Defined a consistent visual standard - clean composition, premium styling, and a professional tone - while keeping the content authentic and platform-native." },
+            ],
+            deck: {
+                label: "Selected slides from the multi-market creative strategy deck",
+                slides: [
+                    "/decks/bitpanda/slides/slide-02.png",
+                    "/decks/bitpanda/slides/slide-10.png",
+                    "/decks/bitpanda/slides/slide-12.png",
+                    "/decks/bitpanda/slides/slide-15.png",
+                    "/decks/bitpanda/slides/slide-20.png",
+                    "/decks/bitpanda/slides/slide-22.png",
+                    "/decks/bitpanda/slides/slide-25.png",
+                ],
+            },
+            iterationVideos: [
+                {
+                    src: "/videos/bitpanda/01-Foap-Bitpanda_UK_Max_9x16.mp4",
+                    views: "UK",
+                    caption: "UK - Max",
+                },
+                {
+                    src: "/videos/bitpanda/Bitpanda-UK-UGC-concept-2-Hook-1_1_processed.mp4",
+                    views: "UK",
+                    caption: "UK - UGC concept hook",
+                },
+                {
+                    src: "/videos/bitpanda/02-Foap-Bitpanda_DE_Lennart_9x16_processed.mp4",
+                    views: "Germany",
+                    caption: "Germany - Lennart",
+                },
+                {
+                    src: "/videos/bitpanda/V1B_01-Foap-Bitpanda_DE-Nikita_1.mp4",
+                    views: "Germany",
+                    caption: "Germany - Nikita",
+                },
+                {
+                    src: "/videos/bitpanda/02-Foap-Bitpanda_ES_Fernando_9x16.mp4",
+                    views: "Spain",
+                    caption: "Spain - Fernando",
+                },
+                {
+                    src: "/videos/bitpanda/04-Foap-Bitpanda_FR_9x16.mp4",
+                    views: "France",
+                    caption: "France",
+                },
+                {
+                    src: "/videos/bitpanda/02-Foap-Bitpanda_IT_Gabriel_9x16.mp4",
+                    views: "Italy",
+                    caption: "Italy - Gabriel",
+                },
+                {
+                    src: "/videos/bitpanda/02-Foap-Bitpanda_PT_Joao_9x16.mp4",
+                    views: "Portugal",
+                    caption: "Portugal - Joao",
+                },
+                {
+                    src: "/videos/bitpanda/03-Foap-Bitpanda_CH_Katja_9x16.mp4",
+                    views: "Switzerland",
+                    caption: "Switzerland - Katja",
+                },
+                {
+                    src: "/videos/bitpanda/01-Foap-Bitpanda-2.0112.1-HU-Kevin-V1.mp4",
+                    views: "Hungary",
+                    caption: "Hungary - Kevin",
+                },
+                {
+                    src: "/videos/bitpanda/01-Foap-Bitpanda_HR-2.0112.1-Joshua-V1-.mp4",
+                    views: "Croatia",
+                    caption: "Croatia - Joshua",
+                },
+                {
+                    src: "/videos/bitpanda/02-Foap-Bitpanda_HR-2.0112.1-Antonio-V1-.mp4",
+                    views: "Croatia",
+                    caption: "Croatia - Antonio",
+                },
+            ],
+        },
     },
 ];

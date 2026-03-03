@@ -66,9 +66,6 @@ function VideoPlayer({
                     {views}
                 </div>
             </div>
-            {caption && (
-                <p className="text-white/50 text-sm mt-3 leading-relaxed">{caption}</p>
-            )}
         </div>
     );
 }
@@ -147,7 +144,7 @@ export default function CaseStudyPage({
                     className="inline-flex items-center gap-2 text-white/50 text-sm uppercase tracking-wider hover:text-white transition-colors duration-300"
                     style={{ fontFamily: "var(--font-din-condensed)" }}
                 >
-                    <svg viewBox="0 0 16 16" fill="none" style={{ width: "1em", height: "1em", transform: "translateY(-0.05em)" }}>
+                    <svg viewBox="0 0 16 16" fill="none" style={{ width: "1em", height: "1em", transform: "translateY(-0.15em)" }}>
                         <path
                             d="M10 12L6 8L10 4"
                             stroke="currentColor"
@@ -386,7 +383,7 @@ export default function CaseStudyPage({
                     className="inline-flex items-center gap-2 text-white/50 text-sm uppercase tracking-wider hover:text-white transition-colors duration-300"
                     style={{ fontFamily: "var(--font-din-condensed)" }}
                 >
-                    <svg viewBox="0 0 16 16" fill="none" style={{ width: "1em", height: "1em", transform: "translateY(-0.05em)" }}>
+                    <svg viewBox="0 0 16 16" fill="none" style={{ width: "1em", height: "1em", transform: "translateY(-0.15em)" }}>
                         <path
                             d="M10 12L6 8L10 4"
                             stroke="currentColor"
