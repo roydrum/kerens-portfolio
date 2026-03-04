@@ -68,3 +68,65 @@ html.lenis body {
     -webkit-text-stroke: 6px white;
   }
 }
+
+/* ─── Hive Gallery ─── */
+.hive-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 220px;
+  gap: 12px;
+}
+
+@media (max-width: 767px) {
+  .hive-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 180px;
+  }
+}
+
+.hive-cell {
+  overflow: hidden;
+  border-radius: 12px;
+  position: relative;
+}
+
+.hive-cell img,
+.hive-cell video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Varied sizes for visual interest */
+.hive-large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.hive-medium {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.hive-small {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+/* Placeholder state */
+.hive-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+}
+
+.hive-placeholder-icon {
+  color: rgba(255, 255, 255, 0.2);
+}
