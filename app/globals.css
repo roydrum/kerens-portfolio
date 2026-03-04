@@ -85,14 +85,17 @@ html.lenis body {
 .hive-cell {
   border-radius: 10px;
   overflow: hidden;
+  aspect-ratio: 3/4;
+  background: rgba(0, 0, 0, 0.15);
 }
 
 .hive-cell img,
 .hive-cell video {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
   border-radius: 10px;
+  object-fit: contain;
 }
 
 /* Placeholder state */
