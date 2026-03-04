@@ -46,9 +46,6 @@ function VideoPlayer({ src, caption }: { src: string; caption?: string }) {
                     style={{ aspectRatio: "9/16", objectFit: "cover" }}
                 />
             </div>
-            {caption && (
-                <p className="text-white/50 text-xs mt-3 text-center">{caption}</p>
-            )}
         </div>
     );
 }
@@ -109,7 +106,7 @@ function HiveGallery({ media }: { media: CreativeMedia[] }) {
 /* ─── Video Grid ─── */
 function VideoGrid({ media }: { media: CreativeMedia[] }) {
     return (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             {media.map((item, i) => {
                 const isEmpty = !item.src;
 
@@ -129,9 +126,6 @@ function VideoGrid({ media }: { media: CreativeMedia[] }) {
                             </svg>
                             <span className="text-white/20 text-xs">Video placeholder</span>
                         </div>
-                        {item.caption && (
-                            <p className="text-white/50 text-xs mt-3 text-center">{item.caption}</p>
-                        )}
                     </div>
                 ) : (
                     <VideoPlayer key={i} src={item.src} caption={item.caption} />

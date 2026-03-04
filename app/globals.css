@@ -72,7 +72,7 @@ html.lenis body {
 /* ─── Hive Gallery (Pinterest/masonry layout) ─── */
 .hive-gallery {
   columns: 4;
-  column-gap: 8px;
+  column-gap: 4px;
 }
 
 @media (max-width: 767px) {
@@ -84,7 +84,7 @@ html.lenis body {
 
 .hive-cell {
   break-inside: avoid;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   border-radius: 10px;
   overflow: hidden;
 }
