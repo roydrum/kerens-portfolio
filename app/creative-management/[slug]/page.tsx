@@ -88,13 +88,13 @@ function HiveGallery({ media }: { media: CreativeMedia[] }) {
                                 loop
                                 playsInline
                                 preload="metadata"
-                                className="w-full h-full object-cover"
+                                className="w-full"
                             />
                         ) : (
                             <img
                                 src={item.src}
                                 alt={item.caption || `Gallery item ${i + 1}`}
-                                className="w-full h-full object-cover"
+                                className="w-full"
                                 loading="lazy"
                             />
                         )}

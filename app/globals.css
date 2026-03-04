@@ -71,8 +71,15 @@ html.lenis body {
 
 /* ─── Hive Gallery ─── */
 .hive-gallery {
-  columns: 3;
-  column-gap: 10px;
+  columns: 4;
+  column-gap: 8px;
+}
+
+@media (min-width: 1024px) {
+  .hive-gallery {
+    columns: 5;
+    column-gap: 10px;
+  }
 }
 
 @media (max-width: 767px) {
