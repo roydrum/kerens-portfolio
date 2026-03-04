@@ -85,6 +85,7 @@ function HiveGallery({ media }: { media: CreativeMedia[] }) {
                             <video
                                 src={item.src}
                                 muted
+                                autoPlay
                                 loop
                                 playsInline
                                 preload="metadata"
