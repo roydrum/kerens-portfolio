@@ -18,16 +18,28 @@ export interface CreativeProject {
     detail?: CreativeProjectDetail;
 }
 
-export const CREATIVE_INTRO = `I lead creative teams and production systems that turn strategy into high-volume, high-quality execution — across markets, channels, and formats. My work spans campaign planning, cross-team partnerships, and managing both remote and on-location productions, with a focus on platform-native performance creative.`;
+export const CREATIVE_INTRO = `I lead creative teams and production systems that turn strategy into high-volume, high-quality execution - across markets, channels, and formats. My work spans campaign planning, cross-team partnerships, and managing both remote and on-location productions, with a focus on platform-native performance creative.`;
 
 export const CREATIVE_PROJECTS: CreativeProject[] = [
     {
         slug: "bau-paid-social",
         number: "01",
         title: "BAU Paid Social",
-        subtitle: "HelloFresh — 14 Markets",
+        subtitle: "HelloFresh - 14 Markets",
         summary:
-            "Business-as-usual ads are the engine of paid social. I led the daily system that delivered consistent, on-brand creative across 14 markets — built on best practices, performance learnings, and market-specific localization so each asset feels relevant where it runs.",
+            "Business-as-usual (BAU) ads were the backbone of our paid social engine. I led the daily system that delivered fresh creative across 14 markets while keeping a strict quality bar - on-brand, consistent, and built on learnings from past performance. Each asset was localized to fit market nuances (language, cultural cues, and what resonates locally), so the work scaled without feeling generic. Alongside BAU, I also led creative for brand partnerships and co-marketing activations with partners such as Paw Patrol, Disney, Efteling, and others, ensuring the collaborations stayed true to both brands while performing across channels.",
+        detail: {
+            galleryType: "hive",
+            media: [
+                // Placeholder slots - replace src with actual paths when media is ready
+                { src: "", type: "image", caption: "BAU asset 1" },
+                { src: "", type: "video", caption: "BAU video 1" },
+                { src: "", type: "image", caption: "BAU asset 2" },
+                { src: "", type: "image", caption: "BAU asset 3" },
+                { src: "", type: "video", caption: "BAU video 2" },
+                { src: "", type: "image", caption: "BAU asset 4" },
+            ],
+        },
     },
     {
         slug: "summer-2023",
@@ -39,7 +51,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
         detail: {
             galleryType: "hive",
             media: [
-                // Placeholder slots — replace src with actual paths when media is ready
+                // Placeholder slots - replace src with actual paths when media is ready
                 { src: "", type: "image", caption: "Campaign visual 1" },
                 { src: "", type: "image", caption: "Campaign visual 2" },
                 { src: "", type: "video", caption: "Campaign video 1" },
@@ -59,7 +71,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
         detail: {
             galleryType: "hive",
             media: [
-                // Placeholder slots — replace src with actual paths when media is ready
+                // Placeholder slots - replace src with actual paths when media is ready
                 { src: "", type: "image", caption: "Campaign asset 1" },
                 { src: "", type: "video", caption: "Campaign video 1" },
                 { src: "", type: "image", caption: "Campaign asset 2" },
@@ -75,11 +87,11 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
         title: "Productions",
         subtitle: "TikTok-First Performance Creative",
         summary:
-            "As creative lead for social ads (especially TikTok), I built a fast production and iteration workflow designed to stay native to the platform — not over-designed. This included remote creator productions (scripts, guidelines, feedback) and local shoots (research, planning, copy, logistics, capture). We produced multiple hook variations per concept, then worked with paid social to analyze results and iterate on winners.",
+            "As creative lead for social ads (especially TikTok), I built a fast production and iteration workflow designed to stay native to the platform - not over-designed. This included remote creator productions (scripts, guidelines, feedback) and local shoots (research, planning, copy, logistics, capture). We produced multiple hook variations per concept, then worked with paid social to analyze results and iterate on winners.",
         detail: {
             galleryType: "video-grid",
             media: [
-                // Placeholder slots — replace src with actual paths when media is ready
+                // Placeholder slots - replace src with actual paths when media is ready
                 { src: "", type: "video", caption: "Production 1" },
                 { src: "", type: "video", caption: "Production 2" },
                 { src: "", type: "video", caption: "Production 3" },
