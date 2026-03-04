@@ -71,35 +71,20 @@ html.lenis body {
 
 /* ─── Hive Gallery ─── */
 .hive-gallery {
-  columns: 5;
-  column-gap: 8px;
-}
-
-@media (min-width: 1024px) {
-  .hive-gallery {
-    columns: 6;
-    column-gap: 10px;
-  }
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
 }
 
 @media (max-width: 767px) {
   .hive-gallery {
-    columns: 2;
-    column-gap: 8px;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 .hive-cell {
-  break-inside: avoid;
-  margin-bottom: 10px;
   border-radius: 10px;
   overflow: hidden;
-}
-
-@media (max-width: 767px) {
-  .hive-cell {
-    margin-bottom: 8px;
-  }
 }
 
 .hive-cell img,
