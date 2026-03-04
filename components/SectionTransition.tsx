@@ -12,7 +12,9 @@ interface SectionTransitionProps {
 
 export function SectionTransition({ children }: SectionTransitionProps) {
     const containerRef = useRef<HTMLDivElement>(null);
-    const wrapperRef = useRef<HTMLDivElement>(null);
+    const panel1Ref = useRef<HTMLDivElement>(null);
+    const panel2Ref = useRef<HTMLDivElement>(null);
+
     const [childrenArray, setChildrenArray] = useState<React.ReactNode[]>([]);
 
     useEffect(() => {
@@ -20,47 +22,58 @@ export function SectionTransition({ children }: SectionTransitionProps) {
     }, [children]);
 
     useEffect(() => {
-        if (!wrapperRef.current || childrenArray.length !== 2) return;
+        if (!containerRef.current || !panel1Ref.current || !panel2Ref.current || childrenArray.length !== 2) return;
 
-        const sections = gsap.utils.toArray<HTMLElement>(wrapperRef.current.children);
-        if (sections.length !== 2) return;
+        const ctx = gsap.context(() => {
+            // panel2 starts off-screen to the right
+            gsap.set(panel2Ref.current, { xPercent: 100 });
 
-        const section1 = sections[0]; // Case Studies
-        const section2 = sections[1]; // Creative Management
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: panel1Ref.current,
+                    // Pin starts when the bottom of panel1 hits the bottom of the viewport
+                    start: "bottom bottom",
+                    // The scroll distance over which the wipe occurs
+                    end: "+=1500", // A fixed scroll distance for smooth scrubbing
+                    scrub: 1,
+                    // Pin the overall container to lock vertical scrolling during the wipe
+                    pin: containerRef.current,
+                    anticipatePin: 1,
+                }
+            });
 
-        // Initial setup for the horizontal layout
-        gsap.set(section1, { width: "100%", x: "0%" });
-        gsap.set(section2, { width: "100%", x: "100%", position: "absolute", top: 0, left: 0 });
+            // Slide panel1 out to the left and panel2 in from the right
+            tl.to(panel1Ref.current, { xPercent: -100, ease: "none" }, 0)
+                .to(panel2Ref.current, { xPercent: 0, ease: "none" }, 0);
 
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: containerRef.current,
-                start: "top top",
-                end: () => `+=${window.innerWidth}`, // Scroll duration equals screen width
-                scrub: 1,
-                pin: true,
-                anticipatePin: 1,
-                // Adjust z-index during pin if needed
-                onEnter: () => gsap.set(containerRef.current, { zIndex: 50 }),
-                onLeave: () => gsap.set(containerRef.current, { zIndex: 1 }),
-                onEnterBack: () => gsap.set(containerRef.current, { zIndex: 50 }),
-                onLeaveBack: () => gsap.set(containerRef.current, { zIndex: 1 }),
-            }
-        });
+            // Cleanup
+            return () => {
+                tl.kill();
+            };
+        }, containerRef);
 
-        // The horizontal transition animation
-        tl.to(section1, { x: "-100%", ease: "none" }, 0)
-            .to(section2, { x: "0%", ease: "none" }, 0);
-
-        return () => {
-            tl.kill();
-        };
+        return () => ctx.revert();
     }, [childrenArray]);
+
+    if (childrenArray.length !== 2) {
+        return <>{children}</>;
+    }
 
     return (
         <div ref={containerRef} className="relative w-full overflow-hidden bg-[#ef4444]">
-            <div ref={wrapperRef} className="relative flex w-full h-full">
-                {children}
+            {/* Child 1: Natively scrolls vertically */}
+            <div ref={panel1Ref} className="w-full relative">
+                {childrenArray[0]}
+            </div>
+
+            {/* Child 2: Pulled up by 100vh so its top perfectly aligns with the top of the viewport
+                at the exact time the bottom of panel1 hits the bottom of the viewport. */}
+            <div
+                ref={panel2Ref}
+                className="w-full relative"
+                style={{ marginTop: "-100vh", height: "auto", minHeight: "100vh" }}
+            >
+                {childrenArray[1]}
             </div>
         </div>
     );
