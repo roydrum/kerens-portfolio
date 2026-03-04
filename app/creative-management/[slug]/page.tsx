@@ -89,13 +89,13 @@ function HiveGallery({ media }: { media: CreativeMedia[] }) {
                                 loop
                                 playsInline
                                 preload="metadata"
-                                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", borderRadius: "10px" }}
+                                style={{ width: "100%", height: "auto", display: "block" }}
                             />
                         ) : (
                             <img
                                 src={item.src}
                                 alt={item.caption || `Gallery item ${i + 1}`}
-                                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", borderRadius: "10px" }}
+                                style={{ width: "100%", height: "auto", display: "block" }}
                                 loading="lazy"
                             />
                         )}
