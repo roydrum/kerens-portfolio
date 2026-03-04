@@ -86,7 +86,6 @@ html.lenis body {
   border-radius: 10px;
   overflow: hidden;
   aspect-ratio: 3/4;
-  background: rgba(0, 0, 0, 0.15);
 }
 
 .hive-cell img,
@@ -95,7 +94,7 @@ html.lenis body {
   height: 100%;
   display: block;
   border-radius: 10px;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 /* Placeholder state */
