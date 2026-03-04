@@ -59,11 +59,9 @@ function HiveGallery({ media }: { media: CreativeMedia[] }) {
         <div className="hive-gallery">
             {media.map((item, i) => {
                 const isEmpty = !item.src;
-                // Assign varied spans for visual interest
-                const span = i % 3 === 0 ? "hive-large" : i % 3 === 1 ? "hive-medium" : "hive-small";
 
                 return (
-                    <div key={i} className={`hive-cell ${span}`}>
+                    <div key={i} className="hive-cell">
                         {isEmpty ? (
                             <div className="hive-placeholder">
                                 <div className="hive-placeholder-icon">
@@ -110,7 +108,7 @@ function HiveGallery({ media }: { media: CreativeMedia[] }) {
 /* ─── Video Grid ─── */
 function VideoGrid({ media }: { media: CreativeMedia[] }) {
     return (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {media.map((item, i) => {
                 const isEmpty = !item.src;
 

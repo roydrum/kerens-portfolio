@@ -71,60 +71,49 @@ html.lenis body {
 
 /* ─── Hive Gallery ─── */
 .hive-gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 220px;
-  gap: 12px;
+  columns: 3;
+  column-gap: 10px;
 }
 
 @media (max-width: 767px) {
   .hive-gallery {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 180px;
+    columns: 2;
+    column-gap: 8px;
   }
 }
 
 .hive-cell {
+  break-inside: avoid;
+  margin-bottom: 10px;
+  border-radius: 10px;
   overflow: hidden;
-  border-radius: 12px;
-  position: relative;
+}
+
+@media (max-width: 767px) {
+  .hive-cell {
+    margin-bottom: 8px;
+  }
 }
 
 .hive-cell img,
 .hive-cell video {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   display: block;
-}
-
-/* Varied sizes for visual interest */
-.hive-large {
-  grid-column: span 2;
-  grid-row: span 2;
-}
-
-.hive-medium {
-  grid-column: span 1;
-  grid-row: span 1;
-}
-
-.hive-small {
-  grid-column: span 1;
-  grid-row: span 1;
+  border-radius: 10px;
 }
 
 /* Placeholder state */
 .hive-placeholder {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 4/3;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.06);
   border: 1px dashed rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
+  border-radius: 10px;
 }
 
 .hive-placeholder-icon {
