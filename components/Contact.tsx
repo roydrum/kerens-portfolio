@@ -39,7 +39,7 @@ export function Contact() {
     };
 
     return (
-        <section id="contact" className="relative z-[70] w-full bg-[#0a0a0a] border-t border-white/10 pt-20 pb-24 md:pt-32 md:pb-32 px-6 md:px-12 lg:px-24">
+        <section id="contact" className="relative z-[70] w-full bg-[#ef4444] border-t border-white/10 pt-20 pb-24 md:pt-32 md:pb-32 px-6 md:px-12 lg:px-24">
             <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24">
 
                 {/* Left Column: Contact Info */}
@@ -78,18 +78,18 @@ export function Contact() {
 
                         {/* CV Download Button */}
                         <a
-                            href="#upload_cv_to_public_folder"
-                            onClick={handleCVClick}
-                            className="group mt-4 inline-flex items-center justify-center gap-3 bg-white text-[#0a0a0a] px-8 py-4 rounded-full font-bold text-lg hover:bg-[#ef4444] hover:text-white transition-all duration-300 w-full sm:w-auto"
+                            href="/keren_boshi_cv.pdf"
+                            target="_blank"
+                            className="group mt-4 inline-flex items-center justify-center gap-2 bg-white text-[#ef4444] px-6 py-3 rounded-full font-bold text-base hover:bg-black hover:text-white transition-all duration-300 w-full sm:w-auto shadow-sm"
                         >
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-y-0.5 transition-transform"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-y-0.5 transition-transform"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                             Download CV
                         </a>
                     </div>
                 </div>
 
                 {/* Right Column: Contact Form */}
-                <div className="flex-[1.5] w-full bg-[#111111] p-8 md:p-12 rounded-3xl border border-white/5">
+                <div className="flex-[1.5] w-full bg-[#e33737] p-8 md:p-12 rounded-3xl border border-white/10 shadow-lg">
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -157,8 +157,8 @@ export function Contact() {
                                     onChange={handleFileChange}
                                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                 />
-                                <div className="flex items-center gap-4 bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 text-white/50 text-base font-medium">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+                                <div className="flex items-center gap-3 bg-[#cf2b2b] border border-white/10 rounded-xl px-4 py-2.5 text-white/70 text-sm font-medium hover:bg-[#c02323] transition-colors">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
                                     <span className="truncate">{fileName || "Choose a file..."}</span>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@ export function Contact() {
                         <button
                             type="submit"
                             disabled={status === "submitting" || status === "success"}
-                            className="mt-8 bg-[#ef4444] text-white px-8 py-5 rounded-full font-bold text-xl hover:bg-white hover:text-[#0a0a0a] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed uppercase"
+                            className="mt-6 bg-white text-[#ef4444] px-6 py-4 rounded-full font-bold text-lg hover:bg-[#0a0a0a] hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed uppercase shadow-sm"
                             style={{ fontFamily: "var(--font-din-condensed)", letterSpacing: "0.05em" }}
                         >
                             {status === "idle" && "Send Message"}
