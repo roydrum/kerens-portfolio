@@ -11,6 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 const MENU_LINKS = [
     {
         category: "Case Studies",
+        href: "/#case-studies",
         items: [
             { label: "Vimeo", href: "/case-studies/vimeo" },
             { label: "Wolt", href: "/case-studies/wolt" },
@@ -20,6 +21,7 @@ const MENU_LINKS = [
     },
     {
         category: "Creative Management",
+        href: "/#creative-management",
         items: [
             { label: "BAU paid social", href: "/#creative-management" },
             { label: "Summer 2023", href: "/creative-management/summer-2023" },
@@ -181,12 +183,14 @@ export function Navigation() {
                                 </Link>
                             ) : (
                                 <>
-                                    <h3
-                                        className="text-white/60 text-sm uppercase tracking-widest font-semibold mb-2"
-                                        style={{ fontFamily: "var(--font-din-condensed)" }}
+                                    <Link
+                                        href={group.href || "#"}
+                                        onClick={() => setIsOpen(false)}
+                                        className="text-white text-2xl md:text-3xl font-bold hover:text-white/70 transition-colors inline-block uppercase mb-2"
+                                        style={{ fontFamily: "var(--font-din-condensed)", letterSpacing: "0.02em" }}
                                     >
                                         {group.category}
-                                    </h3>
+                                    </Link>
                                     <ul className="flex flex-col gap-3">
                                         {group.items?.map((item, itemIdx) => (
                                             <li key={itemIdx}>
