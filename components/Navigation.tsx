@@ -13,7 +13,7 @@ const MENU_LINKS = [
         category: "Case Studies",
         href: "/#case-studies",
         items: [
-            { label: "Vimeo", href: "/case-studies/vimeo" },
+            { label: "Vimeo", href: "/case-studies/vimeo-create" },
             { label: "Wolt", href: "/case-studies/wolt" },
             { label: "Flo", href: "/case-studies/flo" },
             { label: "Bitpanda", href: "/case-studies/bitpanda" },
@@ -164,19 +164,19 @@ export function Navigation() {
             {/* Slide-out Panel */}
             <div
                 ref={panelRef}
-                className="fixed top-0 right-0 bottom-0 z-[105] w-full md:w-[400px] h-screen bg-[#ef4444] shadow-2xl flex flex-col pt-32 px-10 md:px-14 pb-12 overflow-y-auto"
+                className="fixed top-0 right-0 bottom-0 z-[105] w-full md:w-[400px] h-[100dvh] bg-[#ef4444] shadow-2xl flex flex-col pt-24 px-10 md:px-12 pb-6 overflow-y-auto"
                 style={{ transform: "translateX(100%)" }}
                 role="dialog"
                 aria-modal="true"
             >
-                <div className="flex flex-col gap-8">
+                <div className="flex flex-col gap-6">
                     {MENU_LINKS.map((group, idx) => (
-                        <div key={idx} className="nav-group flex flex-col gap-3">
+                        <div key={idx} className="nav-group flex flex-col gap-2">
                             {group.isSingle ? (
                                 <Link
                                     href={group.href || "#"}
                                     onClick={() => setIsOpen(false)}
-                                    className="text-white text-2xl md:text-3xl font-bold hover:text-white/70 transition-colors inline-block uppercase"
+                                    className="text-white text-xl md:text-2xl font-bold hover:text-white/70 transition-colors inline-block uppercase mb-1"
                                     style={{ fontFamily: "var(--font-din-condensed)", letterSpacing: "0.02em" }}
                                 >
                                     {group.label}
@@ -186,18 +186,18 @@ export function Navigation() {
                                     <Link
                                         href={group.href || "#"}
                                         onClick={() => setIsOpen(false)}
-                                        className="text-white text-2xl md:text-3xl font-bold hover:text-white/70 transition-colors inline-block uppercase mb-2"
+                                        className="text-white text-xl md:text-2xl font-bold hover:text-white/70 transition-colors inline-block uppercase mb-1"
                                         style={{ fontFamily: "var(--font-din-condensed)", letterSpacing: "0.02em" }}
                                     >
                                         {group.category}
                                     </Link>
-                                    <ul className="flex flex-col gap-3">
+                                    <ul className="flex flex-col gap-1.5 pl-3 border-l-[1.5px] border-white/20">
                                         {group.items?.map((item, itemIdx) => (
                                             <li key={itemIdx}>
                                                 <Link
                                                     href={item.href}
                                                     onClick={() => setIsOpen(false)}
-                                                    className="text-white text-xl md:text-2xl font-bold hover:text-white/70 transition-colors inline-block"
+                                                    className="text-white/80 text-lg md:text-xl font-medium hover:text-white transition-colors inline-block"
                                                     style={{ fontFamily: "var(--font-din-condensed)", letterSpacing: "0.02em" }}
                                                 >
                                                     {item.label}
