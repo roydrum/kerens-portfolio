@@ -39,6 +39,11 @@ const MENU_LINKS = [
         label: "Illustrations",
         href: "/#illustrations",
     },
+    {
+        isSingle: true,
+        label: "Contact",
+        href: "/#contact",
+    },
 ];
 
 export function Navigation() {
