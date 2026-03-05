@@ -19,47 +19,7 @@ export function CreativeManagement() {
         if (!sectionRef.current) return;
 
         const ctx = gsap.context(() => {
-            // ── Horizontal slide-in from right ──
-            // Triggered when the Case Studies section's bottom hits the
-            // bottom of the viewport. Scrubs the CreativeManagement section
-            // from xPercent: 100 → 0, and the Case Studies section from
-            // xPercent: 0 → -100, creating a "push" wipe effect.
-            const caseStudiesEl = document.querySelector<HTMLElement>("#case-studies");
-
-            if (caseStudiesEl && sectionRef.current) {
-                // Initially push Creative Management off to the right
-                gsap.set(sectionRef.current, { xPercent: 100, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 50 });
-
-                const wipeTimeline = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: caseStudiesEl,
-                        start: "bottom bottom",        // pin moment: bottom of case studies at bottom of viewport
-                        end: () => "+=" + window.innerWidth, // scrub over 1 screen-width of scroll
-                        scrub: 1,
-                        pin: caseStudiesEl,            // pin case studies in place during wipe
-                        anticipatePin: 1,
-                        onLeave: () => {
-                            // After wipe completes, restore sectionRef to normal document flow
-                            if (sectionRef.current) {
-                                gsap.set(sectionRef.current, { position: "relative", xPercent: 0, zIndex: 60 });
-                                ScrollTrigger.refresh();
-                            }
-                        },
-                        onEnterBack: () => {
-                            // Re-apply fixed when scrolling back into the wipe zone
-                            if (sectionRef.current) {
-                                gsap.set(sectionRef.current, { position: "fixed", top: 0, left: 0, width: "100%", zIndex: 50, xPercent: 0 });
-                            }
-                        },
-                    },
-                });
-
-                wipeTimeline
-                    .to(caseStudiesEl, { xPercent: -100, ease: "none" }, 0)
-                    .to(sectionRef.current, { xPercent: 0, ease: "none" }, 0);
-            }
-
-            // ── Inner element animations ──
+            // Animate the heading
             if (headingRef.current) {
                 gsap.fromTo(
                     headingRef.current,
@@ -78,6 +38,7 @@ export function CreativeManagement() {
                 );
             }
 
+            // Animate the intro paragraph
             if (introRef.current) {
                 gsap.fromTo(
                     introRef.current,
@@ -96,6 +57,7 @@ export function CreativeManagement() {
                 );
             }
 
+            // Animate the sub-heading
             if (subHeadingRef.current) {
                 gsap.fromTo(
                     subHeadingRef.current,
@@ -114,6 +76,7 @@ export function CreativeManagement() {
                 );
             }
 
+            // Staggered card animations
             cardRefs.current.forEach((card) => {
                 if (!card) return;
 
