@@ -4,6 +4,7 @@ import { useState } from "react";
 
 export function Contact() {
     const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error" | "virus" | "quota">("idle");
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -20,6 +21,7 @@ export function Contact() {
             const result = await response.json();
 
             if (!response.ok) {
+                setErrorMessage(result.error || "Something went wrong");
                 if (response.status === 429) setStatus("quota");
                 else if (result.error === "Virus detected in attachment") setStatus("virus");
                 else setStatus("error");
@@ -27,6 +29,7 @@ export function Contact() {
             }
 
             setStatus("success");
+            setErrorMessage(null);
             setTimeout(() => {
                 setStatus("idle");
                 (e.target as HTMLFormElement).reset();
@@ -188,7 +191,7 @@ export function Contact() {
                             {status === "success" && "Message Sent!"}
                             {status === "virus" && "Virus Detected!"}
                             {status === "quota" && "Capacity Reached"}
-                            {status === "error" && "Error - Try Again"}
+                            {status === "error" && (errorMessage ? errorMessage : "Error - Try Again")}
                         </button>
                     </form>
                 </div>

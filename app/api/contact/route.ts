@@ -26,11 +26,14 @@ export async function POST(req: NextRequest) {
         });
 
         if (error) {
-            console.error('Resend Error:', error);
+            console.error('Full Resend Error Object:', JSON.stringify(error, null, 2));
             if ((error as any).name === 'quota_exceeded') {
                 return NextResponse.json({ error: 'Monthly capacity reached. Please email directly.' }, { status: 429 });
             }
-            return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
+            return NextResponse.json({
+                error: (error as any).message || 'Failed to send email',
+                details: error
+            }, { status: 500 });
         }
 
         return NextResponse.json({ success: true, data });
