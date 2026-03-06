@@ -233,7 +233,7 @@ export function CreativeManagement() {
                                                 <svg
                                                     viewBox="0 0 16 16"
                                                     fill="none"
-                                                    className="animate-pulse text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 shrink-0"
+                                                    className="text-white group-hover:translate-x-1 transition-all duration-300 shrink-0"
                                                     style={{ width: "1.1em", height: "1.1em", transform: "translateY(-0.25em)" }}
                                                 >
                                                     <path

@@ -205,7 +205,7 @@ export default function CreativeManagementPage({
             <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-8">
                 <Link
                     href="/#creative-management"
-                    className="inline-flex items-center gap-2 text-white/50 text-sm uppercase tracking-wider hover:text-white transition-colors duration-300"
+                    className="inline-flex items-center gap-2 text-white text-sm uppercase tracking-wider hover:text-white/80 transition-colors duration-300"
                     style={{ fontFamily: "var(--font-din-condensed)" }}
                 >
                     <svg viewBox="0 0 16 16" fill="none" style={{ width: "1em", height: "1em", transform: "translateY(-0.15em)" }}>
@@ -290,7 +290,7 @@ export default function CreativeManagementPage({
             <div className="mx-auto max-w-[1200px] px-6 md:px-12 pb-16">
                 <Link
                     href="/#creative-management"
-                    className="inline-flex items-center gap-2 text-white/50 text-sm uppercase tracking-wider hover:text-white transition-colors duration-300"
+                    className="inline-flex items-center gap-2 text-white text-sm uppercase tracking-wider hover:text-white/80 transition-colors duration-300"
                     style={{ fontFamily: "var(--font-din-condensed)" }}
                 >
                     <svg viewBox="0 0 16 16" fill="none" style={{ width: "1em", height: "1em", transform: "translateY(-0.15em)" }}>

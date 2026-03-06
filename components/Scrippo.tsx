@@ -1,15 +1,20 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function Scrippo() {
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const sectionRef = useRef<HTMLElement>(null);
     const headingRef = useRef<HTMLHeadingElement>(null);
     const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const galleryRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     useEffect(() => {
         if (!sectionRef.current) return;
@@ -35,7 +40,7 @@ export function Scrippo() {
             }
 
             // Stagger animation for the text blocks
-            contentRefs.current.forEach((block, i) => {
+            contentRefs.current.forEach((block: HTMLDivElement | null, i: number) => {
                 if (!block) return;
                 gsap.fromTo(
                     block,
@@ -54,6 +59,34 @@ export function Scrippo() {
                     }
                 );
             });
+
+            // Horizontal Gallery Animation
+            const validImages = imageRefs.current.filter((img): img is HTMLDivElement => img !== null);
+            if (containerRef.current && galleryRef.current && validImages.length > 0) {
+                const totalImages = validImages.length;
+
+                // Calculate how much we need to scroll horizontally
+                // We want to scroll until the last image's right edge reaches the right edge of the screen
+                // galleryRef.scrollWidth is the total width including gaps
+                // containerRef.offsetWidth is the visible window
+                const amountToScroll = galleryRef.current.scrollWidth - window.innerWidth;
+
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: containerRef.current,
+                        start: "top 10%", // Pin slightly lower than the very top
+                        end: () => `+=${amountToScroll}`,
+                        pin: true,
+                        scrub: 1,
+                        invalidateOnRefresh: true,
+                    }
+                });
+
+                tl.to(galleryRef.current, {
+                    x: -amountToScroll,
+                    ease: "none"
+                });
+            }
         }, sectionRef);
 
         return () => ctx.revert();
@@ -74,7 +107,7 @@ export function Scrippo() {
         >
             {/* Heading - sticky */}
             <div
-                className="sticky top-0 z-10 mx-auto max-w-[1200px] px-6 md:px-12 pt-[8vh] pb-[4vh]"
+                className="sticky top-0 z-20 mx-auto max-w-[1200px] px-6 md:px-12 pt-[8vh] pb-[4vh]"
                 style={{ background: "#ef4444" }}
             >
                 <h2
@@ -90,97 +123,83 @@ export function Scrippo() {
                 </h2>
             </div>
 
-            {/* Content Container */}
-            <div className="relative z-[5] mx-auto max-w-[1200px] px-6 md:px-12 pb-[12vh] grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+            {/* Content Container - Reordered to Text Top, Images Bottom */}
+            <div className="relative z-[5] mx-auto max-w-[1200px] px-6 md:px-12 pb-[12vh] flex flex-col gap-16 lg:gap-24">
 
-                {/* Left Column: Copy */}
-                <div className="flex flex-col gap-12">
-                    {/* Intro */}
-                    <div ref={addToRefs} style={{ opacity: 0 }}>
-                        <h3 className="text-white font-bold uppercase tracking-tight mb-4 flex items-center gap-2" style={{ fontFamily: "var(--font-din-condensed)", fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>
-                            Inspiration
-                            <svg viewBox="0 0 16 16" fill="none" className="text-white/40 shrink-0" style={{ width: "0.8em", height: "0.8em", transform: "translateY(-0.05em)" }}>
-                                <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                            Scripts
-                        </h3>
-                        <p className="text-white/90 text-lg md:text-xl leading-relaxed">
-                            <strong>Scrippo</strong> is a tool I built from scratch - I defined the workflow, designed the UX/UI, and built it in Cursor. It’s live and already has users.
-                        </p>
-                    </div>
+                {/* Text Content Area */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16">
+                    {/* Left Column of Text */}
+                    <div className="flex flex-col gap-12">
+                        {/* Intro */}
+                        <div ref={addToRefs} style={{ opacity: 0 }}>
+                            <h3 className="text-white font-bold uppercase tracking-tight mb-4 flex items-center gap-2" style={{ fontFamily: "var(--font-din-condensed)", fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>
+                                Inspiration
+                                <svg viewBox="0 0 16 16" fill="none" className="text-white/40 shrink-0" style={{ width: "0.8em", height: "0.8em", transform: "translateY(-0.05em)" }}>
+                                    <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                                Scripts
+                            </h3>
+                            <p className="text-white/90 text-lg md:text-xl leading-relaxed">
+                                <strong>Scrippo</strong> is a tool I built from scratch - I defined the workflow, designed the UX/UI, and built it in Cursor. It’s live and already has users.
+                            </p>
+                        </div>
 
-                    {/* The Problem */}
-                    <div ref={addToRefs} style={{ opacity: 0 }}>
-                        <h4 className="text-white font-bold uppercase tracking-tight mb-4 text-xl" style={{ fontFamily: "var(--font-din-condensed)", fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)" }}>
-                            The Problem
-                        </h4>
-                        <ul className="space-y-4">
-                            <li className="text-white/80 text-base md:text-lg leading-relaxed flex items-start gap-3">
-                                <span className="text-white/30 mt-[0.3em] shrink-0">•</span>
-                                <div><strong>Inspiration gets lost:</strong> phones full of screen recordings and links you never find again.</div>
-                            </li>
-                            <li className="text-white/80 text-base md:text-lg leading-relaxed flex items-start gap-3">
-                                <span className="text-white/30 mt-[0.3em] shrink-0">•</span>
-                                <div><strong>UGC scripting doesn’t scale:</strong> strong scripts require trend fluency and are hard (and expensive) to produce in volume.</div>
-                            </li>
-                            <li className="text-white/80 text-base md:text-lg leading-relaxed flex items-start gap-3">
-                                <span className="text-white/30 mt-[0.3em] shrink-0">•</span>
-                                <div><strong>Teams need speed:</strong> lots of angles and scripts fast, without losing quality.</div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* What Scrippo Does */}
-                    <div ref={addToRefs} style={{ opacity: 0 }}>
-                        <h4 className="text-white font-bold uppercase tracking-tight mb-4 text-xl" style={{ fontFamily: "var(--font-din-condensed)", fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)" }}>
-                            What Scrippo Does
-                        </h4>
-                        <p className="text-white/90 text-base md:text-lg mb-6 leading-relaxed">
-                            Scrippo turns scattered references into a structured library and a script workflow.
-                        </p>
-                        <ul className="space-y-6">
-                            <li className="text-white/80 text-base md:text-lg leading-relaxed flex items-start gap-3">
-                                <span className="text-white/30 mt-[0.3em] shrink-0">•</span>
-                                <div>
-                                    <strong className="text-white block mb-1">Capture</strong>
-                                    Share a link from Instagram, TikTok, X, or LinkedIn. Optionally add tags and connect it to a client.
-                                </div>
-                            </li>
-                            <li className="text-white/80 text-base md:text-lg leading-relaxed flex items-start gap-3">
-                                <span className="text-white/30 mt-[0.3em] shrink-0">•</span>
-                                <div>
-                                    <strong className="text-white block mb-1">Organize + collaborate</strong>
-                                    Scrippo analyzes the video and saves it into a searchable team library (workspaces). Review, comment on a timeline, and tag teammates.
-                                </div>
-                            </li>
-                            <li className="text-white/80 text-base md:text-lg leading-relaxed flex items-start gap-3">
-                                <span className="text-white/30 mt-[0.3em] shrink-0">•</span>
-                                <div>
-                                    <strong className="text-white block mb-1">Generate scripts (client + brief based)</strong>
-                                    Define clients and upload briefs. Pick a reference and generate a script for that specific brief.
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Outputs & AI */}
-                    <div ref={addToRefs} style={{ opacity: 0 }}>
-                        <div className="mb-12">
-                            <h4 className="text-white font-bold uppercase tracking-tight mb-4" style={{ fontFamily: "var(--font-din-condensed)", fontSize: "clamp(1.2rem, 2vw, 1.4rem)" }}>
-                                Outputs
+                        {/* The Problem */}
+                        <div ref={addToRefs} style={{ opacity: 0 }}>
+                            <h4 className="text-white font-bold uppercase tracking-tight mb-4 text-xl" style={{ fontFamily: "var(--font-din-condensed)", fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)" }}>
+                                The Problem
                             </h4>
                             <ul className="space-y-4">
                                 <li className="text-white/80 text-base md:text-lg leading-relaxed flex items-start gap-3">
                                     <span className="text-white/30 mt-[0.3em] shrink-0">•</span>
-                                    <div>A searchable reference library (tagged + analyzed)</div>
+                                    <div><strong>Inspiration gets lost:</strong> phones full of screen recordings and links you never find again.</div>
                                 </li>
                                 <li className="text-white/80 text-base md:text-lg leading-relaxed flex items-start gap-3">
                                     <span className="text-white/30 mt-[0.3em] shrink-0">•</span>
-                                    <div>UGC scripts: hook, body, CTA, titles - linked to the reference video</div>
+                                    <div><strong>UGC scripting doesn’t scale:</strong> strong scripts require trend fluency and are hard (and expensive) to produce in volume.</div>
+                                </li>
+                                <li className="text-white/80 text-base md:text-lg leading-relaxed flex items-start gap-3">
+                                    <span className="text-white/30 mt-[0.3em] shrink-0">•</span>
+                                    <div><strong>Teams need speed:</strong> lots of angles and scripts fast, without losing quality.</div>
                                 </li>
                             </ul>
                         </div>
-                        <div>
+                    </div>
+
+                    {/* Right Column of Text */}
+                    <div className="flex flex-col gap-12">
+                        {/* What Scrippo Does */}
+                        <div ref={addToRefs} style={{ opacity: 0 }}>
+                            <h4 className="text-white font-bold uppercase tracking-tight mb-4 text-xl" style={{ fontFamily: "var(--font-din-condensed)", fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)" }}>
+                                What Scrippo Does
+                            </h4>
+                            <ul className="space-y-6">
+                                <li className="text-white/80 text-base md:text-lg leading-relaxed flex items-start gap-3">
+                                    <span className="text-white/30 mt-[0.3em] shrink-0">•</span>
+                                    <div>
+                                        <strong className="text-white block mb-1">Capture</strong>
+                                        Share a link from Instagram, TikTok, X, or LinkedIn.
+                                    </div>
+                                </li>
+                                <li className="text-white/80 text-base md:text-lg leading-relaxed flex items-start gap-3">
+                                    <span className="text-white/30 mt-[0.3em] shrink-0">•</span>
+                                    <div>
+                                        <strong className="text-white block mb-1">Organize + collaborate</strong>
+                                        Scrippo analyzes the video and saves it into a searchable team library.
+                                    </div>
+                                </li>
+                                <li className="text-white/80 text-base md:text-lg leading-relaxed flex items-start gap-3">
+                                    <span className="text-white/30 mt-[0.3em] shrink-0">•</span>
+                                    <div>
+                                        <strong className="text-white block mb-1">Generate scripts</strong>
+                                        Pick a reference and generate a script for a specific brief.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* AI Usage */}
+                        <div ref={addToRefs} style={{ opacity: 0 }}>
                             <h4 className="text-white font-bold uppercase tracking-tight mb-4" style={{ fontFamily: "var(--font-din-condensed)", fontSize: "clamp(1.2rem, 2vw, 1.4rem)" }}>
                                 How AI is used
                             </h4>
@@ -190,31 +209,78 @@ export function Scrippo() {
                         </div>
                     </div>
                 </div>
+            </div>
 
-                {/* Right Column: 16:9 Media Gallery */}
-                <div className="flex flex-col gap-6 lg:mt-24">
-                    <p className="text-white/50 text-sm uppercase tracking-widest font-semibold mb-2">Product Gallery</p>
+            {/* Horizontal Media Gallery - Moved out of the text container for robust pinning */}
+            <div ref={containerRef} className="relative w-full h-screen overflow-hidden flex flex-col justify-center z-30 translate-y-20">
+                <div className="absolute top-[10%] left-0 w-full flex flex-col items-center pointer-events-none z-[1]">
+                    <div className="h-[1px] w-full max-w-[1200px] bg-white/10 mb-8 opacity-50" />
+                    <p className="text-white/50 text-sm uppercase tracking-widest font-semibold">Product Showcase</p>
+                </div>
 
-                    {/* Placeholder Grid (Replace contents later) */}
-                    <div className="grid grid-cols-1 gap-6">
-                        {[1, 2, 3, 4, 5].map((item) => (
-                            <div
-                                key={item}
-                                className="w-full relative rounded-xl overflow-hidden bg-white/5 border border-white/15 flex items-center justify-center flex-col"
-                                style={{ aspectRatio: "16/9" }}
+                <div className="w-full overflow-hidden">
+                    <div
+                        ref={galleryRef}
+                        className="flex flex-row items-center gap-12 px-[10vw] md:px-[20vw]"
+                    >
+                        {[1, 2, 3, 4, 5].map((num, idx) => (
+                            <motion.div
+                                key={num}
+                                ref={(el: HTMLDivElement | null) => { imageRefs.current[idx] = el; }}
+                                className="relative flex-shrink-0 w-[80vw] max-w-[900px] aspect-[16/10] group/img cursor-zoom-in"
+                                onClick={() => setSelectedImage(`/scrippo/0${num}.png`)}
                             >
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-12 h-12 text-white/30 mb-4">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                                    <circle cx="8.5" cy="8.5" r="1.5" />
-                                    <polyline points="21 15 16 10 5 21" />
-                                </svg>
-                                <p className="text-white/50 text-sm font-medium">Scrippo Screenshot #{item}</p>
-                            </div>
+                                <div className="w-full h-full relative">
+                                    <img
+                                        src={`/scrippo/0${num}.png`}
+                                        alt={`Scrippo Interface ${num}`}
+                                        className="w-full h-full object-contain"
+                                    />
+                                    {/* Hover Overlay - Removed background color to hide container */}
+                                    <div className="absolute inset-0 bg-transparent transition-colors duration-300 flex items-center justify-center pointer-events-none">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-0 group-hover/img:opacity-100 transition-opacity transform scale-75 group-hover/img:scale-100 duration-300 shadow-2xl">
+                                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </motion.div>
                         ))}
                     </div>
                 </div>
-
             </div>
+
+            {/* Lightbox */}
+            <AnimatePresence>
+                {selectedImage && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-12 cursor-zoom-out"
+                        onClick={() => setSelectedImage(null)}
+                    >
+                        <motion.div
+                            className="relative w-full h-full flex items-center justify-center"
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                        >
+                            <img
+                                src={selectedImage}
+                                alt="Scrippo Interface Large"
+                                className="max-w-full max-h-full object-contain"
+                            />
+                            <button
+                                className="absolute top-0 right-0 p-4 text-white hover:text-white/70 transition-colors"
+                                onClick={() => setSelectedImage(null)}
+                            >
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </section>
     );
 }

@@ -31,15 +31,11 @@ export function Contact() {
     };
 
     const handleCVClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        // If href points to a non-existent file, alert the user so they know to upload it
-        if ((e.currentTarget.getAttribute("href") || "").startsWith("#")) {
-            e.preventDefault();
-            alert("Please upload your CV as 'keren_boshi_cv.pdf' to the public/ folder.");
-        }
+        // We now route to the new CV page instead of requiring an immediate PDF drop
     };
 
     return (
-        <section id="contact" className="relative z-[70] w-full bg-[#ef4444] border-t border-white/10 pt-20 pb-24 md:pt-32 md:pb-32 px-6 md:px-12 lg:px-24">
+        <section id="contact-section" className="relative z-[70] w-full bg-[#ef4444] border-t border-white/10 pt-20 pb-24 md:pt-32 md:pb-32 px-6 md:px-12 lg:px-24">
             <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24">
 
                 {/* Left Column: Contact Info */}
@@ -72,20 +68,42 @@ export function Contact() {
                                 className="text-white/60 hover:text-[#0077b5] transition-colors text-xl flex items-center gap-3 w-fit"
                             >
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                                linkedin.com/in/kerenboshi
+                                Linkedin
                             </a>
                         </div>
 
-                        {/* CV Download Button */}
-                        <a
-                            href="/keren_boshi_cv.pdf"
-                            target="_blank"
-                            className="group mt-4 inline-flex items-center justify-center gap-2 bg-white text-[#ef4444] px-8 py-4 rounded-full font-bold text-xl hover:bg-[#0a0a0a] hover:text-white transition-all duration-300 w-full sm:w-auto shadow-sm uppercase"
-                            style={{ fontFamily: "var(--font-din-condensed)", letterSpacing: "0.05em" }}
-                        >
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-y-0.5 transition-transform"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                            Download CV
-                        </a>
+                        {/* CV View Button */}
+                        <div className="flex flex-col items-center group mt-4 w-fit">
+                            <a
+                                href="/cv"
+                                className="inline-flex items-center justify-center gap-2 bg-white text-[#ef4444] px-8 py-4 pt-5 rounded-full font-bold text-xl hover:bg-[#0a0a0a] hover:text-white transition-all duration-300 w-full sm:w-auto shadow-sm uppercase"
+                                style={{ fontFamily: "var(--font-din-condensed)", letterSpacing: "0.05em" }}
+                            >
+                                View CV
+                                <svg
+                                    viewBox="0 0 16 16"
+                                    fill="none"
+                                    className="group-hover:translate-x-1 transition-transform duration-300 shrink-0"
+                                    style={{ width: "1.2em", height: "1.2em", transform: "translateY(-0.15em)" }}
+                                >
+                                    <path
+                                        d="M6 4L10 8L6 12"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                            </a>
+                            <a
+                                href="/keren_boshi_cv.pdf"
+                                target="_blank"
+                                className="text-white/80 hover:text-white text-sm tracking-wider mt-3 transition-colors text-center w-full"
+                                style={{ fontFamily: "var(--font-geist-sans)" }}
+                            >
+                                Download CV
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -169,7 +187,7 @@ export function Contact() {
                         <button
                             type="submit"
                             disabled={status === "submitting" || status === "success"}
-                            className="mt-6 flex justify-center items-center bg-white text-[#ef4444] px-8 py-4 rounded-full font-bold text-xl hover:bg-[#0a0a0a] hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed uppercase shadow-sm"
+                            className="mt-6 flex justify-center items-center bg-white text-[#ef4444] px-6 py-3 rounded-full font-bold text-lg hover:bg-[#0a0a0a] hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed uppercase shadow-sm"
                             style={{ fontFamily: "var(--font-din-condensed)", letterSpacing: "0.05em" }}
                         >
                             {status === "idle" && "Send Message"}

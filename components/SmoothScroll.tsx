@@ -12,6 +12,19 @@ function ScrollTriggerSync({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!lenis) return;
+
+    // Handle initial hash scroll if arriving from another page
+    const hash = window.location.hash;
+    if (hash) {
+      // Small delay to ensure content is rendered
+      setTimeout(() => {
+        const target = document.querySelector(hash) as HTMLElement;
+        if (target) {
+          lenis.scrollTo(target, { offset: 0, duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+        }
+      }, 500);
+    }
+
     const root = lenis.rootElement ?? document.body;
     ScrollTrigger.scrollerProxy(root, {
       scrollTop(value) {

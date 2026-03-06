@@ -41,8 +41,13 @@ const MENU_LINKS = [
     },
     {
         isSingle: true,
+        label: "CV",
+        href: "/cv",
+    },
+    {
+        isSingle: true,
         label: "Contact",
-        href: "/#contact",
+        href: "/#contact-section",
     },
 ];
 
@@ -137,6 +142,29 @@ export function Navigation() {
         setIsOpen(false);
     }, [pathname]);
 
+    const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        // If it's a hash link on the current page, handle it manually for better reliability
+        if (href.includes("#") && (href.startsWith("/#") || href.startsWith("#"))) {
+            const targetId = href.split("#")[1];
+            const isSamePage = pathname === "/" || href.startsWith("#");
+
+            if (isSamePage) {
+                e.preventDefault();
+                setIsOpen(false);
+
+                // Small delay to allow menu animation to start closing
+                setTimeout(() => {
+                    const element = document.getElementById(targetId);
+                    if (element) {
+                        element.scrollIntoView({ behavior: "smooth" });
+                    }
+                }, 100);
+                return;
+            }
+        }
+        setIsOpen(false);
+    };
+
     return (
         <nav ref={menuRef} className="z-[100] relative">
 
@@ -174,13 +202,13 @@ export function Navigation() {
                 role="dialog"
                 aria-modal="true"
             >
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-3">
                     {MENU_LINKS.map((group, idx) => (
-                        <div key={idx} className="nav-group flex flex-col gap-2">
+                        <div key={idx} className="nav-group flex flex-col gap-0.5">
                             {group.isSingle ? (
                                 <Link
                                     href={group.href || "#"}
-                                    onClick={() => setIsOpen(false)}
+                                    onClick={(e) => handleLinkClick(e, group.href || "#")}
                                     className="text-white text-xl md:text-2xl font-bold hover:text-white/70 transition-colors inline-block uppercase mb-1"
                                     style={{ fontFamily: "var(--font-din-condensed)", letterSpacing: "0.02em" }}
                                 >
@@ -190,7 +218,7 @@ export function Navigation() {
                                 <>
                                     <Link
                                         href={group.href || "#"}
-                                        onClick={() => setIsOpen(false)}
+                                        onClick={(e) => handleLinkClick(e, group.href || "#")}
                                         className="text-white text-xl md:text-2xl font-bold hover:text-white/70 transition-colors inline-block uppercase mb-1"
                                         style={{ fontFamily: "var(--font-din-condensed)", letterSpacing: "0.02em" }}
                                     >
@@ -201,7 +229,7 @@ export function Navigation() {
                                             <li key={itemIdx}>
                                                 <Link
                                                     href={item.href}
-                                                    onClick={() => setIsOpen(false)}
+                                                    onClick={(e) => handleLinkClick(e, item.href)}
                                                     className="text-white/80 text-lg md:text-xl font-medium hover:text-white transition-colors inline-block"
                                                     style={{ fontFamily: "var(--font-din-condensed)", letterSpacing: "0.02em" }}
                                                 >
