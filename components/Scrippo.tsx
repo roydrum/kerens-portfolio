@@ -113,20 +113,21 @@ export function Scrippo() {
         >
             {/* Heading - sticky */}
             <div
-                className="sticky top-0 z-20 mx-auto max-w-[1200px] px-6 md:px-12 pt-[8vh] pb-[4vh]"
+                className="sticky top-0 z-50 w-full pt-[8vh] pb-[4vh]"
                 style={{ background: "#ef4444" }}
             >
-                <h2
-                    ref={headingRef}
-                    className="text-white font-bold uppercase tracking-tight leading-[0.9]"
-                    style={{
-                        fontFamily: "var(--font-din-condensed)",
-                        fontSize: "clamp(3rem, 8vw, 7rem)",
-                        opacity: 0,
-                    }}
-                >
-                    Scrippo
-                </h2>
+                <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+                    <h2
+                        ref={headingRef}
+                        className="text-white font-bold uppercase tracking-tight leading-[0.9]"
+                        style={{
+                            fontFamily: "var(--font-din-condensed)",
+                            fontSize: "clamp(3rem, 8vw, 7rem)",
+                        }}
+                    >
+                        Scrippo
+                    </h2>
+                </div>
             </div>
 
             {/* Content Container - Reordered to Text Top, Images Bottom */}
@@ -218,13 +219,13 @@ export function Scrippo() {
             </div>
 
             {/* Horizontal Media Gallery - Moved out of the text container for robust pinning */}
-            <div ref={containerRef} className="relative w-full h-screen overflow-hidden flex flex-col justify-center z-30 translate-y-20">
-                <div className="absolute top-[10%] left-0 w-full flex flex-col items-center pointer-events-none z-[1]">
+            <div ref={containerRef} className="relative w-full h-screen overflow-visible flex flex-col justify-center z-30">
+                <div className="absolute top-0 left-0 w-full flex flex-col items-center pointer-events-none z-[1] translate-y-24">
                     <div className="h-[1px] w-full max-w-[1200px] bg-white/10 mb-8 opacity-50" />
                     <p className="text-white/50 text-sm uppercase tracking-widest font-semibold">Product Showcase</p>
                 </div>
 
-                <div className="w-full overflow-hidden">
+                <div className="w-full overflow-visible mt-24">
                     <div
                         ref={galleryRef}
                         className="flex flex-row items-center gap-12 px-[10vw] md:px-[20vw]"
@@ -233,20 +234,25 @@ export function Scrippo() {
                             <motion.div
                                 key={num}
                                 ref={(el: HTMLDivElement | null) => { imageRefs.current[idx] = el; }}
-                                className="relative flex-shrink-0 w-[80vw] max-w-[900px] aspect-[16/10] group/img cursor-zoom-in"
+                                className="relative flex-shrink-0 w-auto h-[60vh] md:h-[70vh] group/img cursor-zoom-in"
                                 onClick={() => setSelectedImage(`/scrippo/0${num}.png`)}
                             >
-                                <div className="w-full h-full relative">
+                                <div className="h-full relative inline-block">
                                     <img
                                         src={`/scrippo/0${num}.png`}
                                         alt={`Scrippo Interface ${num}`}
-                                        className="w-full h-full object-contain"
+                                        className="h-full w-auto object-contain block"
                                     />
-                                    {/* Hover Overlay - Removed background color to hide container */}
-                                    <div className="absolute inset-0 bg-transparent transition-colors duration-300 flex items-center justify-center pointer-events-none">
-                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-0 group-hover/img:opacity-100 transition-opacity transform scale-75 group-hover/img:scale-100 duration-300 shadow-2xl">
-                                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
-                                        </svg>
+                                    {/* Tasteful Expand Button - Top Right, Forced on top */}
+                                    <div className="absolute top-4 right-4 z-[70]">
+                                        <div className="bg-white p-1.5 rounded-full text-[#ef4444] opacity-0 group-hover/img:opacity-100 transition-all duration-300 transform translate-y-2 group-hover/img:translate-y-0 shadow-2xl">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                                <polyline points="15 3 21 3 21 9"></polyline>
+                                                <polyline points="9 21 3 21 3 15"></polyline>
+                                                <line x1="21" y1="3" x2="14" y2="10"></line>
+                                                <line x1="3" y1="21" x2="10" y2="14"></line>
+                                            </svg>
+                                        </div>
                                     </div>
                                 </div>
                             </motion.div>
