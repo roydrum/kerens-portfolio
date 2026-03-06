@@ -105,7 +105,7 @@ export function Scrippo() {
                             Scripts
                         </h3>
                         <p className="text-white/90 text-lg md:text-xl leading-relaxed">
-                            <strong>Scrippo</strong> is a tool I built from scratch - I defined the workflow, designed the UX/UI, and vibe-coded the product in Cursor (in collaboration with my husband). It’s live and already used by an agency.
+                            <strong>Scrippo</strong> is a tool I built from scratch - I defined the workflow, designed the UX/UI, and built it in Cursor. It’s live and already has users.
                         </p>
                     </div>
 
