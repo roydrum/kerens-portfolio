@@ -23,7 +23,7 @@ const MENU_LINKS = [
         category: "Creative Management",
         href: "/#creative-management",
         items: [
-            { label: "BAU paid social", href: "/creative-management/bau-paid-social" },
+            { label: "BAU paid social", href: "/#creative-management" },
             { label: "Summer 2023", href: "/creative-management/summer-2023" },
             { label: "Back to school", href: "/creative-management/back-to-school" },
             { label: "Production", href: "/creative-management/productions" },

@@ -66,26 +66,32 @@ export function Scrippo() {
                 const totalImages = validImages.length;
 
                 // Calculate how much we need to scroll horizontally
-                // We want to scroll until the last image's right edge reaches the right edge of the screen
-                // galleryRef.scrollWidth is the total width including gaps
-                // containerRef.offsetWidth is the visible window
-                const amountToScroll = galleryRef.current.scrollWidth - window.innerWidth;
+                // We want the last image's center to be at the screen's center
+                const lastImage = validImages[totalImages - 1];
+                const lastImageCenter = lastImage.offsetLeft + lastImage.offsetWidth / 2;
+                const centeringX = lastImageCenter - window.innerWidth / 2;
+                const holdDistance = 600; // Extra scroll distance to "hold" the last image
 
                 const tl = gsap.timeline({
                     scrollTrigger: {
                         trigger: containerRef.current,
-                        start: "top 10%", // Pin slightly lower than the very top
-                        end: () => `+=${amountToScroll}`,
+                        start: "top 10%",
+                        end: () => `+=${centeringX + holdDistance}`,
                         pin: true,
                         scrub: 1,
                         invalidateOnRefresh: true,
                     }
                 });
 
+                // Move to centered position
                 tl.to(galleryRef.current, {
-                    x: -amountToScroll,
-                    ease: "none"
+                    x: -centeringX,
+                    ease: "none",
+                    duration: 1
                 });
+
+                // Hold for the remaining scroll distance (0.4 relative duration)
+                tl.to({}, { duration: 0.4 });
             }
         }, sectionRef);
 

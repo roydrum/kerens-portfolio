@@ -12,61 +12,33 @@ function ScrollTriggerSync({ children }: { children: React.ReactNode }) {
   const lenis = useLenis();
   const pathname = usePathname();
 
-  // Disable browser's default scroll restoration to avoid conflicts with Lenis
-  useEffect(() => {
-    if (typeof window !== "undefined" && "scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
-  }, []);
-
-  // Handle hash scroll on route change (e.g. going back to home from a detail page)
-  useEffect(() => {
-    if (!lenis || pathname !== "/") return;
-
-    const hash = window.location.hash;
-    if (hash) {
-      // Temporarily hide the content to prevent the "flash" of the Hero section
-      document.documentElement.style.visibility = "hidden";
-
-      const scrollTarget = () => {
-        const target = document.querySelector(hash) as HTMLElement;
-        if (target) {
-          lenis.scrollTo(target, { immediate: true });
-          ScrollTrigger.refresh();
-
-          // Small buffer to let GSAP/ScrollTrigger settle
-          requestAnimationFrame(() => {
-            document.documentElement.style.visibility = "";
-          });
-          return true;
-        }
-        return false;
-      };
-
-      if (!scrollTarget()) {
-        const observer = new MutationObserver(() => {
-          if (scrollTarget()) observer.disconnect();
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
-
-        const timeout = setTimeout(() => {
-          document.documentElement.style.visibility = "";
-          observer.disconnect();
-        }, 1500);
-        return () => {
-          document.documentElement.style.visibility = "";
-          observer.disconnect();
-          clearTimeout(timeout);
-        };
-      }
-    } else {
-      // Reset visibility if no hash
-      document.documentElement.style.visibility = "";
-    }
-  }, [pathname, lenis]);
-
+  // 1. Handle Scroll-to-Anchor on Navigation
   useEffect(() => {
     if (!lenis) return;
+
+    const hash = window.location.hash;
+    if (hash && hash.length > 1) {
+      const timer = setTimeout(() => {
+        ScrollTrigger.refresh();
+        lenis.scrollTo(hash, { immediate: true, force: true });
+
+        // Safety pass
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+          lenis.scrollTo(hash, { immediate: true, force: true });
+        }, 500);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [lenis, pathname]);
+
+  // 2. Sync GSAP with Lenis
+  useEffect(() => {
+    if (!lenis) return;
+
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
 
     const root = lenis.rootElement ?? document.body;
     ScrollTrigger.scrollerProxy(root, {
@@ -78,17 +50,18 @@ function ScrollTriggerSync({ children }: { children: React.ReactNode }) {
         return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
       },
     });
-    lenis.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
+
+    const updateScrollTrigger = () => ScrollTrigger.update();
+    const updateRaf = (time: number) => lenis.raf(time * 1000);
+
+    lenis.on("scroll", updateScrollTrigger);
+    gsap.ticker.add(updateRaf);
     gsap.ticker.lagSmoothing(0);
+
     return () => {
-      lenis.off("scroll", ScrollTrigger.update);
-      lenis.destroy();
-      gsap.ticker.remove((time) => {
-        lenis.raf(time * 1000);
-      });
+      lenis.off("scroll", updateScrollTrigger);
+      gsap.ticker.remove(updateRaf);
+      // DO NOT call lenis.destroy() here as ReactLenis manages the instance
     };
   }, [lenis]);
 
