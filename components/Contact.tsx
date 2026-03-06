@@ -3,23 +3,40 @@
 import { useState } from "react";
 
 export function Contact() {
-    const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+    const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error" | "virus" | "quota">("idle");
     const [fileName, setFileName] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setStatus("submitting");
 
-        // Simulate network request since we don't have a backend yet
-        setTimeout(() => {
+        const formData = new FormData(e.currentTarget);
+
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                if (response.status === 429) setStatus("quota");
+                else if (result.error === "Virus detected in attachment") setStatus("virus");
+                else setStatus("error");
+                return;
+            }
+
             setStatus("success");
-            // Reset after showing success state
             setTimeout(() => {
                 setStatus("idle");
                 (e.target as HTMLFormElement).reset();
                 setFileName(null);
-            }, 3000);
-        }, 1500);
+            }, 5000);
+        } catch (error) {
+            console.error("Submission error:", error);
+            setStatus("error");
+        }
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -193,6 +210,8 @@ export function Contact() {
                             {status === "idle" && "Send Message"}
                             {status === "submitting" && "Sending..."}
                             {status === "success" && "Message Sent!"}
+                            {status === "virus" && "Virus Detected!"}
+                            {status === "quota" && "Capacity Reached"}
                             {status === "error" && "Error - Try Again"}
                         </button>
                     </form>
