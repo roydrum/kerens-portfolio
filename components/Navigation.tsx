@@ -10,8 +10,13 @@ gsap.registerPlugin(ScrollTrigger);
 
 const MENU_LINKS = [
     {
+        isSingle: true,
+        label: "Home",
+        href: "/",
+    },
+    {
         category: "Case Studies",
-        href: "/#case-studies",
+        href: "/case-studies",
         items: [
             { label: "Vimeo", href: "/case-studies/vimeo-create" },
             { label: "Wolt", href: "/case-studies/wolt" },
@@ -21,9 +26,9 @@ const MENU_LINKS = [
     },
     {
         category: "Creative Management",
-        href: "/#creative-management",
+        href: "/creative-management",
         items: [
-            { label: "BAU paid social", href: "/#creative-management" },
+            { label: "BAU paid social", href: "/creative-management/bau-paid-social" },
             { label: "Summer 2023", href: "/creative-management/summer-2023" },
             { label: "Back to school", href: "/creative-management/back-to-school" },
             { label: "Production", href: "/creative-management/productions" },
