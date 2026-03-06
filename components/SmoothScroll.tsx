@@ -25,18 +25,43 @@ function ScrollTriggerSync({ children }: { children: React.ReactNode }) {
 
     const hash = window.location.hash;
     if (hash) {
-      // Delay to ensure content and GSAP/ScrollTrigger are ready
-      const timer = setTimeout(() => {
+      // Temporarily hide the content to prevent the "flash" of the Hero section
+      document.documentElement.style.visibility = "hidden";
+
+      const scrollTarget = () => {
         const target = document.querySelector(hash) as HTMLElement;
         if (target) {
-          lenis.scrollTo(target, {
-            offset: 0,
-            duration: 1.5,
-            immediate: false
+          lenis.scrollTo(target, { immediate: true });
+          ScrollTrigger.refresh();
+
+          // Small buffer to let GSAP/ScrollTrigger settle
+          requestAnimationFrame(() => {
+            document.documentElement.style.visibility = "";
           });
+          return true;
         }
-      }, 500);
-      return () => clearTimeout(timer);
+        return false;
+      };
+
+      if (!scrollTarget()) {
+        const observer = new MutationObserver(() => {
+          if (scrollTarget()) observer.disconnect();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        const timeout = setTimeout(() => {
+          document.documentElement.style.visibility = "";
+          observer.disconnect();
+        }, 1500);
+        return () => {
+          document.documentElement.style.visibility = "";
+          observer.disconnect();
+          clearTimeout(timeout);
+        };
+      }
+    } else {
+      // Reset visibility if no hash
+      document.documentElement.style.visibility = "";
     }
   }, [pathname, lenis]);
 
