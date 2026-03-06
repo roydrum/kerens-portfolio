@@ -2,6 +2,7 @@
 
 import { ReactLenis, useLenis } from "lenis/react";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -9,29 +10,38 @@ gsap.registerPlugin(ScrollTrigger);
 
 function ScrollTriggerSync({ children }: { children: React.ReactNode }) {
   const lenis = useLenis();
+  const pathname = usePathname();
+
+  // Disable browser's default scroll restoration to avoid conflicts with Lenis
+  useEffect(() => {
+    if (typeof window !== "undefined" && "scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  }, []);
+
+  // Handle hash scroll on route change (e.g. going back to home from a detail page)
+  useEffect(() => {
+    if (!lenis || pathname !== "/") return;
+
+    const hash = window.location.hash;
+    if (hash) {
+      // Delay to ensure content and GSAP/ScrollTrigger are ready
+      const timer = setTimeout(() => {
+        const target = document.querySelector(hash) as HTMLElement;
+        if (target) {
+          lenis.scrollTo(target, {
+            offset: 0,
+            duration: 1.5,
+            immediate: false
+          });
+        }
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [pathname, lenis]);
 
   useEffect(() => {
     if (!lenis) return;
-
-    // Handle initial hash scroll if arriving from another page
-    const handleInitialHash = () => {
-      const hash = window.location.hash;
-      if (hash) {
-        // Small delay to ensure content and GSAP/ScrollTrigger are ready
-        setTimeout(() => {
-          const target = document.querySelector(hash) as HTMLElement;
-          if (target) {
-            lenis.scrollTo(target, {
-              offset: 0,
-              duration: 1.2,
-              immediate: false
-            });
-          }
-        }, 800);
-      }
-    };
-
-    handleInitialHash();
 
     const root = lenis.rootElement ?? document.body;
     ScrollTrigger.scrollerProxy(root, {
