@@ -4,7 +4,6 @@ import { useState } from "react";
 
 export function Contact() {
     const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error" | "virus" | "quota">("idle");
-    const [fileName, setFileName] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -31,7 +30,6 @@ export function Contact() {
             setTimeout(() => {
                 setStatus("idle");
                 (e.target as HTMLFormElement).reset();
-                setFileName(null);
             }, 5000);
         } catch (error) {
             console.error("Submission error:", error);
@@ -39,13 +37,6 @@ export function Contact() {
         }
     };
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
-            setFileName(e.target.files[0].name);
-        } else {
-            setFileName(null);
-        }
-    };
 
     const handleCVClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         // We now route to the new CV page instead of requiring an immediate PDF drop
@@ -137,8 +128,9 @@ export function Contact() {
                                     id="name"
                                     name="name"
                                     required
-                                    className="bg-transparent border-b border-white/20 pb-2 text-white text-lg placeholder:text-white/20 focus:outline-none focus:border-[#ef4444] transition-colors"
+                                    className="bg-transparent border-b border-white/20 pb-2 text-white text-lg placeholder:text-white/20 focus:outline-none focus:border-[#ef4444] transition-colors autofill:shadow-[0_0_0_1000px_#e33737_inset] autofill:text-white"
                                     placeholder="Jane Doe"
+                                    style={{ WebkitTextFillColor: "white" }}
                                 />
                             </div>
 
@@ -150,8 +142,9 @@ export function Contact() {
                                     id="email"
                                     name="email"
                                     required
-                                    className="bg-transparent border-b border-white/20 pb-2 text-white text-lg placeholder:text-white/20 focus:outline-none focus:border-[#ef4444] transition-colors"
+                                    className="bg-transparent border-b border-white/20 pb-2 text-white text-lg placeholder:text-white/20 focus:outline-none focus:border-[#ef4444] transition-colors autofill:shadow-[0_0_0_1000px_#e33737_inset] autofill:text-white"
                                     placeholder="jane@example.com"
+                                    style={{ WebkitTextFillColor: "white" }}
                                 />
                             </div>
                         </div>
@@ -182,23 +175,6 @@ export function Contact() {
                             />
                         </div>
 
-                        {/* File Upload (Optional) */}
-                        <div className="flex flex-col gap-2 mt-4">
-                            <label className="text-white/60 text-sm font-semibold uppercase tracking-wider" style={{ fontFamily: "var(--font-din-condensed)" }}>Attachment (Optional)</label>
-                            <div className="relative">
-                                <input
-                                    type="file"
-                                    id="attachment"
-                                    name="attachment"
-                                    onChange={handleFileChange}
-                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                                />
-                                <div className="flex items-center gap-3 bg-[#cf2b2b] border border-white/10 rounded-xl px-4 py-2.5 text-white/70 text-sm font-medium hover:bg-[#c02323] transition-colors">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
-                                    <span className="truncate">{fileName || "Choose a file..."}</span>
-                                </div>
-                            </div>
-                        </div>
 
                         {/* Submit Button */}
                         <button
