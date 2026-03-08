@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion, AnimatePresence } from "framer-motion";
 import { CASE_STUDIES } from "@/lib/caseStudies";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -13,10 +14,12 @@ function VideoPlayer({
     src,
     views,
     caption,
+    onClick,
 }: {
     src: string;
     views: string;
     caption?: string;
+    onClick?: () => void;
 }) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [isInView, setIsInView] = useState(false);
@@ -56,14 +59,15 @@ function VideoPlayer({
     };
 
     return (
-        <div>
+        <div className="h-full">
             <div
-                className="relative overflow-hidden rounded-xl cursor-pointer bg-white/5"
+                className="relative h-full overflow-hidden rounded-xl cursor-zoom-in bg-white/5"
                 style={{
                     boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
                 }}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
+                onClick={onClick}
             >
                 <video
                     ref={videoRef}
@@ -101,6 +105,7 @@ export default function CaseStudyPage({
 }: {
     params: Promise<{ slug: string }>;
 }) {
+    const [selectedAsset, setSelectedAsset] = useState<string | null>(null);
     const sectionRef = useRef<HTMLElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
     const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -350,12 +355,12 @@ export default function CaseStudyPage({
                     <div className="grid-gallery">
                         {detail.heroVideo && (
                             <div className="grid-gallery-item">
-                                <VideoPlayer {...detail.heroVideo} />
+                                <VideoPlayer {...detail.heroVideo} onClick={() => setSelectedAsset(detail.heroVideo!.src)} />
                             </div>
                         )}
                         {detail.iterationVideos?.map((vid, i) => (
                             <div key={i} className="grid-gallery-item">
-                                <VideoPlayer {...vid} />
+                                <VideoPlayer {...vid} onClick={() => setSelectedAsset(vid.src)} />
                             </div>
                         ))}
                     </div>
@@ -383,12 +388,21 @@ export default function CaseStudyPage({
                         Strategy Deck
                     </h3>
                     <p className="text-white/50 text-sm mb-8">{detail.deck.label}</p>
-                    <div className="grid-gallery">
+                    <div className="flex gap-5 overflow-x-auto pb-4" style={{ scrollSnapType: "x mandatory" }}>
                         {detail.deck.slides.map((slide, i) => (
-                            <div key={i} className="grid-gallery-item rounded-lg">
+                            <div
+                                key={i}
+                                className="shrink-0 rounded-lg overflow-hidden"
+                                style={{
+                                    width: "min(80vw, 600px)",
+                                    scrollSnapAlign: "start",
+                                    boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
+                                }}
+                            >
                                 <img
                                     src={slide}
                                     alt={`Strategy deck slide ${i + 1}`}
+                                    className="w-full h-auto block"
                                     loading="lazy"
                                 />
                             </div>
@@ -416,6 +430,53 @@ export default function CaseStudyPage({
                     Back to Case Studies
                 </Link>
             </div>
+
+            {/* Lightbox */}
+            <AnimatePresence>
+                {selectedAsset && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-12 cursor-zoom-out"
+                        onClick={() => setSelectedAsset(null)}
+                    >
+                        <motion.div
+                            className="relative w-full h-full flex items-center justify-center"
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                        >
+                            {selectedAsset.endsWith('.mp4') ? (
+                                <video
+                                    src={selectedAsset}
+                                    autoPlay
+                                    muted={false}
+                                    loop
+                                    controls
+                                    className="max-w-full max-h-full rounded-lg shadow-2xl"
+                                />
+                            ) : (
+                                <img
+                                    src={selectedAsset}
+                                    alt="Asset Large"
+                                    className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                                />
+                            )}
+                            <button
+                                className="absolute top-4 right-4 p-4 text-white hover:text-white/70 transition-colors"
+                                onClick={() => setSelectedAsset(null)}
+                            >
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </section>
     );
 }

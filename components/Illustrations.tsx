@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion, AnimatePresence } from "framer-motion";
 import { ILLUSTRATIONS_INTRO, ILLUSTRATION_ITEMS } from "@/lib/illustrations";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function Illustrations() {
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const sectionRef = useRef<HTMLElement>(null);
     const headingRef = useRef<HTMLHeadingElement>(null);
     const introRef = useRef<HTMLParagraphElement>(null);
@@ -98,11 +100,16 @@ export function Illustrations() {
                 {ILLUSTRATION_ITEMS.length > 0 ? (
                     <div className="grid-gallery">
                         {ILLUSTRATION_ITEMS.map((item, i) => (
-                            <div key={i} className="grid-gallery-item">
+                            <div
+                                key={i}
+                                className="grid-gallery-item cursor-zoom-in group/img"
+                                onClick={() => setSelectedImage(item.src)}
+                            >
                                 <img
                                     src={item.src}
                                     alt={item.caption || `Illustration ${i + 1}`}
                                     loading="lazy"
+                                    className="transition-transform duration-500 group-hover/img:scale-[1.05]"
                                 />
                             </div>
                         ))}
@@ -119,6 +126,42 @@ export function Illustrations() {
                     </div>
                 )}
             </div>
+
+            {/* Lightbox */}
+            <AnimatePresence>
+                {selectedImage && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-12 cursor-zoom-out"
+                        onClick={() => setSelectedImage(null)}
+                    >
+                        <motion.div
+                            className="relative w-full h-full flex items-center justify-center"
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                        >
+                            <img
+                                src={selectedImage}
+                                alt="Illustration Large"
+                                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                            />
+                            <button
+                                className="absolute top-4 right-4 p-4 text-white hover:text-white/70 transition-colors"
+                                onClick={() => setSelectedImage(null)}
+                            >
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </section>
     );
 }
