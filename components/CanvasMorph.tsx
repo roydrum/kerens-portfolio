@@ -237,7 +237,7 @@ async function loadImageData(vw: number, vh: number, isMobile: boolean) {
     const imgCanvas = document.createElement("canvas");
     const imgCtx = imgCanvas.getContext("2d", { willReadFrequently: true });
 
-    let targetHeight = Math.floor(isMobile ? vh * 0.55 : vh * 0.65);
+    let targetHeight = Math.floor(isMobile ? vh * 0.75 : vh * 0.85);
     let ratio = img.width / img.height;
     let targetWidth = Math.floor(targetHeight * ratio);
 
@@ -358,7 +358,7 @@ function buildWebGLBuffers(
     const textDensity = 1;
 
     const startXOffset = Math.floor((vw - targetW) / 2);
-    const startYOffset = Math.floor(vh - targetH + (isMobile ? vh * 0.15 : 0)); // Lower the portrait on mobile
+    const startYOffset = Math.floor(vh * 0.05); // Move much higher up
 
     const originPixels: { x: number, y: number, r: number, g: number, b: number }[] = [];
     for (let y = 0; y < imgH; y += density) {
