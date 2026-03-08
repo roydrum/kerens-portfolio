@@ -128,10 +128,6 @@ html.lenis body {
   background: rgba(255, 255, 255, 0.05);
 }
 
-.grid-gallery-item.portrait {
-  aspect-ratio: 9/16;
-}
-
 .grid-gallery-item img,
 .grid-gallery-item video {
   width: 100%;
