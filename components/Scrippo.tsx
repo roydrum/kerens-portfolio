@@ -45,10 +45,6 @@ export function Scrippo() {
     const sectionRef = useRef<HTMLElement>(null);
     const headingRef = useRef<HTMLHeadingElement>(null);
     const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
-    const galleryRef = useRef<HTMLDivElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
-    const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
-    const textRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     useEffect(() => {
         if (!sectionRef.current) return;
@@ -93,57 +89,6 @@ export function Scrippo() {
                     }
                 );
             });
-
-            // Horizontal Gallery Animation
-            const validSlides = slideRefs.current.filter((slide): slide is HTMLDivElement => slide !== null);
-            if (containerRef.current && galleryRef.current && validSlides.length > 0) {
-                const totalSlides = validSlides.length;
-
-                // Calculate total width to scroll
-                const totalWidth = galleryRef.current.scrollWidth;
-                const centeringX = totalWidth - window.innerWidth + (window.innerWidth * 0.1);
-
-                const tl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: containerRef.current,
-                        start: "top 5%",
-                        end: () => `+=${centeringX * 2}`, // Increase scroll distance for better control
-                        pin: true,
-                        scrub: 1,
-                        invalidateOnRefresh: true,
-                    }
-                });
-
-                // Instead of one big move, we break it into steps to allow "holds"
-                validSlides.forEach((slide, i) => {
-                    const textBlock = textRefs.current[i];
-
-                    // Calculate the X position needed to center this specific slide
-                    // We account for the padding/gap in the gallery
-                    const slideOffset = slide.offsetLeft;
-                    const slideWidth = slide.offsetWidth;
-                    const targetX = slideOffset - (window.innerWidth - slideWidth) / 2;
-
-                    // Move to this slide
-                    tl.to(galleryRef.current, {
-                        x: -targetX,
-                        ease: "power2.inOut",
-                        duration: 1
-                    });
-
-                    // Hold this slide (text animation happens during transition/hold)
-                    if (textBlock) {
-                        tl.fromTo(textBlock,
-                            { opacity: 0, x: 30 },
-                            { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" },
-                            "-=0.5" // Start slightly before reaching the center
-                        );
-                    }
-
-                    // Explicit hold duration
-                    tl.to({}, { duration: 0.8 });
-                });
-            }
         }, sectionRef);
 
         return () => ctx.revert();
@@ -242,71 +187,56 @@ export function Scrippo() {
                 </div>
             </div>
 
-            {/* Horizontal Media Gallery */}
-            <div ref={containerRef} className="relative w-full h-[115vh] overflow-visible flex flex-col justify-start pt-[15vh] z-30">
+            {/* Grid Gallery */}
+            <div className="mx-auto max-w-[1200px] px-6 md:px-12 pb-[12vh]">
                 <div className="absolute top-0 left-0 w-full flex flex-col items-center pointer-events-none z-[1] translate-y-24">
                     <div className="h-[1px] w-full max-w-[1200px] bg-white/10 mb-8 opacity-50" />
                     <p className="text-white/50 text-sm uppercase tracking-widest font-semibold text-center">Product Features</p>
                 </div>
 
-                <div className="w-full overflow-visible mt-32">
-                    <div
-                        ref={galleryRef}
-                        className="flex flex-row items-center gap-[40vw] px-[30vw]"
-                    >
-                        {SCRIPPO_ITEMS.map((item, idx) => (
+                <div className="grid-gallery mt-32">
+                    {SCRIPPO_ITEMS.map((item, idx) => (
+                        <div key={item.num} className="flex flex-col gap-4">
                             <div
-                                key={item.num}
-                                ref={(el: HTMLDivElement | null) => { slideRefs.current[idx] = el; }}
-                                className="flex-shrink-0 flex flex-col lg:flex-row items-center lg:items-center gap-6 lg:gap-16"
+                                className="grid-gallery-item group/img cursor-zoom-in rounded-lg shadow-xl"
+                                onClick={() => setSelectedImage(`/scrippo/${item.num}.png`)}
                             >
-                                {/* Image Container */}
-                                <div
-                                    className="relative flex-shrink-0 w-auto h-[45vh] lg:h-[55vh] group/img cursor-zoom-in"
-                                    onClick={() => setSelectedImage(`/scrippo/${item.num}.png`)}
-                                >
-                                    <div className="h-full relative inline-block">
-                                        <img
-                                            src={`/scrippo/${item.num}.png`}
-                                            alt={item.title}
-                                            className="h-full w-auto object-contain block rounded-lg shadow-2xl transition-transform duration-500 group-hover/img:scale-[1.02]"
-                                        />
-                                        <div className="absolute top-4 right-4 z-[70]">
-                                            <div className="bg-white p-1.5 rounded-full text-[#ef4444] opacity-0 group-hover/img:opacity-100 transition-all duration-300 transform translate-y-2 group-hover/img:translate-y-0 shadow-2xl">
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                                    <polyline points="15 3 21 3 21 9"></polyline>
-                                                    <polyline points="9 21 3 21 3 15"></polyline>
-                                                    <line x1="21" y1="3" x2="14" y2="10"></line>
-                                                    <line x1="3" y1="21" x2="10" y2="14"></line>
-                                                </svg>
-                                            </div>
-                                        </div>
+                                <img
+                                    src={`/scrippo/${item.num}.png`}
+                                    alt={item.title}
+                                    className="transition-transform duration-500 group-hover/img:scale-[1.05]"
+                                />
+                                {/* Overlay for mobile/desktop hint */}
+                                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                    <div className="bg-white p-2 rounded-full text-[#ef4444] shadow-2xl scale-75 group-hover/img:scale-100 transition-transform duration-300">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                            <polyline points="15 3 21 3 21 9"></polyline>
+                                            <polyline points="9 21 3 21 3 15"></polyline>
+                                            <line x1="21" y1="3" x2="14" y2="10"></line>
+                                            <line x1="3" y1="21" x2="10" y2="14"></line>
+                                        </svg>
                                     </div>
-                                </div>
-
-                                {/* Text Container */}
-                                <div
-                                    ref={(el: HTMLDivElement | null) => { textRefs.current[idx] = el; }}
-                                    className="max-w-[380px] flex flex-col gap-3 md:gap-5 text-white"
-                                >
-                                    <div className="flex items-center gap-4">
-                                        <span className="text-white/40 font-bold text-xl" style={{ fontFamily: "var(--font-din-condensed)" }}>{item.num}</span>
-                                        <div className="h-[1px] w-10 bg-white/20" />
-                                        <span className="text-white/60 uppercase tracking-[0.2em] text-[10px] font-black">{item.title}</span>
-                                    </div>
-                                    <h3
-                                        className="text-white font-bold uppercase tracking-tight leading-[1.1]"
-                                        style={{ fontFamily: "var(--font-din-condensed)", fontSize: "clamp(1.8rem, 6vw, 3.2rem)" }}
-                                    >
-                                        {item.heading}
-                                    </h3>
-                                    <p className="text-white/90 text-sm md:text-base leading-relaxed font-medium">
-                                        {item.text}
-                                    </p>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+
+                            {/* Feature Text */}
+                            <div className="flex flex-col gap-2 px-1">
+                                <div className="flex items-center gap-3">
+                                    <span className="text-white/40 font-bold text-sm" style={{ fontFamily: "var(--font-din-condensed)" }}>{item.num}</span>
+                                    <span className="text-white/60 uppercase tracking-[0.15em] text-[9px] font-black">{item.title}</span>
+                                </div>
+                                <h3
+                                    className="text-white font-bold uppercase tracking-tight leading-tight"
+                                    style={{ fontFamily: "var(--font-din-condensed)", fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)" }}
+                                >
+                                    {item.heading}
+                                </h3>
+                                <p className="text-white/80 text-xs md:text-sm leading-relaxed line-clamp-3">
+                                    {item.text}
+                                </p>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
 

@@ -96,13 +96,12 @@ export function Illustrations() {
 
             <div className="mx-auto max-w-[1200px] px-6 md:px-12 pb-[12vh]">
                 {ILLUSTRATION_ITEMS.length > 0 ? (
-                    <div className="hive-gallery">
+                    <div className="grid-gallery">
                         {ILLUSTRATION_ITEMS.map((item, i) => (
-                            <div key={i} className="hive-cell">
+                            <div key={i} className="grid-gallery-item">
                                 <img
                                     src={item.src}
                                     alt={item.caption || `Illustration ${i + 1}`}
-                                    style={{ width: "100%", height: "auto", display: "block" }}
                                     loading="lazy"
                                 />
                             </div>

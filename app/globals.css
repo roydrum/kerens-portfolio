@@ -112,3 +112,32 @@ html.lenis body {
 .hive-placeholder-icon {
   color: rgba(255, 255, 255, 0.2);
 }
+
+/* ─── Grid Gallery (Instagram Style) ─── */
+.grid-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.grid-gallery-item {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.grid-gallery-item img,
+.grid-gallery-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .grid-gallery {
+    gap: 4px;
+  }
+}

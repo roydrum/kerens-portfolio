@@ -347,12 +347,16 @@ export default function CaseStudyPage({
                     >
                         Assets
                     </h3>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div className="grid-gallery">
                         {detail.heroVideo && (
-                            <VideoPlayer {...detail.heroVideo} />
+                            <div className="grid-gallery-item">
+                                <VideoPlayer {...detail.heroVideo} />
+                            </div>
                         )}
                         {detail.iterationVideos?.map((vid, i) => (
-                            <VideoPlayer key={i} {...vid} />
+                            <div key={i} className="grid-gallery-item">
+                                <VideoPlayer {...vid} />
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -379,21 +383,12 @@ export default function CaseStudyPage({
                         Strategy Deck
                     </h3>
                     <p className="text-white/50 text-sm mb-8">{detail.deck.label}</p>
-                    <div className="flex gap-5 overflow-x-auto pb-4" style={{ scrollSnapType: "x mandatory" }}>
+                    <div className="grid-gallery">
                         {detail.deck.slides.map((slide, i) => (
-                            <div
-                                key={i}
-                                className="shrink-0 rounded-lg overflow-hidden"
-                                style={{
-                                    width: "min(80vw, 600px)",
-                                    scrollSnapAlign: "start",
-                                    boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
-                                }}
-                            >
+                            <div key={i} className="grid-gallery-item rounded-lg">
                                 <img
                                     src={slide}
                                     alt={`Strategy deck slide ${i + 1}`}
-                                    className="w-full h-auto block"
                                     loading="lazy"
                                 />
                             </div>
