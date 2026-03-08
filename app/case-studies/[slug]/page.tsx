@@ -354,12 +354,12 @@ export default function CaseStudyPage({
                     </h3>
                     <div className="grid-gallery">
                         {detail.heroVideo && (
-                            <div className="grid-gallery-item">
+                            <div className="grid-gallery-item portrait">
                                 <VideoPlayer {...detail.heroVideo} onClick={() => setSelectedAsset(detail.heroVideo!.src)} />
                             </div>
                         )}
                         {detail.iterationVideos?.map((vid, i) => (
-                            <div key={i} className="grid-gallery-item">
+                            <div key={i} className="grid-gallery-item portrait">
                                 <VideoPlayer {...vid} onClick={() => setSelectedAsset(vid.src)} />
                             </div>
                         ))}
