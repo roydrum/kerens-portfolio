@@ -89,6 +89,22 @@ export function Scrippo() {
                     }
                 );
             });
+
+            // Snapping for feature items
+            const items = gsap.utils.toArray(".scrippo-snap-item");
+            items.forEach((item: any) => {
+                ScrollTrigger.create({
+                    trigger: item,
+                    start: "top center",
+                    end: "bottom center",
+                    snap: {
+                        snapTo: 1,
+                        duration: { min: 0.2, max: 0.5 },
+                        delay: 0,
+                        ease: "power2.inOut"
+                    }
+                });
+            });
         }, sectionRef);
 
         return () => ctx.revert();
@@ -187,57 +203,65 @@ export function Scrippo() {
                 </div>
             </div>
 
-            {/* Grid Gallery */}
-            <div className="mx-auto max-w-[1200px] px-6 md:px-12 pb-[12vh]">
-                <div className="absolute top-0 left-0 w-full flex flex-col items-center pointer-events-none z-[1] translate-y-24">
-                    <div className="h-[1px] w-full max-w-[1200px] bg-white/10 mb-8 opacity-50" />
-                    <p className="text-white/50 text-sm uppercase tracking-widest font-semibold text-center">Product Features</p>
-                </div>
+            {/* Vertical Desktop-style Scroller */}
+            <div
+                className="mx-auto max-w-[1400px] px-4 md:px-12 pb-[12vh] flex flex-col gap-32"
+                style={{ scrollSnapType: "y mandatory" }}
+            >
+                {SCRIPPO_ITEMS.map((item, idx) => (
+                    <div
+                        key={item.num}
+                        className="flex flex-col items-center gap-12 w-full scrippo-snap-item"
+                        style={{ scrollSnapAlign: "center" }}
+                    >
+                        {/* Desktop Shortcut Image */}
+                        <div
+                            className="relative group/img cursor-zoom-in rounded-2xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] overflow-hidden border border-white/10 bg-black/20"
+                            style={{
+                                width: "min(92vw, 1100px)",
+                            }}
+                            onClick={() => setSelectedImage(`/scrippo/${item.num}.png`)}
+                        >
+                            <img
+                                src={`/scrippo/${item.num}.png`}
+                                alt={item.title}
+                                className="w-full h-auto transition-transform duration-700 group-hover/img:scale-[1.02]"
+                            />
 
-                <div className="grid-gallery mt-32">
-                    {SCRIPPO_ITEMS.map((item, idx) => (
-                        <div key={item.num} className="flex flex-col gap-4">
-                            <div
-                                className="grid-gallery-item group/img cursor-zoom-in rounded-lg shadow-xl"
-                                onClick={() => setSelectedImage(`/scrippo/${item.num}.png`)}
-                            >
-                                <img
-                                    src={`/scrippo/${item.num}.png`}
-                                    alt={item.title}
-                                    className="transition-transform duration-500 group-hover/img:scale-[1.05]"
-                                />
-                                {/* Overlay for mobile/desktop hint */}
-                                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                    <div className="bg-white p-2 rounded-full text-[#ef4444] shadow-2xl scale-75 group-hover/img:scale-100 transition-transform duration-300">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                            <polyline points="15 3 21 3 21 9"></polyline>
-                                            <polyline points="9 21 3 21 3 15"></polyline>
-                                            <line x1="21" y1="3" x2="14" y2="10"></line>
-                                            <line x1="3" y1="21" x2="10" y2="14"></line>
-                                        </svg>
-                                    </div>
+                            {/* Overlay Hint */}
+                            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div className="bg-white/10 backdrop-blur-md p-4 rounded-full text-white shadow-2xl scale-75 group-hover/img:scale-100 transition-transform duration-300">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <polyline points="9 21 3 21 3 15"></polyline>
+                                        <line x1="21" y1="3" x2="14" y2="10"></line>
+                                        <line x1="3" y1="21" x2="10" y2="14"></line>
+                                    </svg>
                                 </div>
-                            </div>
-
-                            {/* Feature Text */}
-                            <div className="flex flex-col gap-2 px-1">
-                                <div className="flex items-center gap-3">
-                                    <span className="text-white/40 font-bold text-sm" style={{ fontFamily: "var(--font-din-condensed)" }}>{item.num}</span>
-                                    <span className="text-white/60 uppercase tracking-[0.15em] text-[9px] font-black">{item.title}</span>
-                                </div>
-                                <h3
-                                    className="text-white font-bold uppercase tracking-tight leading-tight"
-                                    style={{ fontFamily: "var(--font-din-condensed)", fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)" }}
-                                >
-                                    {item.heading}
-                                </h3>
-                                <p className="text-white/80 text-xs md:text-sm leading-relaxed line-clamp-3">
-                                    {item.text}
-                                </p>
                             </div>
                         </div>
-                    ))}
-                </div>
+
+                        {/* Feature Text - Centered beneath */}
+                        <div className="flex flex-col items-center text-center max-w-[800px] px-6">
+                            <div className="flex items-center gap-4 mb-3">
+                                <span className="text-white/30 font-bold text-2xl" style={{ fontFamily: "var(--font-din-condensed)" }}>{item.num}</span>
+                                <span className="text-white/50 uppercase tracking-[0.3em] text-xs font-black">{item.title}</span>
+                            </div>
+                            <h3
+                                className="text-white font-bold uppercase tracking-tight leading-tight mb-4"
+                                style={{
+                                    fontFamily: "var(--font-din-condensed)",
+                                    fontSize: "clamp(2rem, 5vw, 3.5rem)"
+                                }}
+                            >
+                                {item.heading}
+                            </h3>
+                            <p className="text-white/80 text-lg md:text-xl leading-relaxed">
+                                {item.text}
+                            </p>
+                        </div>
+                    </div>
+                ))}
             </div>
 
             {/* Lightbox */}
