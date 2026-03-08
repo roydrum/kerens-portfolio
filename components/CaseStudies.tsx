@@ -170,14 +170,14 @@ export function CaseStudies() {
                                     }}
                                 />
 
-                                <div className="flex flex-col md:flex-row gap-4 md:gap-12 pb-10 md:pb-14">
+                                <div className="flex flex-col md:flex-row gap-4 md:gap-12 pb-6 md:pb-14">
                                     {/* Number */}
                                     <div className="case-number shrink-0">
                                         <span
                                             className="text-white/30 font-bold leading-none"
                                             style={{
                                                 fontFamily: "var(--font-din-condensed)",
-                                                fontSize: "clamp(2.5rem, 5vw, 4rem)",
+                                                fontSize: "clamp(1.8rem, 4vw, 4rem)",
                                             }}
                                         >
                                             {study.number}

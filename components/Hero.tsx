@@ -191,7 +191,7 @@ export function Hero() {
         <div className="flex flex-col items-start md:col-start-[3] md:col-span-12 md:row-start-[4] mt-[5vh] md:mt-0 z-10">
           <span
             ref={kerenRef}
-            className="text-white text-[clamp(7rem,35vw,22vw)] md:text-[23vw] font-bold uppercase leading-[0.8] tracking-tighter select-none"
+            className="text-white text-[clamp(4.5rem,28vw,22vw)] md:text-[23vw] font-bold uppercase leading-[0.8] tracking-tighter select-none"
             style={{ fontFamily: 'var(--font-din-condensed)' }}
           >
             Keren
@@ -199,7 +199,7 @@ export function Hero() {
         </div>
         <span
           ref={boshiRef}
-          className="text-white text-[clamp(7rem,35vw,22vw)] md:text-[23vw] font-bold uppercase leading-[0.8] tracking-tighter select-none self-end md:self-start md:col-start-[14] md:row-start-[6] -translate-x-2 md:translate-x-0 -translate-y-[10vh] md:translate-y-0 z-10"
+          className="text-white text-[clamp(4.5rem,28vw,22vw)] md:text-[23vw] font-bold uppercase leading-[0.8] tracking-tighter select-none self-end md:self-start md:col-start-[14] md:row-start-[6] -translate-x-2 md:translate-x-0 -translate-y-[5vh] md:translate-y-0 z-10"
           style={{ fontFamily: 'var(--font-din-condensed)' }}
         >
           Boshi

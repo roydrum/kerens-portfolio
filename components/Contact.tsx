@@ -181,7 +181,7 @@ export function Contact() {
                         <button
                             type="submit"
                             disabled={status === "submitting" || status === "success"}
-                            className="mt-6 flex justify-center items-center bg-white text-[#ef4444] px-6 py-3 rounded-full font-bold text-lg hover:bg-[#0a0a0a] hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed uppercase shadow-sm"
+                            className="mt-6 flex justify-center items-center bg-white text-[#ef4444] px-6 py-3 rounded-full font-bold text-lg hover:bg-[#0a0a0a] hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed uppercase shadow-sm w-full sm:w-auto"
                             style={{ fontFamily: "var(--font-din-condensed)", letterSpacing: "0.05em" }}
                         >
                             {status === "idle" && "Send Message"}

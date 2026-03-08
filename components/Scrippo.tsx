@@ -258,7 +258,7 @@ export function Scrippo() {
                             <div
                                 key={item.num}
                                 ref={(el: HTMLDivElement | null) => { slideRefs.current[idx] = el; }}
-                                className="flex-shrink-0 flex flex-col lg:flex-row items-center lg:items-center gap-12 lg:gap-16"
+                                className="flex-shrink-0 flex flex-col lg:flex-row items-center lg:items-center gap-6 lg:gap-16"
                             >
                                 {/* Image Container */}
                                 <div
@@ -287,7 +287,7 @@ export function Scrippo() {
                                 {/* Text Container */}
                                 <div
                                     ref={(el: HTMLDivElement | null) => { textRefs.current[idx] = el; }}
-                                    className="max-w-[380px] flex flex-col gap-5 text-white"
+                                    className="max-w-[380px] flex flex-col gap-3 md:gap-5 text-white"
                                 >
                                     <div className="flex items-center gap-4">
                                         <span className="text-white/40 font-bold text-xl" style={{ fontFamily: "var(--font-din-condensed)" }}>{item.num}</span>
@@ -296,7 +296,7 @@ export function Scrippo() {
                                     </div>
                                     <h3
                                         className="text-white font-bold uppercase tracking-tight leading-[1.1]"
-                                        style={{ fontFamily: "var(--font-din-condensed)", fontSize: "clamp(2rem, 4vw, 3.2rem)" }}
+                                        style={{ fontFamily: "var(--font-din-condensed)", fontSize: "clamp(1.8rem, 6vw, 3.2rem)" }}
                                     >
                                         {item.heading}
                                     </h3>
@@ -345,6 +345,6 @@ export function Scrippo() {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </section>
+        </section >
     );
 }

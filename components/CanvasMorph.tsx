@@ -279,7 +279,7 @@ function loadTextData(vw: number, vh: number, isMobile: boolean): {
     if (textCtx) {
         const subtitleText = "SENIOR CREATIVE STRATEGIST";
 
-        const kerenFontSizePx = Math.floor(isMobile ? Math.min(Math.max(112, vw * 0.35), 352) : vw * 0.23);
+        const kerenFontSizePx = Math.floor(isMobile ? Math.min(Math.max(80, vw * 0.28), 280) : vw * 0.23);
         textCtx.font = `bold ${kerenFontSizePx}px 'DIN Condensed', Impact, sans-serif`;
         textCtx.textBaseline = "top";
         textCtx.letterSpacing = `${-0.05 * kerenFontSizePx}px`;
@@ -294,8 +294,8 @@ function loadTextData(vw: number, vh: number, isMobile: boolean): {
         let startX, startY;
         if (isMobile) {
             startX = 16;
-            const kerenHeight = Math.min(Math.max(112, vw * 0.35), 352) * 0.8;
-            startY = vh * 0.05 + kerenHeight + 8;
+            const kerenHeight = Math.min(Math.max(80, vw * 0.28), 280) * 0.8;
+            startY = vh * 0.08 + kerenHeight + 12; // Push subtitle down more on mobile
         } else {
             textCtx.font = `bold ${kerenFontSizePx}px 'DIN Condensed', Impact, sans-serif`;
             textCtx.letterSpacing = `${-0.05 * kerenFontSizePx}px`;
@@ -358,7 +358,7 @@ function buildWebGLBuffers(
     const textDensity = 1;
 
     const startXOffset = Math.floor((vw - targetW) / 2);
-    const startYOffset = Math.floor(vh - targetH + (isMobile ? vh * 0.05 : 0));
+    const startYOffset = Math.floor(vh - targetH + (isMobile ? vh * 0.15 : 0)); // Lower the portrait on mobile
 
     const originPixels: { x: number, y: number, r: number, g: number, b: number }[] = [];
     for (let y = 0; y < imgH; y += density) {
