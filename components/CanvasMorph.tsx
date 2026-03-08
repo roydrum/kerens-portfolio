@@ -358,7 +358,7 @@ function buildWebGLBuffers(
     const textDensity = 1;
 
     const startXOffset = Math.floor((vw - targetW) / 2);
-    const startYOffset = Math.floor(vh * 0.05); // Move much higher up
+    const startYOffset = Math.floor(vh * 0.15); // Move down a bit for balance
 
     const originPixels: { x: number, y: number, r: number, g: number, b: number }[] = [];
     for (let y = 0; y < imgH; y += density) {
