@@ -93,6 +93,23 @@ export function Scrippo() {
             // Snapping for feature items
             const items = gsap.utils.toArray(".scrippo-snap-item");
             items.forEach((item: any) => {
+                // Entrance animation from right
+                gsap.fromTo(
+                    item,
+                    { x: 100, opacity: 0 },
+                    {
+                        x: 0,
+                        opacity: 1,
+                        duration: 1,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top 90%", // Start early for a smooth entrance
+                            toggleActions: "play none none none",
+                        }
+                    }
+                );
+
                 ScrollTrigger.create({
                     trigger: item,
                     start: "top center",
