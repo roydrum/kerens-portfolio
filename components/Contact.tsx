@@ -131,9 +131,8 @@ export function Contact() {
                                     id="name"
                                     name="name"
                                     required
-                                    className="bg-transparent border-b border-white/20 pb-2 text-white text-lg placeholder:text-white/20 focus:outline-none focus:border-[#ef4444] transition-colors autofill:shadow-[0_0_0_1000px_#e33737_inset] autofill:text-white"
+                                    className="bg-transparent border-b border-white/20 pb-2 text-white text-lg placeholder:text-white/40 focus:outline-none focus:border-white transition-all duration-300 autofill:shadow-[0_0_0_1000px_#e33737_inset] autofill:text-white placeholder:transition-opacity focus:placeholder:opacity-0"
                                     placeholder="Jane Doe"
-                                    style={{ WebkitTextFillColor: "white" }}
                                 />
                             </div>
 
@@ -145,9 +144,8 @@ export function Contact() {
                                     id="email"
                                     name="email"
                                     required
-                                    className="bg-transparent border-b border-white/20 pb-2 text-white text-lg placeholder:text-white/20 focus:outline-none focus:border-[#ef4444] transition-colors autofill:shadow-[0_0_0_1000px_#e33737_inset] autofill:text-white"
+                                    className="bg-transparent border-b border-white/20 pb-2 text-white text-lg placeholder:text-white/40 focus:outline-none focus:border-white transition-all duration-300 autofill:shadow-[0_0_0_1000px_#e33737_inset] autofill:text-white placeholder:transition-opacity focus:placeholder:opacity-0"
                                     placeholder="jane@example.com"
-                                    style={{ WebkitTextFillColor: "white" }}
                                 />
                             </div>
                         </div>
@@ -160,7 +158,7 @@ export function Contact() {
                                 id="subject"
                                 name="subject"
                                 required
-                                className="bg-transparent border-b border-white/20 pb-2 text-white text-lg placeholder:text-white/20 focus:outline-none focus:border-[#ef4444] transition-colors"
+                                className="bg-transparent border-b border-white/20 pb-2 text-white text-lg placeholder:text-white/40 focus:outline-none focus:border-white transition-all duration-300 placeholder:transition-opacity focus:placeholder:opacity-0"
                                 placeholder="What's this about?"
                             />
                         </div>
@@ -173,7 +171,7 @@ export function Contact() {
                                 name="message"
                                 required
                                 rows={4}
-                                className="bg-transparent border-b border-white/20 pb-2 text-white text-lg placeholder:text-white/20 focus:outline-none focus:border-[#ef4444] transition-colors resize-none"
+                                className="bg-transparent border-b border-white/20 pb-2 text-white text-lg placeholder:text-white/40 focus:outline-none focus:border-white transition-all duration-300 resize-none placeholder:transition-opacity focus:placeholder:opacity-0"
                                 placeholder="Tell me more..."
                             />
                         </div>

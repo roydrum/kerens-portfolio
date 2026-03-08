@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, use } from "react";
+import { useState, useEffect, useRef, use } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
@@ -19,6 +19,27 @@ function VideoPlayer({
     caption?: string;
 }) {
     const videoRef = useRef<HTMLVideoElement>(null);
+    const [isInView, setIsInView] = useState(false);
+
+    // Derived poster path
+    const poster = src.includes('/videos/')
+        ? src.replace('/videos/', '/videos/').split('/').slice(0, -1).join('/') + '/posters/' + src.split('/').pop()?.replace('.mp4', '.jpg')
+        : undefined;
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsInView(true);
+                    observer.disconnect();
+                }
+            },
+            { rootMargin: "200px" }
+        );
+
+        if (videoRef.current) observer.observe(videoRef.current);
+        return () => observer.disconnect();
+    }, [src]);
 
     const handleMouseEnter = () => {
         const v = videoRef.current;
@@ -37,7 +58,7 @@ function VideoPlayer({
     return (
         <div>
             <div
-                className="relative overflow-hidden rounded-xl cursor-pointer"
+                className="relative overflow-hidden rounded-xl cursor-pointer bg-white/5"
                 style={{
                     boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
                 }}
@@ -46,13 +67,18 @@ function VideoPlayer({
             >
                 <video
                     ref={videoRef}
-                    src={src}
+                    src={isInView ? src : undefined}
+                    poster={poster}
                     muted
                     loop
                     playsInline
-                    preload="metadata"
-                    className="w-full block"
-                    style={{ aspectRatio: "9/16", objectFit: "cover" }}
+                    preload={isInView ? "metadata" : "none"}
+                    className="w-full block transition-opacity duration-500"
+                    style={{
+                        aspectRatio: "9/16",
+                        objectFit: "cover",
+                        opacity: isInView ? 1 : 0.5
+                    }}
                 />
                 {/* View count badge */}
                 <div
