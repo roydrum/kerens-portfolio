@@ -98,11 +98,11 @@ export function Illustrations() {
 
             <div className="mx-auto max-w-[1200px] px-6 md:px-12 pb-[12vh]">
                 {ILLUSTRATION_ITEMS.length > 0 ? (
-                    <div className="grid-gallery">
+                    <div className="hive-gallery">
                         {ILLUSTRATION_ITEMS.map((item, i) => (
                             <div
                                 key={i}
-                                className="grid-gallery-item cursor-zoom-in group/img"
+                                className="hive-cell cursor-zoom-in group/img"
                                 onClick={() => setSelectedImage(item.src)}
                             >
                                 <img

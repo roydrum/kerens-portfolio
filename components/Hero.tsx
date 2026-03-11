@@ -5,8 +5,83 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CanvasMorph, TextLayout } from "./CanvasMorph";
 import { AsteriskReveal } from "./AsteriskReveal";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
+
+function MobileHero() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <section
+      className="relative w-full flex flex-col items-center pt-[15vh] pb-[10vh] overflow-hidden"
+      style={{
+        backgroundColor: "#ffd0d0",
+        "--scroll-offset": `${scrollY}px`
+      } as React.CSSProperties}
+      aria-label="Hero Mobile"
+    >
+      {/* Halftone Background Layer (User PNG) */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none opacity-[0.26] bg-no-repeat bg-top"
+        style={{
+          backgroundImage: "url('/dots.png')",
+          backgroundSize: "100% auto",
+          height: "300%",
+          top: "-50%",
+          transform: `translateY(calc(var(--scroll-offset) * -0.5))`
+        }}
+      />
+
+      {/* Circular Portrait */}
+      <div className="relative z-10 w-[65vw] max-w-[300px] aspect-square rounded-full overflow-hidden mb-8">
+        <Image
+          src="/HeroProfile.png"
+          alt="Keren Boshi"
+          width={800}
+          height={800}
+          className="w-full h-full object-cover object-top"
+          priority
+        />
+      </div>
+
+      {/* Centered Typography */}
+      <div className="relative z-10 flex flex-col items-center w-full px-6">
+        <h1
+          className="text-white font-bold uppercase leading-[0.9] tracking-tighter text-center"
+          style={{ fontFamily: 'var(--font-din-condensed)', fontSize: '16vw' }}
+        >
+          KEREN BOSHI
+        </h1>
+
+        {/* Subtitle with Red Bar Background */}
+        <div className="bg-[#cf504c] px-6 py-2 mt-4 inline-flex items-center gap-3">
+          <span
+            className="font-bold text-white leading-none translate-y-[0.15em]"
+            style={{ fontSize: '2rem', fontFamily: 'var(--font-din-condensed)' }}
+          >
+            *
+          </span>
+          <span
+            className="text-white font-bold tracking-widest uppercase leading-none translate-y-[0.2em]"
+            style={{ fontFamily: 'var(--font-din-condensed)', fontSize: '1.1rem' }}
+          >
+            CREATIVE STRATEGIST
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -22,6 +97,17 @@ export function Hero() {
 
   const [textLayout, setTextLayout] = useState<TextLayout | null>(null);
 
+  const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Phase 4: progress ref (GSAP writes, R3F reads per-frame)
   const phase4ProgressRef = useRef(0);
   const [phase4Active, setPhase4Active] = useState(false);
@@ -34,7 +120,7 @@ export function Hero() {
   }, []);
 
   useEffect(() => {
-    if (!textLayout) return;
+    if (!textLayout || isMobile) return;
 
     const initAnimations = async () => {
       await document.fonts.load("bold 12px 'DIN Condensed'");
@@ -173,25 +259,29 @@ export function Hero() {
 
     setTimeout(initAnimations, 150);
 
-  }, [textLayout]);
+  }, [textLayout, isMobile]);
+
+  if (!mounted) return <section style={{ height: "100vh" }} />;
+
+  if (isMobile) return <MobileHero />;
 
   return (
     <section
       ref={containerRef}
       className="relative w-full overflow-hidden"
-      style={{ height: "450vh" }}
+      style={{ height: "450vh", backgroundColor: "#ffd0d0" }}
       aria-label="Hero"
     >
 
 
-      <div ref={graphPaperRef} className="fixed inset-0 z-0 bg-graph-paper" />
+      <div ref={graphPaperRef} className="fixed inset-0 z-0 bg-hero-grid-v2" />
 
       {/* Structural Grid Layout */}
       <div ref={textGridRef} className="fixed inset-0 pointer-events-none flex flex-col md:grid md:grid-cols-[repeat(24,minmax(0,1fr))] md:auto-rows-[calc(100vw/24)] p-4 md:p-0 justify-between pb-[10vh] md:pb-0 z-10 w-full h-full">
         <div className="flex flex-col items-start md:col-start-[3] md:col-span-12 md:row-start-[4] mt-[5vh] md:mt-0 z-10">
           <span
             ref={kerenRef}
-            className="text-white text-[clamp(4.5rem,28vw,22vw)] md:text-[23vw] font-bold uppercase leading-[0.8] tracking-tighter select-none"
+            className="text-white text-[clamp(6rem,35vw,22vw)] md:text-[23vw] font-bold uppercase leading-[0.8] tracking-tighter select-none"
             style={{ fontFamily: 'var(--font-din-condensed)' }}
           >
             Keren
@@ -199,7 +289,7 @@ export function Hero() {
         </div>
         <span
           ref={boshiRef}
-          className="text-white text-[clamp(4.5rem,28vw,22vw)] md:text-[23vw] font-bold uppercase leading-[0.8] tracking-tighter select-none self-end md:self-start md:col-start-[14] md:row-start-[6] -translate-x-2 md:translate-x-0 -translate-y-[5vh] md:translate-y-0 z-10"
+          className="text-white text-[clamp(6rem,35vw,22vw)] md:text-[23vw] font-bold uppercase leading-[0.8] tracking-tighter select-none self-end md:self-start md:col-start-[14] md:row-start-[6] -translate-x-2 md:translate-x-0 -translate-y-[5vh] md:translate-y-0 z-10"
           style={{ fontFamily: 'var(--font-din-condensed)' }}
         >
           Boshi

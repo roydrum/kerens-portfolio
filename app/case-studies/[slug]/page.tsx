@@ -352,23 +352,12 @@ export default function CaseStudyPage({
                     >
                         Assets
                     </h3>
-                    <div className="grid-gallery">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                         {detail.heroVideo && (
-                            <div
-                                className="grid-gallery-item"
-                                style={{ aspectRatio: '9/16' }}
-                            >
-                                <VideoPlayer {...detail.heroVideo} onClick={() => setSelectedAsset(detail.heroVideo!.src)} />
-                            </div>
+                            <VideoPlayer {...detail.heroVideo} onClick={() => setSelectedAsset(detail.heroVideo!.src)} />
                         )}
                         {detail.iterationVideos?.map((vid, i) => (
-                            <div
-                                key={i}
-                                className="grid-gallery-item"
-                                style={{ aspectRatio: '9/16' }}
-                            >
-                                <VideoPlayer {...vid} onClick={() => setSelectedAsset(vid.src)} />
-                            </div>
+                            <VideoPlayer key={i} {...vid} onClick={() => setSelectedAsset(vid.src)} />
                         ))}
                     </div>
                 </div>

@@ -10,7 +10,7 @@
 }
 
 :root {
-  --background: #ffffff;
+  --background: #ffd0d0;
   --foreground: #171717;
   --font-din-condensed: "DIN Condensed", "Barlow Condensed", sans-serif;
 }
@@ -33,16 +33,15 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
 
-/* Red Graph Paper pattern */
-.bg-graph-paper {
-  background-color: #ffcccc;
-  background-image:
-    linear-gradient(90deg, #ff0000 1px, transparent 1px),
-    linear-gradient(#ff0000 1px, transparent 1px);
-  background-size: calc(100vw / 24) calc(100vw / 24);
+html {
+  overflow-x: hidden;
 }
+
+
+
 
 /* Lenis smooth scroll integration */
 html.lenis,
@@ -140,4 +139,12 @@ html.lenis body {
   .grid-gallery {
     gap: 4px;
   }
+}
+
+/* ─── Hero Graph Paper Background ─── */
+.bg-hero-grid-v2 {
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(239, 68, 68, 0.4) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(239, 68, 68, 0.4) 1px, transparent 1px);
 }

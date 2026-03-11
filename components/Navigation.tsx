@@ -23,7 +23,7 @@ const MENU_LINKS = [
         category: "Creative Management",
         href: "/#creative-management",
         items: [
-            { label: "BAU paid social", href: "/#creative-management" },
+            { label: "BAU paid social", href: "/creative-management/bau-paid-social" },
             { label: "Summer 2023", href: "/creative-management/summer-2023" },
             { label: "Back to school", href: "/creative-management/back-to-school" },
             { label: "Production", href: "/creative-management/productions" },
@@ -53,10 +53,9 @@ const MENU_LINKS = [
 
 export function Navigation() {
     const [isOpen, setIsOpen] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
     const pathname = usePathname();
-    const isHomePage = pathname === "/";
 
     const menuRef = useRef<HTMLElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
@@ -70,28 +69,13 @@ export function Navigation() {
     // Timeline for open/close animation
     const tlRef = useRef<gsap.core.Timeline | null>(null);
 
-    // 1. ScrollTrigger to show/hide the hamburger button (only on Homepage)
+    // Setup mobile listener
     useEffect(() => {
-        if (!isHomePage) {
-            // If not on homepage, always show the button
-            setIsVisible(true);
-            return;
-        }
-
-        const caseStudiesSection = document.getElementById("case-studies");
-        if (!caseStudiesSection || !buttonRef.current) return;
-
-        const ctx = gsap.context(() => {
-            ScrollTrigger.create({
-                trigger: caseStudiesSection,
-                start: "top 20%", // When the top of Case Studies hits 20% down the viewport
-                onEnter: () => setIsVisible(true),
-                onLeaveBack: () => setIsVisible(false),
-            });
-        });
-
-        return () => ctx.revert();
-    }, [isHomePage]);
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     // 2. Setup the GSAP Timeline for opening the menu
     useEffect(() => {
@@ -172,11 +156,10 @@ export function Navigation() {
             <button
                 ref={buttonRef}
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed top-6 right-6 md:top-8 md:right-12 z-[110] w-12 h-12 rounded-full flex items-center justify-center bg-[#ef4444] border border-white/20 shadow-xl transition-all duration-500"
+                className="fixed top-6 right-8 md:top-8 md:right-12 z-[9999] w-12 h-12 rounded-full flex items-center justify-center bg-[#ef4444] border border-white/20 shadow-xl transition-all duration-300"
                 style={{
-                    opacity: isVisible || isOpen ? 1 : 0,
-                    pointerEvents: isVisible || isOpen ? "auto" : "none",
-                    transform: isVisible || isOpen ? "translateY(0)" : "translateY(-20px)"
+                    opacity: 1,
+                    pointerEvents: "auto",
                 }}
                 aria-label="Toggle Menu"
             >
