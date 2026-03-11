@@ -44,18 +44,29 @@ function VideoPlayer({
         return () => observer.disconnect();
     }, [src]);
 
+    // Autoplay once the src is set and metadata is ready
+    useEffect(() => {
+        if (!isInView) return;
+        const v = videoRef.current;
+        if (!v) return;
+        const tryPlay = () => { v.muted = true; v.play().catch(() => {}); };
+        if (v.readyState >= 1) {
+            tryPlay();
+        } else {
+            v.addEventListener("loadedmetadata", tryPlay, { once: true });
+        }
+    }, [isInView]);
+
     const handleMouseEnter = () => {
         const v = videoRef.current;
         if (!v) return;
         v.muted = false;
-        v.play().catch(() => { });
     };
 
     const handleMouseLeave = () => {
         const v = videoRef.current;
         if (!v) return;
         v.muted = true;
-        v.pause();
     };
 
     return (
