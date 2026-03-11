@@ -76,7 +76,7 @@ void main() {
   // Finer drip detail
   float dripFine = fbm(vec2(uv.x * 25.0, uv.y * 3.0 + 0.7)) * 2.0 - 1.0;
 
-  // Drip amount — grows aggressively in the second half
+  // Drip amount - grows aggressively in the second half
   float dripAmount = tSq * 0.22;
   float dripFineAmount = tSq * 0.08;
 
@@ -131,7 +131,7 @@ function AsteriskScene({ progressRef, screenX, screenY, fontSize, spanWidth, spa
 
     const t = progress * progress;
     // Use uniform scaling to keep the SDF shape proportional.
-    // spanHeight is the span bounding box — the actual glyph ink is smaller.
+    // spanHeight is the span bounding box - the actual glyph ink is smaller.
     const initSize = spanHeight * 0.8;
     const maxScale = fontSize * 1.2 * 80;
     const scale = initSize + t * maxScale;
@@ -151,7 +151,7 @@ function AsteriskScene({ progressRef, screenX, screenY, fontSize, spanWidth, spa
   );
 }
 
-/** Phase 4 standalone Canvas — separate WebGL context from CanvasMorph */
+/** Phase 4 standalone Canvas - separate WebGL context from CanvasMorph */
 export function AsteriskReveal(props: AsteriskRevealProps & { visible: boolean }) {
   return (
     <div

@@ -109,7 +109,7 @@ export default function CVPage() {
                             Summary
                         </h2>
                         <p className="text-[#0a0a0a]/70 leading-relaxed text-sm md:text-base">
-                            Senior Creative Strategist with 10+ years in design and marketing and deep experience leading multi-market creative production for global brands. Managed teams of up to 20 across strategy, motion, and design, owning end-to-end processes from concept and scripting through production, post-production, iteration, and performance optimization. Strong cross-functional partner to marketing and client teams. Built a Cursor-developed GenAI tool for marketers that catalogs creative references and accelerates UGC script writing and creative development.
+                            Creative Strategist with 10+ years in design and marketing and deep experience leading multi-market creative production for global brands. Managed teams of up to 20 across strategy, motion, and design, owning end-to-end processes from concept and scripting through production, post-production, iteration, and performance optimization. Strong cross-functional partner to marketing and client teams. Built a Cursor-developed GenAI tool for marketers that catalogs creative references and accelerates UGC script writing and creative development.
                         </p>
                     </section>
 

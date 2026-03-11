@@ -79,7 +79,7 @@ function ParticleScene({ textureData }: { textureData: CanvasTextureData }) {
 
     const { positions, targets, colors, offsets, progressObj } = textureData;
 
-    // Stable uniforms object — must not be recreated on re-render
+    // Stable uniforms object - must not be recreated on re-render
     const uniforms = useMemo(() => ({
         uProgress: { value: 0 }
     }), []);
@@ -277,7 +277,7 @@ function loadTextData(vw: number, vh: number, isMobile: boolean): {
     let textLayout: TextLayout | null = null;
 
     if (textCtx) {
-        const subtitleText = "SENIOR CREATIVE STRATEGIST";
+        const subtitleText = "CREATIVE STRATEGIST";
 
         const kerenFontSizePx = Math.floor(isMobile ? Math.min(Math.max(80, vw * 0.28), 280) : vw * 0.23);
         textCtx.font = `bold ${kerenFontSizePx}px 'DIN Condensed', Impact, sans-serif`;
@@ -320,7 +320,7 @@ function loadTextData(vw: number, vh: number, isMobile: boolean): {
             const subtitleMetrics = textCtx.measureText(subtitleText);
             const subtitleVisualHeight = subtitleMetrics.actualBoundingBoxDescent;
 
-            startY = boshiVisualBottom - subtitleVisualHeight;
+            startY = boshiVisualBottom + (vw / 24) * 0.05; // minimal gap below KEREN/BOSHI
         }
 
         textCtx.font = `bold ${fontSizePx}px 'DIN Condensed', Impact, sans-serif`;
