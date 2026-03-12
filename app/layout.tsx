@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* Animated SVG favicon for Chrome/Firefox/Edge */}
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         {/* Static ICO fallback for Safari */}
         <link rel="alternate icon" href="/favicon.ico" type="image/x-icon" />
         <link
