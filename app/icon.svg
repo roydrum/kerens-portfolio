@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <style>
+    @keyframes colorPulse {
+      0%, 100% { fill: #ef4444; }
+      50%       { fill: #ffffff; }
+    }
+    .arm { animation: colorPulse 2.4s ease-in-out infinite; }
+  </style>
+  <!-- 6-arm asterisk: 3 bars rotated 0°, 60°, 120° around centre (256,256) -->
+  <!-- Bar dimensions: 100px wide, 460px tall, centred on 256,256 -->
+  <rect class="arm" x="206" y="26" width="100" height="460" rx="12"
+        transform="rotate(0 256 256)"/>
+  <rect class="arm" x="206" y="26" width="100" height="460" rx="12"
+        transform="rotate(60 256 256)"/>
+  <rect class="arm" x="206" y="26" width="100" height="460" rx="12"
+        transform="rotate(120 256 256)"/>
+</svg>
