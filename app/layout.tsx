@@ -17,13 +17,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Keren Boshi - Creative Strategist",
   description: "Creative strategist with experience at Vimeo, HelloFresh, and agency work across Wolt, Bitpanda, Pantene, Pampers, Nivea and more.",
-  icons: {
-    icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", type: "image/x-icon" },
-    ],
-    apple: { url: "/favicon.ico" },
-  },
 };
 
 export default function RootLayout({
@@ -34,6 +27,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Animated SVG favicon for Chrome/Firefox/Edge */}
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        {/* Static ICO fallback for Safari */}
+        <link rel="alternate icon" href="/favicon.ico" type="image/x-icon" />
         <link
           href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&display=swap"
           rel="stylesheet"
