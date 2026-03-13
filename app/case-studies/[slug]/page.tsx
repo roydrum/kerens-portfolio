@@ -315,7 +315,7 @@ export default function CaseStudyPage({
                     style={{ background: "rgba(255,255,255,0.15)" }}
                 />
                 <h3
-                    className="text-white font-bold uppercase tracking-tight mb-10"
+                    className="text-white font-bold uppercase tracking-tight mb-10 text-center md:text-left"
                     style={{
                         fontFamily: "var(--font-din-condensed)",
                         fontSize: "clamp(1.2rem, 2vw, 1.5rem)",
@@ -323,7 +323,7 @@ export default function CaseStudyPage({
                 >
                     Results
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
                     {detail.results.map((r, i) => (
                         <div key={i}>
                             <span
