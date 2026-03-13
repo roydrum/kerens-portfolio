@@ -122,13 +122,7 @@ function MobileHero() {
             KEREN BOSHI
           </h1>
 
-          <div className="bg-[#cf504c] px-6 py-2 mt-4 inline-flex items-center gap-3">
-            <span
-              className="font-bold text-white leading-none translate-y-[0.15em]"
-              style={{ fontSize: '2rem', fontFamily: 'var(--font-din-condensed)' }}
-            >
-              *
-            </span>
+          <div className="bg-[#ef4444] px-6 py-2 mt-4 inline-flex items-center">
             <span
               className="text-white font-bold tracking-widest uppercase leading-none translate-y-[0.2em]"
               style={{ fontFamily: 'var(--font-din-condensed)', fontSize: '1.1rem' }}
@@ -417,8 +411,8 @@ export function Hero() {
               lineHeight: 1,
             }}
           >
-            <span ref={asteriskCharRef} style={{ color: "#ef4444" }}>*</span>
-            <span style={{ color: "white" }}>{" "}CREATIVE STRATEGIST</span>
+            <span ref={asteriskCharRef} style={{ color: "transparent" }}>*</span>
+            <span style={{ color: "white" }}>CREATIVE STRATEGIST</span>
           </span>
         )}
       </div>

@@ -8,11 +8,25 @@ import { ILLUSTRATIONS_INTRO, ILLUSTRATION_ITEMS } from "@/lib/illustrations";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Mobile carousel: each slide width so center is main, sides show peek of prev/next
+const SLIDE_WIDTH_VW = 78;
+const PEEK_VW = (100 - SLIDE_WIDTH_VW) / 2; // ~11vw each side
+
 export function Illustrations() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [isMobile, setIsMobile] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
     const sectionRef = useRef<HTMLElement>(null);
     const headingRef = useRef<HTMLHeadingElement>(null);
     const introRef = useRef<HTMLParagraphElement>(null);
+    const carouselRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const check = () => setIsMobile(typeof window !== "undefined" && window.innerWidth < 768);
+        check();
+        window.addEventListener("resize", check);
+        return () => window.removeEventListener("resize", check);
+    }, []);
 
     useEffect(() => {
         if (!sectionRef.current) return;
@@ -60,6 +74,30 @@ export function Illustrations() {
         return () => ctx.revert();
     }, []);
 
+    const N = ILLUSTRATION_ITEMS.length;
+
+    // Update active index from horizontal scroll (mobile carousel)
+    useEffect(() => {
+        const el = carouselRef.current;
+        if (!isMobile || N <= 1 || !el) return;
+
+        const onScroll = () => {
+            const { scrollLeft, scrollWidth, clientWidth } = el;
+            const maxScroll = scrollWidth - clientWidth;
+            if (maxScroll <= 0) {
+                setActiveIndex(0);
+                return;
+            }
+            const progress = scrollLeft / maxScroll;
+            const index = Math.round(progress * (N - 1));
+            setActiveIndex(Math.min(index, N - 1));
+        };
+
+        onScroll();
+        el.addEventListener("scroll", onScroll, { passive: true });
+        return () => el.removeEventListener("scroll", onScroll);
+    }, [isMobile, N]);
+
     return (
         <section
             id="illustrations"
@@ -98,22 +136,70 @@ export function Illustrations() {
 
             <div className="mx-auto max-w-[1200px] px-6 md:px-12 pb-[12vh]">
                 {ILLUSTRATION_ITEMS.length > 0 ? (
-                    <div className="hive-gallery">
-                        {ILLUSTRATION_ITEMS.map((item, i) => (
-                            <div
-                                key={i}
-                                className="hive-cell cursor-zoom-in group/img"
-                                onClick={() => setSelectedImage(item.src)}
-                            >
-                                <img
-                                    src={item.src}
-                                    alt={item.caption || `Illustration ${i + 1}`}
-                                    loading="lazy"
-                                    className="transition-transform duration-500 group-hover/img:scale-[1.05]"
-                                />
+                    <>
+                        {/* Mobile: horizontal carousel — swipe to see next/prev, center image with peeks */}
+                        {isMobile && (
+                            <div className="relative -mx-6 md:mx-0">
+                                <div
+                                    ref={carouselRef}
+                                    className="flex overflow-x-auto overflow-y-hidden gap-4 snap-x snap-mandatory scroll-smooth py-4 px-4 md:px-0"
+                                    style={{
+                                        paddingLeft: `max(1rem, ${PEEK_VW}vw)`,
+                                        paddingRight: `max(1rem, ${PEEK_VW}vw)`,
+                                        WebkitOverflowScrolling: "touch",
+                                    }}
+                                >
+                                    {ILLUSTRATION_ITEMS.map((item, i) => (
+                                        <div
+                                            key={i}
+                                            className="flex-shrink-0 snap-center snap-always cursor-zoom-in flex flex-col items-center"
+                                            style={{ width: `${SLIDE_WIDTH_VW}vw`, minWidth: `${SLIDE_WIDTH_VW}vw` }}
+                                            onClick={() => setSelectedImage(item.src)}
+                                        >
+                                            <div className="relative w-full aspect-[3/4] max-h-[70vh] flex items-center justify-center">
+                                                <img
+                                                    src={item.src}
+                                                    alt={item.caption || `Illustration ${i + 1}`}
+                                                    loading={i < 4 ? "eager" : "lazy"}
+                                                    className="w-full h-full object-contain"
+                                                />
+                                            </div>
+                                            {item.caption ? (
+                                                <p className="text-white/70 text-sm mt-2 text-center line-clamp-2">{item.caption}</p>
+                                            ) : null}
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="flex justify-center pt-2 pb-4">
+                                    <span
+                                        className="text-white/60 text-sm tabular-nums"
+                                        style={{ fontFamily: "var(--font-din-condensed)" }}
+                                    >
+                                        {activeIndex + 1} / {N}
+                                    </span>
+                                </div>
                             </div>
-                        ))}
-                    </div>
+                        )}
+                        {/* Desktop: Pinterest-style hive gallery */}
+                        {!isMobile && (
+                            <div className="hive-gallery">
+                                {ILLUSTRATION_ITEMS.map((item, i) => (
+                                    <div
+                                        key={i}
+                                        className="hive-cell cursor-zoom-in group/img"
+                                        onClick={() => setSelectedImage(item.src)}
+                                    >
+                                        <img
+                                            src={item.src}
+                                            alt={item.caption || `Illustration ${i + 1}`}
+                                            loading="lazy"
+                                            className="transition-transform duration-500 group-hover/img:scale-[1.05]"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </>
                 ) : (
                     <div className="flex flex-col items-center justify-center py-24 border-2 border-dashed border-white/20 rounded-2xl">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12 text-white/30 mb-4">
